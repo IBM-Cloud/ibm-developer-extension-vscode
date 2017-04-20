@@ -1,0 +1,64 @@
+{
+    "name": "ibm-bluemix",
+    "displayName": "vscode-bluemix",
+    "description": "",
+    "version": "0.0.1",
+    "publisher": "IBM",
+    "engines": {
+        "vscode": "^1.10.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onCommand:extension.bx.dev.list",
+        "onCommand:extension.bx.dev.build",
+        "onCommand:extension.bx.dev.debug",
+        "onCommand:extension.bx.dev.deploy",
+        "onCommand:extension.bx.dev.run",
+        "onCommand:extension.bx.dev.status",
+        "onCommand:extension.bx.dev.stop",
+        "onCommand:extension.bx.dev.test"
+    ],
+    "main": "./out/src/extension",
+    "contributes": {
+        "commands": [{
+            "command": "extension.bx.dev.list",
+            "title": "Bluemix: dev: LIST"
+        },{
+            "command": "extension.bx.dev.debug",
+            "title": "Bluemix: dev: DEBUG"
+        },{
+            "command": "extension.bx.dev.deploy",
+            "title": "Bluemix: dev: DEPLOY"
+        },{
+            "command": "extension.bx.dev.build",
+            "title": "Bluemix: dev: BUILD"
+        },{
+            "command": "extension.bx.dev.run",
+            "title": "Bluemix: dev: RUN"
+        },{
+            "command": "extension.bx.dev.status",
+            "title": "Bluemix: dev: STATUS"
+        },{
+            "command": "extension.bx.dev.stop",
+            "title": "Bluemix: dev: STOP"
+        },{
+            "command": "extension.bx.dev.test",
+            "title": "Bluemix: dev: TEST"
+        }]
+    },
+    "scripts": {
+        "vscode:prepublish": "tsc -p ./",
+        "compile": "tsc -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "node ./node_modules/vscode/bin/test"
+    },
+    "devDependencies": {
+        "typescript": "^2.0.3",
+        "vscode": "^1.0.0",
+        "mocha": "^2.3.3",
+        "@types/node": "^6.0.40",
+        "@types/mocha": "^2.2.32"
+    }
+}
