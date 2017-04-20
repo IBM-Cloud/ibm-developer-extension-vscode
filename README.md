@@ -2,6 +2,8 @@
 
 This extension provides the capabilities for IBM Bluemix from directly within the VS Code editor.   Use the command pallete to quickly access all `bx dev` commands, without the need to leave the editor context.
 
+Sample Usage: https://youtu.be/aGOXbEOMinE
+
 ## Features
 
 Easily invoke commands from the Bluemix CLI from directly inside of the VS Code editor:
@@ -31,6 +33,22 @@ Easily invoke commands from the Bluemix CLI from directly inside of the VS Code 
 1. Select the `Install from VSIX` option, and select the .vsix file that you downloaded.
 1. You're all set! 
 
+
+## Debugging Node.js apps within the container
+
+You have to create a launch configuration inside of `.vscode/launch.json`.   If you don't already have a `launch.json` file, go to the `Debug` -> `Add Configuration` menu and paste the following into the `configurations` array:
+
+```
+{
+    "type": "node",
+    "request": "attach",
+    "name": "Attach to Local Container",
+    "address": "localhost",
+    "port": 5858,
+    "localRoot": "${workspaceRoot}/",
+    "remoteRoot": "/app/"
+}
+```
 
 ## Known Issues
 
