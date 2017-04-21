@@ -2,7 +2,7 @@
     "name": "ibm-bluemix",
     "displayName": "vscode-bluemix",
     "description": "",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "publisher": "IBM",
     "engines": {
         "vscode": "^1.10.0"
@@ -18,7 +18,16 @@
         "onCommand:extension.bx.dev.run",
         "onCommand:extension.bx.dev.status",
         "onCommand:extension.bx.dev.stop",
-        "onCommand:extension.bx.dev.test"
+        "onCommand:extension.bx.dev.test",
+
+        "onCommand:extension.bx.cs.cluster-create",
+        "onCommand:extension.bx.cs.clusters",
+        "onCommand:extension.bx.cs.init",
+        "onCommand:extension.bx.cs.worker-get",
+        "onCommand:extension.bx.cs.worker-reboot",
+        "onCommand:extension.bx.cs.worker-reload",
+        "onCommand:extension.bx.cs.workers"
+
     ],
     "main": "./out/src/extension",
     "contributes": {
@@ -46,6 +55,27 @@
         },{
             "command": "extension.bx.dev.test",
             "title": "Bluemix: dev: TEST"
+        },{
+            "command": "extension.bx.cs.cluster-create",
+            "title": "Bluemix: cs: CLUSTER-CREATE"
+        },{
+            "command": "extension.bx.cs.clusters",
+            "title": "Bluemix: cs: CLUSTERS"
+        },{
+            "command": "extension.bx.cs.init",
+            "title": "Bluemix: cs: INIT"
+        },{
+            "command": "extension.bx.cs.worker-get",
+            "title": "Bluemix: cs: WORKER-GET"
+        },{
+            "command": "extension.bx.cs.worker-reboot",
+            "title": "Bluemix: cs: WORKER-REBOOT"
+        },{
+            "command": "extension.bx.cs.worker-reload",
+            "title": "Bluemix: cs: WORKER-RELOAD"
+        },{
+            "command": "extension.bx.cs.workers",
+            "title": "Bluemix: cs: WORKERS"
         }]
     },
     "scripts": {

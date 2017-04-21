@@ -10,15 +10,16 @@ export class SystemCommand {
     invocation:any;
     outputChannel:vscode.OutputChannel;
 
-    constructor(public _command:string, public _args:Array<string>, public _outputChannel:vscode.OutputChannel) {
+    constructor(public _command:string, public _args:Array<string>, public _outputChannel:vscode.OutputChannel,
+    _additionalArgs:string[] = []) {
         this.command = _command;
         this.args = _args;
         this.outputChannel = _outputChannel
 
         this.outputChannel.show();
-        this.outputChannel.append('Welcome to the Bluemix CLI extension.')
+        //this.outputChannel.append('Welcome to the Bluemix CLI extension.')
 
-        this.execute();
+        //this.execute();
     }
 
     destroy() {
@@ -38,6 +39,7 @@ export class SystemCommand {
         }
 
         this.outputChannel.append('\n');
+
 
         let opt = {
             cwd:vscode.workspace.rootPath

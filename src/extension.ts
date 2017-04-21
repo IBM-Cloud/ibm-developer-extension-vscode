@@ -3,6 +3,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import {SystemCommand} from './SystemCommand';
+import {PromptingCommand} from './PromptingCommand';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -12,8 +13,8 @@ export function activate(context: vscode.ExtensionContext) {
 
     let outputChannel = vscode.window.createOutputChannel("Bluemix");
     
-
-    //not implemented from bx dev cli: code, create, delete
+    // bx dev commands *************************************
+    // not implemented from bx dev cli: code, create, delete
     regCommand(context, 'extension.bx.dev.list', {cmd:'bx', args:['dev', 'list']}, outputChannel);
     regCommand(context, 'extension.bx.dev.build', {cmd:'bx', args:['dev', 'build']},outputChannel);
     regCommand(context, 'extension.bx.dev.debug', {cmd:'bx', args:['dev', 'debug']},outputChannel);
@@ -22,11 +23,29 @@ export function activate(context: vscode.ExtensionContext) {
     regCommand(context, 'extension.bx.dev.status', {cmd:'bx', args:['dev', 'status']},outputChannel);
     regCommand(context, 'extension.bx.dev.stop', {cmd: 'bx', args:['dev', 'stop']},outputChannel);
     regCommand(context, 'extension.bx.dev.test', {cmd:'bx', args:['dev', 'test']},outputChannel);
+
+    // bx cs commands *************************************
+    regPromptingCommand(context, 'extension.bx.cs.cluster-create', {cmd:'bx', args:['cs', 'cluster-create']},outputChannel, 'Specify a cluster name', [], ['--name'] );
+    regCommand(context, 'extension.bx.cs.clusters', {cmd:'bx', args:['cs', 'clusters']},outputChannel);
+    regCommand(context, 'extension.bx.cs.init', {cmd:'bx', args:['cs', 'init']},outputChannel);
+    regPromptingCommand(context, 'extension.bx.cs.worker-get', {cmd:'bx', args:['cs', 'worker-get']},outputChannel, 'Specify worker id' );
+    regPromptingCommand(context, 'extension.bx.cs.worker-reboot', {cmd:'bx', args:['cs', 'worker-reboot']},outputChannel, ['Specify a cluster name or id', 'Specify a worker id'], ['-f'] );
+    regPromptingCommand(context, 'extension.bx.cs.worker-reload', {cmd:'bx', args:['cs', 'worker-reload']},outputChannel, ['Specify a cluster name or id', 'Specify a worker id'], ['-f'] );
+    regPromptingCommand(context, 'extension.bx.cs.workers', {cmd:'bx', args:['cs', 'workers']},outputChannel, 'Specify a cluster name or id' );
 }
 
 function regCommand(context: vscode.ExtensionContext, key:string, opt, outputChannel) {
     let disposable = vscode.commands.registerCommand(key, () => {
-        var command = new SystemCommand(opt.cmd, opt.args, outputChannel)
+        var command = new SystemCommand(opt.cmd, opt.args, outputChannel);
+        command.execute();
+    });
+    context.subscriptions.push(disposable);
+}
+
+function regPromptingCommand(context: vscode.ExtensionContext, key:string, opt, outputChannel, prompt:any, additionalArgs:string[] = [], promptPrefixArgs=[]) {
+    let disposable = vscode.commands.registerCommand(key, () => {
+        var command = new PromptingCommand(opt.cmd, opt.args, outputChannel, prompt, additionalArgs, promptPrefixArgs);
+        command.execute();
     });
     context.subscriptions.push(disposable);
 }
