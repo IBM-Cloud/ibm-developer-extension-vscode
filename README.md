@@ -8,6 +8,9 @@ Sample Usage: https://youtu.be/aGOXbEOMinE
 
 Easily invoke commands from the Bluemix CLI from directly inside of the VS Code editor:
 
+_editor extension assumes CLI is already logged in_
+
+### bx dev commands
 * `bx dev list`
 * `bx dev build`
 * `bx dev debug`
@@ -16,6 +19,34 @@ Easily invoke commands from the Bluemix CLI from directly inside of the VS Code 
 * `bx dev status`
 * `bx dev stop`
 * `bx dev test`
+
+### bx cf commands
+
+* `bx cf apps`
+* `bx cf app`
+* `bx cf create-app-manifest`
+* `bx cf push`
+* `bx cf start`
+* `bx cf stop`
+* `bx cf restart`
+* `bx cf restage`
+* `bx cf events`
+* `bx cf logs`
+* `bx cf env`
+
+### bx cs commands
+
+* `bx cs init`
+* `bx cs clusters`
+* `bx cs cluster-create`
+* `bx cs cluster-get`
+* `bx cs cluster-rm`
+* `bx cs workers`
+* `bx cs worker-add`
+* `bx cs worker-get`
+* `bx cs worker-reboot`
+* `bx cs worker-reload`
+* `bx cs worker-rm`
 
 ## Requirements/Dependencies
 
