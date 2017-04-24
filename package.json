@@ -91,7 +91,7 @@
       },
       {
         "command": "extension.bx.cf.push",
-        "title": "Bluemix: CloudFoundry: PUSH (workign directory)"
+        "title": "Bluemix: CloudFoundry: PUSH (working directory)"
       },
       {
         "command": "extension.bx.cf.push-appname",
