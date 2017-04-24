@@ -37,9 +37,11 @@
     "onCommand:extension.bx.cs.cluster-rm",
     "onCommand:extension.bx.cs.clusters",
     "onCommand:extension.bx.cs.init",
+    "onCommand:extension.bx.cs.worker-add",
     "onCommand:extension.bx.cs.worker-get",
     "onCommand:extension.bx.cs.worker-reboot",
     "onCommand:extension.bx.cs.worker-reload",
+    "onCommand:extension.bx.cs.worker-rm",
     "onCommand:extension.bx.cs.workers"
   ],
   "main": "./out/src/extension",
@@ -150,6 +152,10 @@
         "title": "Bluemix: cs: INIT"
       },
       {
+        "command": "extension.bx.cs.worker-add",
+        "title": "Bluemix: cs: WORKER-ADD"
+      },
+      {
         "command": "extension.bx.cs.worker-get",
         "title": "Bluemix: cs: WORKER-GET"
       },
@@ -160,6 +166,10 @@
       {
         "command": "extension.bx.cs.worker-reload",
         "title": "Bluemix: cs: WORKER-RELOAD"
+      },
+      {
+        "command": "extension.bx.cs.worker-rm",
+        "title": "Bluemix: cs: WORKER-RM"
       },
       {
         "command": "extension.bx.cs.workers",

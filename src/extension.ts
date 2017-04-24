@@ -38,11 +38,10 @@ export function activate(context: vscode.ExtensionContext) {
     registerPromptingCommand(context, 'extension.bx.cf.restage', {cmd:'bx', args:['cf', 'restage']}, outputChannel, [new PromptInput('Specify an app name')], []);
     registerPromptingCommand(context, 'extension.bx.cf.events', {cmd:'bx', args:['cf', 'events']}, outputChannel, [new PromptInput('Specify an app name')], []);
     registerPromptingCommand(context, 'extension.bx.cf.env', {cmd:'bx', args:['cf', 'env']}, outputChannel, [new PromptInput('Specify an app name')], []);
-    
+
     LogsCommandManager.registerCommand(context, 'extension.bx.cf.logs');
     LogsCommandManager.registerCommand(context, 'extension.bx.cf.logs-stop');
 
-    //registerPromptingCommand(context, 'extension.bx.cf.logs', {cmd:'bx', args:['cf', 'logs']}, outputChannel, [new PromptInput('Specify an app name')], []);
 
 
     // BX CS commands *************************************
@@ -52,8 +51,10 @@ export function activate(context: vscode.ExtensionContext) {
     registerCommand(context, 'extension.bx.cs.clusters', {cmd:'bx', args:['cs', 'clusters']}, outputChannel);
     registerCommand(context, 'extension.bx.cs.init', {cmd:'bx', args:['cs', 'init']}, outputChannel);
     registerPromptingCommand(context, 'extension.bx.cs.worker-get', {cmd:'bx', args:['cs', 'worker-get']}, outputChannel, [new PromptInput('Specify worker id')] );
+    registerPromptingCommand(context, 'extension.bx.cs.worker-add', {cmd:'bx', args:['cs', 'worker-add']}, outputChannel, [new PromptInput('Specify cluster name or id')], ['1'] );
     registerPromptingCommand(context, 'extension.bx.cs.worker-reboot', {cmd:'bx', args:['cs', 'worker-reboot']}, outputChannel, [new PromptInput('Specify a cluster name or id'), new PromptInput('Specify a worker id')], ['-f'] );
     registerPromptingCommand(context, 'extension.bx.cs.worker-reload', {cmd:'bx', args:['cs', 'worker-reload']}, outputChannel, [new PromptInput('Specify a cluster name or id'), new PromptInput('Specify a worker id')], ['-f'] );
+    registerPromptingCommand(context, 'extension.bx.cs.worker-rm', {cmd:'bx', args:['cs', 'worker-rm']}, outputChannel, [new PromptInput('Specify a cluster name or id'), new PromptInput('Specify a worker id')], ['-f'] );
     registerPromptingCommand(context, 'extension.bx.cs.workers', {cmd:'bx', args:['cs', 'workers']}, outputChannel, [new PromptInput('Specify a cluster name or id')] );
 }
 
