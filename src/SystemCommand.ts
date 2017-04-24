@@ -3,6 +3,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 let spawn = require('child_process').spawn;
+let psTree = require('ps-tree');
 
 export class SystemCommand {
     command: string;
@@ -17,9 +18,10 @@ export class SystemCommand {
         this.outputChannel = _outputChannel
 
         this.outputChannel.show();
-        //this.outputChannel.append('Welcome to the Bluemix CLI extension.')
+    }
 
-        //this.execute();
+    isActive() {
+        return (this.command != undefined);
     }
 
     destroy() {
@@ -58,5 +60,29 @@ export class SystemCommand {
             this.outputChannel.append(`\n`);
             this.destroy();
         });
+    }
+
+
+    kill() {
+        if (this.invocation != undefined) {
+            //this.invocation.stdin.pause();
+            let self = this;
+            let  signal = 'SIGKILL';
+            psTree(self.invocation.pid, function (err, children) {
+            [self.invocation.pid].concat(
+                children.map(function (p) {
+                    return p.PID;
+                })
+            ).forEach(function (tpid) {
+                try { 
+                    self.outputChannel.append(`killing ${tpid}\n`);
+                    process.kill(tpid, signal) 
+                }
+                catch (ex) { 
+                    console.log(ex)
+                }
+            });
+        });
+        }
     }
 }

@@ -1,102 +1,186 @@
 {
-    "name": "ibm-bluemix",
-    "displayName": "vscode-bluemix",
-    "description": "",
-    "version": "0.0.2",
-    "publisher": "IBM",
-    "engines": {
-        "vscode": "^1.10.0"
-    },
-    "categories": [
-        "Other"
-    ],
-    "activationEvents": [
-        "onCommand:extension.bx.dev.list",
-        "onCommand:extension.bx.dev.build",
-        "onCommand:extension.bx.dev.debug",
-        "onCommand:extension.bx.dev.deploy",
-        "onCommand:extension.bx.dev.run",
-        "onCommand:extension.bx.dev.status",
-        "onCommand:extension.bx.dev.stop",
-        "onCommand:extension.bx.dev.test",
-
-        "onCommand:extension.bx.cs.cluster-create",
-        "onCommand:extension.bx.cs.cluster-get",
-        "onCommand:extension.bx.cs.cluster-rm",
-        "onCommand:extension.bx.cs.clusters",
-        "onCommand:extension.bx.cs.init",
-        "onCommand:extension.bx.cs.worker-get",
-        "onCommand:extension.bx.cs.worker-reboot",
-        "onCommand:extension.bx.cs.worker-reload",
-        "onCommand:extension.bx.cs.workers"
-
-    ],
-    "main": "./out/src/extension",
-    "contributes": {
-        "commands": [{
-            "command": "extension.bx.dev.list",
-            "title": "Bluemix: dev: LIST"
-        },{
-            "command": "extension.bx.dev.debug",
-            "title": "Bluemix: dev: DEBUG"
-        },{
-            "command": "extension.bx.dev.deploy",
-            "title": "Bluemix: dev: DEPLOY"
-        },{
-            "command": "extension.bx.dev.build",
-            "title": "Bluemix: dev: BUILD"
-        },{
-            "command": "extension.bx.dev.run",
-            "title": "Bluemix: dev: RUN"
-        },{
-            "command": "extension.bx.dev.status",
-            "title": "Bluemix: dev: STATUS"
-        },{
-            "command": "extension.bx.dev.stop",
-            "title": "Bluemix: dev: STOP"
-        },{
-            "command": "extension.bx.dev.test",
-            "title": "Bluemix: dev: TEST"
-        },{
-            "command": "extension.bx.cs.cluster-create",
-            "title": "Bluemix: cs: CLUSTER-CREATE"
-        },{
-            "command": "extension.bx.cs.cluster-get",
-            "title": "Bluemix: cs: CLUSTER-GET"
-        },{
-            "command": "extension.bx.cs.cluster-rm",
-            "title": "Bluemix: cs: CLUSTER-RM"
-        },{
-            "command": "extension.bx.cs.clusters",
-            "title": "Bluemix: cs: CLUSTERS"
-        },{
-            "command": "extension.bx.cs.init",
-            "title": "Bluemix: cs: INIT"
-        },{
-            "command": "extension.bx.cs.worker-get",
-            "title": "Bluemix: cs: WORKER-GET"
-        },{
-            "command": "extension.bx.cs.worker-reboot",
-            "title": "Bluemix: cs: WORKER-REBOOT"
-        },{
-            "command": "extension.bx.cs.worker-reload",
-            "title": "Bluemix: cs: WORKER-RELOAD"
-        },{
-            "command": "extension.bx.cs.workers",
-            "title": "Bluemix: cs: WORKERS"
-        }]
-    },
-    "scripts": {
-        "vscode:prepublish": "tsc -p ./",
-        "compile": "tsc -watch -p ./",
-        "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "node ./node_modules/vscode/bin/test"
-    },
-    "devDependencies": {
-        "typescript": "^2.0.3",
-        "vscode": "^1.0.0",
-        "mocha": "^2.3.3",
-        "@types/node": "^6.0.40",
-        "@types/mocha": "^2.2.32"
-    }
+  "name": "ibm-bluemix",
+  "displayName": "vscode-bluemix",
+  "description": "",
+  "version": "0.0.2",
+  "publisher": "IBM",
+  "engines": {
+    "vscode": "^1.10.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:extension.bx.dev.list",
+    "onCommand:extension.bx.dev.build",
+    "onCommand:extension.bx.dev.debug",
+    "onCommand:extension.bx.dev.deploy",
+    "onCommand:extension.bx.dev.run",
+    "onCommand:extension.bx.dev.status",
+    "onCommand:extension.bx.dev.stop",
+    "onCommand:extension.bx.dev.test",
+    "onCommand:extension.bx.cf.apps",
+    "onCommand:extension.bx.cf.app",
+    "onCommand:extension.bx.cf.create-app-manifest",
+    "onCommand:extension.bx.cf.push",
+    "onCommand:extension.bx.cf.push-appname",
+    "onCommand:extension.bx.cf.start",
+    "onCommand:extension.bx.cf.stop",
+    "onCommand:extension.bx.cf.restart",
+    "onCommand:extension.bx.cf.restage",
+    "onCommand:extension.bx.cf.events",
+    "onCommand:extension.bx.cf.logs",
+    "onCommand:extension.bx.cf.logs-stop",
+    "onCommand:extension.bx.cf.env",
+    "onCommand:extension.bx.cs.cluster-create",
+    "onCommand:extension.bx.cs.cluster-get",
+    "onCommand:extension.bx.cs.cluster-rm",
+    "onCommand:extension.bx.cs.clusters",
+    "onCommand:extension.bx.cs.init",
+    "onCommand:extension.bx.cs.worker-get",
+    "onCommand:extension.bx.cs.worker-reboot",
+    "onCommand:extension.bx.cs.worker-reload",
+    "onCommand:extension.bx.cs.workers"
+  ],
+  "main": "./out/src/extension",
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.bx.dev.list",
+        "title": "Bluemix: dev: LIST"
+      },
+      {
+        "command": "extension.bx.dev.debug",
+        "title": "Bluemix: dev: DEBUG"
+      },
+      {
+        "command": "extension.bx.dev.deploy",
+        "title": "Bluemix: dev: DEPLOY"
+      },
+      {
+        "command": "extension.bx.dev.build",
+        "title": "Bluemix: dev: BUILD"
+      },
+      {
+        "command": "extension.bx.dev.run",
+        "title": "Bluemix: dev: RUN"
+      },
+      {
+        "command": "extension.bx.dev.status",
+        "title": "Bluemix: dev: STATUS"
+      },
+      {
+        "command": "extension.bx.dev.stop",
+        "title": "Bluemix: dev: STOP"
+      },
+      {
+        "command": "extension.bx.dev.test",
+        "title": "Bluemix: dev: TEST"
+      },
+      {
+        "command": "extension.bx.cf.apps",
+        "title": "Bluemix: CloudFoundry: APPS"
+      },
+      {
+        "command": "extension.bx.cf.app",
+        "title": "Bluemix: CloudFoundry: APP"
+      },
+      {
+        "command": "extension.bx.cf.create-app-manifest",
+        "title": "Bluemix: CloudFoundry: CREATE-APP-MANIFEST"
+      },
+      {
+        "command": "extension.bx.cf.push",
+        "title": "Bluemix: CloudFoundry: PUSH (workign directory)"
+      },
+      {
+        "command": "extension.bx.cf.push-appname",
+        "title": "Bluemix: CloudFoundry: PUSH <app name>"
+      },
+      {
+        "command": "extension.bx.cf.start",
+        "title": "Bluemix: CloudFoundry: START"
+      },
+      {
+        "command": "extension.bx.cf.stop",
+        "title": "Bluemix: CloudFoundry: STOP"
+      },
+      {
+        "command": "extension.bx.cf.restart",
+        "title": "Bluemix: CloudFoundry: RESTART"
+      },
+      {
+        "command": "extension.bx.cf.restage",
+        "title": "Bluemix: CloudFoundry: RESTAGE"
+      },
+      {
+        "command": "extension.bx.cf.events",
+        "title": "Bluemix: CloudFoundry: EVENTS"
+      },
+      {
+        "command": "extension.bx.cf.logs",
+        "title": "Bluemix: CloudFoundry: LOGS"
+      },
+      {
+        "command": "extension.bx.cf.logs-stop",
+        "title": "Bluemix: CloudFoundry: LOGS (stop)"
+      },
+      {
+        "command": "extension.bx.cf.env",
+        "title": "Bluemix: CloudFoundry: ENV"
+      },
+      {
+        "command": "extension.bx.cs.cluster-create",
+        "title": "Bluemix: cs: CLUSTER-CREATE"
+      },
+      {
+        "command": "extension.bx.cs.cluster-get",
+        "title": "Bluemix: cs: CLUSTER-GET"
+      },
+      {
+        "command": "extension.bx.cs.cluster-rm",
+        "title": "Bluemix: cs: CLUSTER-RM"
+      },
+      {
+        "command": "extension.bx.cs.clusters",
+        "title": "Bluemix: cs: CLUSTERS"
+      },
+      {
+        "command": "extension.bx.cs.init",
+        "title": "Bluemix: cs: INIT"
+      },
+      {
+        "command": "extension.bx.cs.worker-get",
+        "title": "Bluemix: cs: WORKER-GET"
+      },
+      {
+        "command": "extension.bx.cs.worker-reboot",
+        "title": "Bluemix: cs: WORKER-REBOOT"
+      },
+      {
+        "command": "extension.bx.cs.worker-reload",
+        "title": "Bluemix: cs: WORKER-RELOAD"
+      },
+      {
+        "command": "extension.bx.cs.workers",
+        "title": "Bluemix: cs: WORKERS"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "tsc -p ./",
+    "compile": "tsc -watch -p ./",
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "test": "node ./node_modules/vscode/bin/test"
+  },
+  "devDependencies": {
+    "typescript": "^2.0.3",
+    "vscode": "^1.0.0",
+    "mocha": "^2.3.3",
+    "@types/node": "^6.0.40",
+    "@types/mocha": "^2.2.32"
+  },
+  "dependencies": {
+    "ps-tree": "^1.1.0"
+  }
 }
