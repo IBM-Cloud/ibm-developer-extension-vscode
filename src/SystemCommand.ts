@@ -38,7 +38,7 @@ export class SystemCommand {
             return;
         }
 
-        this.outputChannel.append('\n');
+        this.outputChannel.append(`\n> ${this.command} ${this.args.join(' ')}\n`);
 
 
         let opt = {

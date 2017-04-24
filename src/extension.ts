@@ -26,6 +26,8 @@ export function activate(context: vscode.ExtensionContext) {
 
     // bx cs commands *************************************
     regPromptingCommand(context, 'extension.bx.cs.cluster-create', {cmd:'bx', args:['cs', 'cluster-create']},outputChannel, [new PromptInput('Specify a cluster name', '--name')], []);
+    regPromptingCommand(context, 'extension.bx.cs.cluster-get', {cmd:'bx', args:['cs', 'cluster-get']},outputChannel, [new PromptInput('Specify a cluster name or id')], []);
+    regPromptingCommand(context, 'extension.bx.cs.cluster-rm', {cmd:'bx', args:['cs', 'cluster-rm']},outputChannel, [new PromptInput('Specify a cluster name or id')], ['-f']);
     regCommand(context, 'extension.bx.cs.clusters', {cmd:'bx', args:['cs', 'clusters']},outputChannel);
     regCommand(context, 'extension.bx.cs.init', {cmd:'bx', args:['cs', 'init']},outputChannel);
     regPromptingCommand(context, 'extension.bx.cs.worker-get', {cmd:'bx', args:['cs', 'worker-get']},outputChannel, [new PromptInput('Specify worker id')] );
