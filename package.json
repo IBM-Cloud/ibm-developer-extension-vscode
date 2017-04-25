@@ -11,6 +11,9 @@
     "Other"
   ],
   "activationEvents": [
+    "onCommand:extension.bx.login",
+    "onCommand:extension.bx.login.sso",
+    "onCommand:extension.bx.logout",
     "onCommand:extension.bx.dev.list",
     "onCommand:extension.bx.dev.build",
     "onCommand:extension.bx.dev.debug",
@@ -47,6 +50,18 @@
   "main": "./out/src/extension",
   "contributes": {
     "commands": [
+      {
+        "command": "extension.bx.login",
+        "title": "Bluemix: LOGIN"
+      },
+      {
+        "command": "extension.bx.login.sso",
+        "title": "Bluemix: LOGIN (SSO)"
+      },
+      {
+        "command": "extension.bx.logout",
+        "title": "Bluemix: LOGOUT"
+      },
       {
         "command": "extension.bx.dev.list",
         "title": "Bluemix: dev: LIST"

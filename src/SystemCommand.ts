@@ -11,6 +11,18 @@ export class SystemCommand {
     invocation:any;
     outputChannel:vscode.OutputChannel;
 
+    private static _terminal:vscode.Terminal;
+    private static useTerminal = false;
+
+    private static get terminal():vscode.Terminal {
+
+        if (SystemCommand._terminal == undefined) {
+            SystemCommand._terminal = vscode.window.createTerminal('Bluemix','',[]);
+        }
+            
+        return SystemCommand._terminal;
+    }
+
     constructor(public _command:string, public _args:Array<string>, public _outputChannel:vscode.OutputChannel,
     _additionalArgs:string[] = []) {
         this.command = _command;
@@ -31,8 +43,21 @@ export class SystemCommand {
         this.invocation = undefined;
     }
 
-
     execute() {
+        if (SystemCommand.useTerminal) 
+            this.executeWithTerminal()
+        else 
+            this.executeWithOutputChannel();
+    }
+
+    executeWithTerminal() {
+
+        let terminal = SystemCommand.terminal;
+        terminal.sendText(`${this.command} ${this.args.join(' ')}\n`)
+        terminal.show();
+    }
+
+    executeWithOutputChannel() {
         if (vscode.workspace.rootPath == undefined ) {
             let message = "Please select your project's working directory.";
             this.outputChannel.append(`\n ERROR: ${message}`);
@@ -65,7 +90,6 @@ export class SystemCommand {
 
     kill() {
         if (this.invocation != undefined) {
-            //this.invocation.stdin.pause();
             let self = this;
             let  signal = 'SIGKILL';
             psTree(self.invocation.pid, function (err, children) {

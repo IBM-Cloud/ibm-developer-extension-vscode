@@ -5,6 +5,7 @@ import * as vscode from 'vscode';
 import {SystemCommand} from './SystemCommand';
 import {PromptInput, PromptingCommand} from './PromptingCommand';
 import {LogsCommandManager} from './cloudfoundry/LogsCommandManager';
+import {LoginTerminalManager} from './LoginTerminalManager';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -14,6 +15,12 @@ export function activate(context: vscode.ExtensionContext) {
 
     let outputChannel = vscode.window.createOutputChannel("Bluemix");
     
+
+    LoginTerminalManager.registerCommand(context, 'extension.bx.login');
+    LoginTerminalManager.registerCommand(context, 'extension.bx.login.sso');
+    registerCommand(context, 'extension.bx.logout', {cmd:'bx', args:['logout']}, outputChannel);
+
+
     // BX DEV commands *************************************
     // not implemented from bx dev cli: code, create, delete
     registerCommand(context, 'extension.bx.dev.list', {cmd:'bx', args:['dev', 'list']}, outputChannel);

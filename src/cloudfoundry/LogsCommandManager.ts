@@ -42,7 +42,7 @@ export class LogsCommandManager {
 
             //check if already active
             var command = new SystemCommand('bx', ['cf', 'logs', val], outputChannel);
-            command.execute();
+            command.executeWithOutputChannel();
 
             self.activeLogs[val] = command;
         })  
