@@ -5,20 +5,20 @@ import * as vscode from 'vscode';
 
 export class LoginTerminalManager {
 
-    static registerCommand(context: vscode.ExtensionContext, key:string) {
+    static registerCommand(context: vscode.ExtensionContext, key: string) {
 
 
         let disposable = vscode.commands.registerCommand(key, () => {
 
-            var terminalArgs = ['bx','login'];
-            if (key == 'extension.bx.login') {
-                //add nothign for now
-            } else if (key == 'extension.bx.login.sso') {
+            let terminalArgs = ['bx', 'login'];
+            if (key === 'extension.bx.login') {
+                // add nothign for now
+            } else if (key === 'extension.bx.login.sso') {
                 terminalArgs.push('--sso');
             }
 
-            let terminal = vscode.window.createTerminal('Bluemix','',terminalArgs);
-            terminal.sendText(`${terminalArgs.join(' ')}\n`)
+            let terminal = vscode.window.createTerminal('Bluemix', '', terminalArgs);
+            terminal.sendText(`${terminalArgs.join(' ')}\n`);
             terminal.show(false);
         });
         context.subscriptions.push(disposable);

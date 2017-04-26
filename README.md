@@ -87,3 +87,8 @@ You have to create a launch configuration inside of `.vscode/launch.json`.   If 
 * OpenWhisk commands are not yet supported
 
 Find a bug?  [Let us know here](https://github.ibm.com/arf/ide-vscode-bluemix/issues)
+
+
+## Dev Dependencies
+
+* [TSLint Extension for VSCode](https://marketplace.visualstudio.com/items?itemName=eg2.tslint)

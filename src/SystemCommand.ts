@@ -7,33 +7,33 @@ let psTree = require('ps-tree');
 
 export class SystemCommand {
     command: string;
-    args:Array<string>;
-    invocation:any;
-    outputChannel:vscode.OutputChannel;
+    args: string[];
+    invocation: any;
+    outputChannel: vscode.OutputChannel;
 
-    private static _terminal:vscode.Terminal;
+    private static _terminal: vscode.Terminal;
     private static useTerminal = false;
 
-    private static get terminal():vscode.Terminal {
+    private static get terminal(): vscode.Terminal {
 
-        if (SystemCommand._terminal == undefined) {
-            SystemCommand._terminal = vscode.window.createTerminal('Bluemix','',[]);
+        if (SystemCommand._terminal === undefined) {
+            SystemCommand._terminal = vscode.window.createTerminal('Bluemix', '', []);
         }
-            
+
         return SystemCommand._terminal;
     }
 
-    constructor(public _command:string, public _args:Array<string>, public _outputChannel:vscode.OutputChannel,
-    _additionalArgs:string[] = []) {
+    constructor(public _command: string, public _args: string[], public _outputChannel: vscode.OutputChannel,
+    _additionalArgs: string[] = []) {
         this.command = _command;
         this.args = _args;
-        this.outputChannel = _outputChannel
+        this.outputChannel = _outputChannel;
 
         this.outputChannel.show();
     }
 
     isActive() {
-        return (this.command != undefined);
+        return (this.command !== undefined);
     }
 
     destroy() {
@@ -44,22 +44,22 @@ export class SystemCommand {
     }
 
     execute() {
-        if (SystemCommand.useTerminal) 
-            this.executeWithTerminal()
-        else 
+        if (SystemCommand.useTerminal)
+            this.executeWithTerminal();
+        else
             this.executeWithOutputChannel();
     }
 
     executeWithTerminal() {
 
         let terminal = SystemCommand.terminal;
-        terminal.sendText(`${this.command} ${this.args.join(' ')}\n`)
+        terminal.sendText(`${this.command} ${this.args.join(' ')}\n`);
         terminal.show();
     }
 
     executeWithOutputChannel() {
-        if (vscode.workspace.rootPath == undefined ) {
-            let message = "Please select your project's working directory.";
+        if (vscode.workspace.rootPath === undefined ) {
+            let message = 'Please select your project\'s working directory.';
             this.outputChannel.append(`\n ERROR: ${message}`);
             vscode.window.showErrorMessage(message);
             return;
@@ -69,8 +69,8 @@ export class SystemCommand {
 
 
         let opt = {
-            cwd:vscode.workspace.rootPath
-        }
+            cwd: vscode.workspace.rootPath,
+        };
         this.invocation = spawn(this.command, this.args, opt);
 
         this.invocation.stdout.on('data', (data) => {
@@ -89,21 +89,21 @@ export class SystemCommand {
 
 
     kill() {
-        if (this.invocation != undefined) {
+        if (this.invocation !== undefined) {
             let self = this;
             let  signal = 'SIGKILL';
             psTree(self.invocation.pid, function (err, children) {
             [self.invocation.pid].concat(
                 children.map(function (p) {
                     return p.PID;
-                })
+                }),
             ).forEach(function (tpid) {
-                try { 
+                try {
                     self.outputChannel.append(`killing ${tpid}\n`);
-                    process.kill(tpid, signal) 
+                    process.kill(tpid, signal);
                 }
-                catch (ex) { 
-                    console.log(ex)
+                catch (ex) {
+                    console.log(ex);
                 }
             });
         });
