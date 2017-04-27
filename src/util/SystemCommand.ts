@@ -2,6 +2,7 @@
 
 import {window, workspace, OutputChannel, Terminal} from 'vscode';
 import {BluemixTerminal} from './BluemixTerminal';
+import {CommandDetection} from './CommandDetection';
 
 const spawn = require('child_process').spawn;
 const psTree = require('ps-tree');
@@ -15,6 +16,8 @@ export class SystemCommand {
     args: string[];
     invocation: any;
     outputChannel: OutputChannel;
+    private stdout: string = '';
+    private stderr: string = '';
 
 
     // TECH DEBT: Two methods exist for invoking system commands
@@ -62,6 +65,8 @@ export class SystemCommand {
         this.args = undefined;
         this.outputChannel = undefined;
         this.invocation = undefined;
+        this.stdout = undefined;
+        this.stderr = undefined;
     }
 
     /*
@@ -103,6 +108,8 @@ export class SystemCommand {
 
             this.output(`\n> ${this.command} ${this.args.join(' ')}\n`);
 
+            this.stdout = '';
+            this.stderr = '';
 
             const opt = {
                 cwd: workspace.rootPath,
@@ -111,21 +118,36 @@ export class SystemCommand {
 
             this.invocation.stdout.on('data', (data) => {
                 this.output(`${data}`);
+                this.stdout += data.toString();
             });
 
             this.invocation.stderr.on('data', (data) => {
                 this.output(`${data}`);
+                this.stderr += data.toString();
             });
 
             this.invocation.on('close', (code, signal) => {
                 this.output(`\n`);
+
+                const condition = CommandDetection.determineErrorCondition(code, this.stdout, this.stderr);
+
+                if (condition === CommandDetection.ERR_COMMAND_NOT_FOUND || condition === CommandDetection.ERR_PLUGIN_NOT_FOUND) {
+                    let errorDetail = '';
+                    switch (condition) {
+                        case CommandDetection.ERR_COMMAND_NOT_FOUND:
+                            errorDetail = `Unable to locate '${this.command}' command.`;
+                            break;
+                        case CommandDetection.ERR_PLUGIN_NOT_FOUND:
+                            errorDetail = `Unable to locate '${this.command}' '${this.args[0]}' plugin.`;
+                            break;
+                    }
+                    window.showErrorMessage(errorDetail);
+
+                    errorDetail += '\nFor additional detail, please see https://console.ng.bluemix.net/docs/cli/reference/bluemix_cli/index.html#getting-started';
+                    this.output(errorDetail);
+                }
+                resolve(code);
                 this.destroy();
-                if (code >= 0) {
-                    resolve(code);
-                }
-                else {
-                    reject(code);
-                }
             });
 
             this.invocation.on('error', (error) => {
