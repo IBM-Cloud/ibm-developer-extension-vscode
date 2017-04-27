@@ -136,5 +136,7 @@ You have to create a launch configuration inside of `.vscode/launch.json`.   If 
 * Only a subset of `bx dev`, `bx cf`, and `bx cs` commands are supported
 * OpenWhisk commands are not yet supported
 
+## Bugs
+
 Find a bug?  [Let us know here](https://github.ibm.com/arf/ide-vscode-bluemix/issues)
 
