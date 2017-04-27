@@ -1,10 +1,10 @@
 'use strict';
 
 import * as vscode from 'vscode';
-import {LoginManager} from './LoginManager';
-import {PromptingCommand, PromptInput} from './PromptingCommand';
-import {SystemCommand} from './SystemCommand';
 import {LogsCommandManager} from './cloudfoundry/LogsCommandManager';
+import {LoginManager} from './util/LoginManager';
+import {PromptingCommand, PromptInput} from './util/PromptingCommand';
+import {SystemCommand} from './util/SystemCommand';
 
 
 
@@ -37,24 +37,24 @@ export function activate(context: vscode.ExtensionContext) {
 
     // bx CF commands *************************************
     registerCommand(context, 'extension.bx.cf.apps', {cmd: 'bx', args: ['cf', 'apps']}, outputChannel);
-    registerPromptingCommand(context, 'extension.bx.cf.app', {cmd: 'bx', args: ['cf', 'app']}, outputChannel, [new PromptInput('Specify an app name')], []);
-    registerPromptingCommand(context, 'extension.bx.cf.create-app-manifest', {cmd: 'bx', args: ['cf', 'create-app-manifest']}, outputChannel, [new PromptInput('Specify an app name')], []);
+    registerPromptingCommand(context, 'extension.bx.cf.app', {cmd: 'bx', args: ['cf', 'app']}, outputChannel, [new PromptInput('Specify an app name')]);
+    registerPromptingCommand(context, 'extension.bx.cf.create-app-manifest', {cmd: 'bx', args: ['cf', 'create-app-manifest']}, outputChannel, [new PromptInput('Specify an app name')]);
     registerCommand(context, 'extension.bx.cf.push', {cmd: 'bx', args: ['cf', 'push']}, outputChannel);
-    registerPromptingCommand(context, 'extension.bx.cf.push-appname', {cmd: 'bx', args: ['cf', 'push']}, outputChannel, [new PromptInput('Specify an app name')], []);
-    registerPromptingCommand(context, 'extension.bx.cf.start', {cmd: 'bx', args: ['cf', 'start']}, outputChannel, [new PromptInput('Specify an app name')], []);
-    registerPromptingCommand(context, 'extension.bx.cf.stop', {cmd: 'bx', args: ['cf', 'stop']}, outputChannel, [new PromptInput('Specify an app name')], []);
-    registerPromptingCommand(context, 'extension.bx.cf.restart', {cmd: 'bx', args: ['cf', 'restart']}, outputChannel, [new PromptInput('Specify an app name')], []);
-    registerPromptingCommand(context, 'extension.bx.cf.restage', {cmd: 'bx', args: ['cf', 'restage']}, outputChannel, [new PromptInput('Specify an app name')], []);
-    registerPromptingCommand(context, 'extension.bx.cf.events', {cmd: 'bx', args: ['cf', 'events']}, outputChannel, [new PromptInput('Specify an app name')], []);
-    registerPromptingCommand(context, 'extension.bx.cf.env', {cmd: 'bx', args: ['cf', 'env']}, outputChannel, [new PromptInput('Specify an app name')], []);
+    registerPromptingCommand(context, 'extension.bx.cf.push-appname', {cmd: 'bx', args: ['cf', 'push']}, outputChannel, [new PromptInput('Specify an app name')]);
+    registerPromptingCommand(context, 'extension.bx.cf.start', {cmd: 'bx', args: ['cf', 'start']}, outputChannel, [new PromptInput('Specify an app name')]);
+    registerPromptingCommand(context, 'extension.bx.cf.stop', {cmd: 'bx', args: ['cf', 'stop']}, outputChannel, [new PromptInput('Specify an app name')]);
+    registerPromptingCommand(context, 'extension.bx.cf.restart', {cmd: 'bx', args: ['cf', 'restart']}, outputChannel, [new PromptInput('Specify an app name')]);
+    registerPromptingCommand(context, 'extension.bx.cf.restage', {cmd: 'bx', args: ['cf', 'restage']}, outputChannel, [new PromptInput('Specify an app name')]);
+    registerPromptingCommand(context, 'extension.bx.cf.events', {cmd: 'bx', args: ['cf', 'events']}, outputChannel, [new PromptInput('Specify an app name')]);
+    registerPromptingCommand(context, 'extension.bx.cf.env', {cmd: 'bx', args: ['cf', 'env']}, outputChannel, [new PromptInput('Specify an app name')]);
     LogsCommandManager.registerCommand(context, 'extension.bx.cf.logs');
     LogsCommandManager.registerCommand(context, 'extension.bx.cf.logs-stop');
 
 
 
     // BX CS commands *************************************
-    registerPromptingCommand(context, 'extension.bx.cs.cluster-create', {cmd: 'bx', args: ['cs', 'cluster-create']}, outputChannel, [new PromptInput('Specify a cluster name', '--name')], []);
-    registerPromptingCommand(context, 'extension.bx.cs.cluster-get', {cmd: 'bx', args: ['cs', 'cluster-get']}, outputChannel, [new PromptInput('Specify a cluster name or id')], []);
+    registerPromptingCommand(context, 'extension.bx.cs.cluster-create', {cmd: 'bx', args: ['cs', 'cluster-create']}, outputChannel, [new PromptInput('Specify a cluster name', '--name')]);
+    registerPromptingCommand(context, 'extension.bx.cs.cluster-get', {cmd: 'bx', args: ['cs', 'cluster-get']}, outputChannel, [new PromptInput('Specify a cluster name or id')]);
     registerPromptingCommand(context, 'extension.bx.cs.cluster-rm', {cmd: 'bx', args: ['cs', 'cluster-rm']}, outputChannel, [new PromptInput('Specify a cluster name or id')], ['-f']);
     registerCommand(context, 'extension.bx.cs.clusters', {cmd: 'bx', args: ['cs', 'clusters']}, outputChannel);
     registerCommand(context, 'extension.bx.cs.init', {cmd: 'bx', args: ['cs', 'init']}, outputChannel);
@@ -83,7 +83,7 @@ function registerCommand(context: vscode.ExtensionContext, key: string, opt, out
 /*
  *  Helper utility to register prompting system commands
  */
-function registerPromptingCommand(context: vscode.ExtensionContext, key: string, opt, outputChannel, inputs: PromptInput[], additionalArgs: string[] = [] ) {
+function registerPromptingCommand(context: vscode.ExtensionContext, key: string, opt, outputChannel, inputs: PromptInput[], additionalArgs: string[] = []) {
     let disposable = vscode.commands.registerCommand(key, () => {
         let command = new PromptingCommand(opt.cmd, opt.args, outputChannel, inputs, additionalArgs);
         command.execute();

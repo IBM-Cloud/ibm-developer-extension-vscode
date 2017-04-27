@@ -27,9 +27,17 @@ export class PromptingCommand extends SystemCommand {
     originalArgs: any[] = [];
     additionalArgs: any[] = [];
 
-    constructor(public _command: string, public _args: string[], public _outputChannel: vscode.OutputChannel, inputs: PromptInput[], additionalArgs: string[]) {
-        super(_command, _args, _outputChannel);
-        this.originalArgs = _args.slice(0);
+    /*
+     * Constructor
+     * @param {string} command to be executed
+     * @param {string[]} array of additional arguments
+     * @param {vscode.OutputChannel} output channel to display system process output
+     * @param {PromptInput[]} array of input definitions for vscode prompts
+     * @param {string[]} additional arguments to append at the end of system call
+     */
+    constructor(public command: string, public args: string[], public _outputChannel: vscode.OutputChannel, inputs: PromptInput[], additionalArgs: string[]) {
+        super(command, args, _outputChannel);
+        this.originalArgs = args.slice(0);
 
         this.inputs = inputs;
         this.additionalArgs = additionalArgs;
@@ -68,11 +76,11 @@ export class PromptingCommand extends SystemCommand {
                     // put any additional arguments on the end, like a -f
                     self.args = self.args.concat(self.additionalArgs);
                     super.execute()
-                    .then((value:any) => {
+                    .then((value: any) => {
                         resolve(value);
-                    }, (reason:any) => {
+                    }, (reason: any) => {
                         reject(reason);
-                    })
+                    });
                 }
             });
         });

@@ -18,7 +18,7 @@ export class LoginManager {
 
             let terminalArgs = ['bx', 'login'];
             if (key === 'extension.bx.login') {
-                // add nothign for now
+                // add nothing for now
             } else if (key === 'extension.bx.login.sso') {
                 terminalArgs.push('--sso');
             }

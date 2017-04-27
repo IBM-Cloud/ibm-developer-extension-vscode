@@ -29,6 +29,12 @@ export class SystemCommand {
     private static useTerminal = false;
 
 
+    /*
+     * Constructor
+     * @param {string} command to be executed
+     * @param {string[]} array of additional arguments
+     * @param {vscode.OutputChannel} output channel to display system process output
+     */
     constructor(public _command: string, public _args: string[] = [], public _outputChannel: vscode.OutputChannel = undefined,
     _additionalArgs: string[] = []) {
         this.command = _command;
