@@ -1,13 +1,19 @@
 'use strict';
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
+
 import * as vscode from 'vscode';
+import {BluemixTerminal} from './BluemixTerminal';
 
-export class LoginTerminalManager {
+/*
+ * Managers interaction with integrated terminal to handle login/logout of bx cli
+ */
+export class LoginManager {
 
+    /*
+     * register login/logout command, with respect to this manager's terminal
+     * @param {ExtensionContext} the vscode.ExtensionContext from extension activation
+     * @param {string} event name/key for the extension action
+     */
     static registerCommand(context: vscode.ExtensionContext, key: string) {
-
-
         let disposable = vscode.commands.registerCommand(key, () => {
 
             let terminalArgs = ['bx', 'login'];
@@ -17,7 +23,7 @@ export class LoginTerminalManager {
                 terminalArgs.push('--sso');
             }
 
-            let terminal = vscode.window.createTerminal('Bluemix', '', terminalArgs);
+            let terminal = BluemixTerminal.instance;
             terminal.sendText(`${terminalArgs.join(' ')}\n`);
             terminal.show(false);
         });

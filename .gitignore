@@ -99,3 +99,4 @@ internal/
 .idea
 yarn.lock
 out/*
+**/.vscode-test

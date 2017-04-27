@@ -1,6 +1,5 @@
 'use strict';
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
+
 import * as vscode from 'vscode';
 import {PromptingCommand, PromptInput} from '../PromptingCommand';
 import {SystemCommand} from '../SystemCommand';
@@ -41,7 +40,7 @@ export class LogsCommandManager {
         .then((val) => {
             let outputChannel = self.getOutputChannel(val);
 
-            // check if already active
+            //todo: check if already active
             let command = new SystemCommand('bx', ['cf', 'logs', val], outputChannel);
             command.executeWithOutputChannel();
 

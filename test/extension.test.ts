@@ -9,14 +9,39 @@ import * as assert from 'assert';
 // You can import and use all API from the 'vscode' module
 // as well as import your extension to test it
 import * as vscode from 'vscode';
+import {SystemCommand} from '../src/SystemCommand';
 import * as myExtension from '../src/extension';
 
 // Defines a Mocha test suite to group tests of similar kind together
-suite("Extension Tests", () => {
+suite('Extension Tests', () => {
 
-    // Defines a Mocha unit test
-    test("Something 1", () => {
-        assert.equal(-1, [1, 2, 3].indexOf(5));
-        assert.equal(-1, [1, 2, 3].indexOf(0));
+
+    // this will fail on windows b/c its a linux/osx command
+    // testing generic system command execution
+    test('"ls -la" System Command', (done) => {
+
+        let resultHandler = function(code) {
+            assert.equal('0', code.toString());
+            done();
+        };
+
+        let command = new SystemCommand('ls', ['-l', '-a']);
+        command.execute()
+        .then(resultHandler, resultHandler);
+    });
+
+
+    // this will fail on windows b/c its a linux/osx command
+    // testing a non-existant command execution 
+    test('Error System Command', (done) => {
+
+        let resultHandler = function(code) {
+            assert.notEqual('0', code.toString());
+            done();
+        };
+
+        let command = new SystemCommand('foo');
+        command.execute()
+        .then(resultHandler, resultHandler);
     });
 });

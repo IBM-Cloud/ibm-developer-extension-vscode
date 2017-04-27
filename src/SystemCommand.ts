@@ -1,41 +1,56 @@
 'use strict';
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-import * as vscode from 'vscode';
-let spawn = require('child_process').spawn;
-let psTree = require('ps-tree');
 
+import * as vscode from 'vscode';
+import {BluemixTerminal} from './BluemixTerminal';
+
+const spawn = require('child_process').spawn;
+const psTree = require('ps-tree');
+
+
+/*
+ * Class to execute system commands
+ */
 export class SystemCommand {
     command: string;
     args: string[];
     invocation: any;
     outputChannel: vscode.OutputChannel;
 
-    private static _terminal: vscode.Terminal;
+
+    // TECH DEBT: Two methods exist for invoking system commands
+    //   1: invoke internally and display stdout and stderr in output panel (CURRENT IMPLEMENTATION)
+    //   2: invoke within embedded terminal
+    //
+    // There are pros and cons to each approach.
+    // Terminal feels really nice, but there are concurrency issues.  EX: if you run bx dev debug,
+    // it takes over the terminal, and you can't invoke anything else until that process exits
+    //
+    // Toggle between the two using this static var
     private static useTerminal = false;
 
-    private static get terminal(): vscode.Terminal {
 
-        if (SystemCommand._terminal === undefined) {
-            SystemCommand._terminal = vscode.window.createTerminal('Bluemix', '', []);
-        }
-
-        return SystemCommand._terminal;
-    }
-
-    constructor(public _command: string, public _args: string[], public _outputChannel: vscode.OutputChannel,
+    constructor(public _command: string, public _args: string[] = [], public _outputChannel: vscode.OutputChannel = undefined,
     _additionalArgs: string[] = []) {
         this.command = _command;
         this.args = _args;
         this.outputChannel = _outputChannel;
 
-        this.outputChannel.show();
+        if (this.outputChannel !== undefined) {
+            this.outputChannel.show();
+        }
     }
 
+    /*
+     * Is the command active
+     * @returns {boolean} Returns active status
+     */
     isActive() {
         return (this.command !== undefined);
     }
 
+    /*
+     * Destroy references in this class to prevent memory leaks
+     */
     destroy() {
         this.command = undefined;
         this.args = undefined;
@@ -43,51 +58,90 @@ export class SystemCommand {
         this.invocation = undefined;
     }
 
-    execute() {
+    /*
+     * Execute the commmand
+     */
+    execute(): Promise<any> {
         if (SystemCommand.useTerminal)
-            this.executeWithTerminal();
+            return this.executeWithTerminal();
         else
-            this.executeWithOutputChannel();
+            return this.executeWithOutputChannel();
     }
 
-    executeWithTerminal() {
-
-        let terminal = SystemCommand.terminal;
-        terminal.sendText(`${this.command} ${this.args.join(' ')}\n`);
-        terminal.show();
+    /*
+     * Execution implementation with VS Code's embedded terminal
+     */
+    executeWithTerminal(): Promise<any> {
+        return new Promise<any>((resolve, reject) => {
+            let terminal = BluemixTerminal.instance;
+            terminal.sendText(`${this.command} ${this.args.join(' ')}\n`);
+            terminal.show();
+            resolve('OK: sent to terminal');
+        });
     }
 
-    executeWithOutputChannel() {
-        if (vscode.workspace.rootPath === undefined ) {
-            let message = 'Please select your project\'s working directory.';
-            this.outputChannel.append(`\n ERROR: ${message}`);
-            vscode.window.showErrorMessage(message);
-            return;
+    /*
+     * Execution implementation with spawned process & output channels
+     */
+    executeWithOutputChannel(): Promise<any> {
+        return new Promise<any>((resolve, reject) => {
+
+            // only check if we're in a folder if not running a unit test
+            // (output channel will not be defined in unit test)
+            if (vscode.workspace.rootPath === undefined && this.outputChannel !== undefined) {
+                let message = 'Please select your project\'s working directory.';
+                this.output(`\n ERROR: ${message}`);
+                vscode.window.showErrorMessage(message);
+                return;
+            }
+
+            this.output(`\n> ${this.command} ${this.args.join(' ')}\n`);
+
+
+            let opt = {
+                cwd: vscode.workspace.rootPath,
+            };
+            this.invocation = spawn(this.command, this.args, opt);
+
+            this.invocation.stdout.on('data', (data) => {
+                this.output(`${data}`);
+            });
+
+            this.invocation.stderr.on('data', (data) => {
+                this.output(`${data}`);
+            });
+
+            this.invocation.on('close', (code, signal) => {
+                this.output(`\n`);
+                this.destroy();
+                if (code >= 0) {
+                    resolve(code);
+                }
+                else {
+                    reject(code);
+                }
+            });
+
+            this.invocation.on('error', (error) => {
+                // do something with the error?
+                // for now, ignore and let the 'close' event
+                // take care of things with negative status code
+            });
+        });
+    }
+
+    /*
+     * Display output in targeted output channel
+     */
+    output(data: any) {
+        if (this.outputChannel !== undefined) {
+            this.outputChannel.append(data);
         }
-
-        this.outputChannel.append(`\n> ${this.command} ${this.args.join(' ')}\n`);
-
-
-        let opt = {
-            cwd: vscode.workspace.rootPath,
-        };
-        this.invocation = spawn(this.command, this.args, opt);
-
-        this.invocation.stdout.on('data', (data) => {
-            this.outputChannel.append(`${data}`);
-        });
-
-        this.invocation.stderr.on('data', (data) => {
-            this.outputChannel.append(`${data}`);
-        });
-
-        this.invocation.on('close', (code) => {
-            this.outputChannel.append(`\n`);
-            this.destroy();
-        });
     }
 
-
+    /*
+     * Kill the process (spawned process only)
+     */
     kill() {
         if (this.invocation !== undefined) {
             let self = this;

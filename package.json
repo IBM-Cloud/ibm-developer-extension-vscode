@@ -215,6 +215,6 @@
     "ps-tree": "^1.1.0"
   },
   "pre-commit": [
-    "tslint"
+    "test", "tslint"
   ]
 }

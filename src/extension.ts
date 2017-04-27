@@ -1,7 +1,7 @@
 'use strict';
 
 import * as vscode from 'vscode';
-import {LoginTerminalManager} from './LoginTerminalManager';
+import {LoginManager} from './LoginManager';
 import {PromptingCommand, PromptInput} from './PromptingCommand';
 import {SystemCommand} from './SystemCommand';
 import {LogsCommandManager} from './cloudfoundry/LogsCommandManager';
@@ -19,8 +19,8 @@ export function activate(context: vscode.ExtensionContext) {
 
     let outputChannel = vscode.window.createOutputChannel('Bluemix');
 
-    LoginTerminalManager.registerCommand(context, 'extension.bx.login');
-    LoginTerminalManager.registerCommand(context, 'extension.bx.login.sso');
+    LoginManager.registerCommand(context, 'extension.bx.login');
+    LoginManager.registerCommand(context, 'extension.bx.login.sso');
     registerCommand(context, 'extension.bx.logout', {cmd: 'bx', args: ['logout']}, outputChannel);
 
 
@@ -91,6 +91,8 @@ function registerPromptingCommand(context: vscode.ExtensionContext, key: string,
     context.subscriptions.push(disposable);
 }
 
-// this method is called when your extension is deactivated
+/*
+ * this method is called when your extension is deactivated
+ */
 export function deactivate() {
 }

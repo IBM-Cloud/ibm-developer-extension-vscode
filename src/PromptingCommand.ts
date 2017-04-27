@@ -3,6 +3,9 @@
 import * as vscode from 'vscode';
 import {SystemCommand} from './SystemCommand';
 
+/*
+ * Class for specifying a command with prompt for input as parameters for PromptingCommand class
+ */
 export class PromptInput {
 
     prompt: string = '';
@@ -14,7 +17,9 @@ export class PromptInput {
     }
 }
 
-
+/*
+ * Class for invoking system commands with prompt(s) for input
+ */
 export class PromptingCommand extends SystemCommand {
 
     inputs: PromptInput[] = [];
@@ -30,35 +35,53 @@ export class PromptingCommand extends SystemCommand {
         this.additionalArgs = additionalArgs;
     }
 
-    execute() {
+    /*
+     * Execute the commmand
+     */
+    execute(): Promise<any> {
         // duplicate the array, don't copy the instance
         this.args = this.originalArgs.slice(0);
         this.index = 0;
-        this.requestInput();
+        return this.requestInput();
     }
 
-    requestInput () {
+    /*
+     * Prompt for input from the user
+     */
+    requestInput(): Promise<any> {
 
         let self = this;
         let input = this.inputs[this.index];
-        vscode.window.showInputBox({prompt: input.prompt})
-        .then((val) => {
-            if (input.prefixArgument !== undefined) {
-                self.args.push( input.prefixArgument );
-            }
-            self.args.push(val);
-            self.index++;
-            if (self.index < self.inputs.length) {
-                self.requestInput();
-            }
-            else {
-                // put any additional arguments on the end, like a -f
-                self.args = self.args.concat(self.additionalArgs);
-                super.execute();
-            }
+
+        return new Promise<any>((resolve, reject) => {
+            vscode.window.showInputBox({prompt: input.prompt})
+            .then((val) => {
+                if (input.prefixArgument !== undefined) {
+                    self.args.push( input.prefixArgument );
+                }
+                self.args.push(val);
+                self.index++;
+                if (self.index < self.inputs.length) {
+                    self.requestInput();
+                }
+                else {
+                    // put any additional arguments on the end, like a -f
+                    self.args = self.args.concat(self.additionalArgs);
+                    super.execute()
+                    .then((value:any) => {
+                        resolve(value);
+                    }, (reason:any) => {
+                        reject(reason);
+                    })
+                }
+            });
         });
     }
 
+
+    /*
+     * Destroy references in this class to prevent memory leaks
+     */
     destory() {
         super.destroy();
         this.inputs = undefined;
