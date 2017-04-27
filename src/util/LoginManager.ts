@@ -1,6 +1,6 @@
 'use strict';
 
-import * as vscode from 'vscode';
+import {commands, ExtensionContext} from 'vscode';
 import {BluemixTerminal} from './BluemixTerminal';
 
 /*
@@ -13,17 +13,17 @@ export class LoginManager {
      * @param {ExtensionContext} the vscode.ExtensionContext from extension activation
      * @param {string} event name/key for the extension action
      */
-    static registerCommand(context: vscode.ExtensionContext, key: string) {
-        let disposable = vscode.commands.registerCommand(key, () => {
+    static registerCommand(context: ExtensionContext, key: string) {
+        const disposable = commands.registerCommand(key, () => {
 
-            let terminalArgs = ['bx', 'login'];
+            const terminalArgs = ['bx', 'login'];
             if (key === 'extension.bx.login') {
                 // add nothing for now
             } else if (key === 'extension.bx.login.sso') {
                 terminalArgs.push('--sso');
             }
 
-            let terminal = BluemixTerminal.instance;
+            const terminal = BluemixTerminal.instance;
             terminal.sendText(`${terminalArgs.join(' ')}\n`);
             terminal.show(false);
         });

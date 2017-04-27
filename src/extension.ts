@@ -1,6 +1,6 @@
 'use strict';
 
-import * as vscode from 'vscode';
+import {commands, window, ExtensionContext} from 'vscode';
 import {LogsCommandManager} from './cloudfoundry/LogsCommandManager';
 import {LoginManager} from './util/LoginManager';
 import {PromptingCommand, PromptInput} from './util/PromptingCommand';
@@ -13,11 +13,11 @@ import {SystemCommand} from './util/SystemCommand';
  * activate method is called when your extension is activated
  * your extension is activated the very first time the command is executed
  */
-export function activate(context: vscode.ExtensionContext) {
+export function activate(context: ExtensionContext) {
 
     console.log('Congratulations, your extension "com-ibm-bluemix" is now active!');
 
-    let outputChannel = vscode.window.createOutputChannel('Bluemix');
+    const outputChannel = window.createOutputChannel('Bluemix');
 
     LoginManager.registerCommand(context, 'extension.bx.login');
     LoginManager.registerCommand(context, 'extension.bx.login.sso');
@@ -71,9 +71,9 @@ export function activate(context: vscode.ExtensionContext) {
 /*
  *  Helper utility to register system commands
  */
-function registerCommand(context: vscode.ExtensionContext, key: string, opt, outputChannel) {
-    let disposable = vscode.commands.registerCommand(key, () => {
-        let command = new SystemCommand(opt.cmd, opt.args, outputChannel);
+function registerCommand(context: ExtensionContext, key: string, opt, outputChannel) {
+    const disposable = commands.registerCommand(key, () => {
+        const command = new SystemCommand(opt.cmd, opt.args, outputChannel);
         command.execute();
     });
     context.subscriptions.push(disposable);
@@ -83,9 +83,9 @@ function registerCommand(context: vscode.ExtensionContext, key: string, opt, out
 /*
  *  Helper utility to register prompting system commands
  */
-function registerPromptingCommand(context: vscode.ExtensionContext, key: string, opt, outputChannel, inputs: PromptInput[], additionalArgs: string[] = []) {
-    let disposable = vscode.commands.registerCommand(key, () => {
-        let command = new PromptingCommand(opt.cmd, opt.args, outputChannel, inputs, additionalArgs);
+function registerPromptingCommand(context: ExtensionContext, key: string, opt, outputChannel, inputs: PromptInput[], additionalArgs: string[] = []) {
+    const disposable = commands.registerCommand(key, () => {
+        const command = new PromptingCommand(opt.cmd, opt.args, outputChannel, inputs, additionalArgs);
         command.execute();
     });
     context.subscriptions.push(disposable);

@@ -1,6 +1,6 @@
 'use strict';
 
-import * as vscode from 'vscode';
+import {window, OutputChannel} from 'vscode';
 import {SystemCommand} from './SystemCommand';
 
 /*
@@ -31,11 +31,11 @@ export class PromptingCommand extends SystemCommand {
      * Constructor
      * @param {string} command to be executed
      * @param {string[]} array of additional arguments
-     * @param {vscode.OutputChannel} output channel to display system process output
+     * @param {OutputChannel} output channel to display system process output
      * @param {PromptInput[]} array of input definitions for vscode prompts
      * @param {string[]} additional arguments to append at the end of system call
      */
-    constructor(public command: string, public args: string[], public _outputChannel: vscode.OutputChannel, inputs: PromptInput[], additionalArgs: string[]) {
+    constructor(public command: string, public args: string[], public _outputChannel: OutputChannel, inputs: PromptInput[], additionalArgs: string[]) {
         super(command, args, _outputChannel);
         this.originalArgs = args.slice(0);
 
@@ -58,11 +58,11 @@ export class PromptingCommand extends SystemCommand {
      */
     requestInput(): Promise<any> {
 
-        let self = this;
-        let input = this.inputs[this.index];
+        const self = this;
+        const input = this.inputs[this.index];
 
         return new Promise<any>((resolve, reject) => {
-            vscode.window.showInputBox({prompt: input.prompt})
+            window.showInputBox({prompt: input.prompt})
             .then((val) => {
                 if (input.prefixArgument !== undefined) {
                     self.args.push( input.prefixArgument );
@@ -90,7 +90,7 @@ export class PromptingCommand extends SystemCommand {
     /*
      * Destroy references in this class to prevent memory leaks
      */
-    destory() {
+    destroy() {
         super.destroy();
         this.inputs = undefined;
         this.additionalArgs = undefined;

@@ -1,6 +1,6 @@
 'use strict';
 
-import * as vscode from 'vscode';
+import {commands, window, ExtensionContext, OutputChannel} from 'vscode';
 import {PromptingCommand, PromptInput} from '../util/PromptingCommand';
 import {SystemCommand} from '../util/SystemCommand';
 
@@ -16,16 +16,16 @@ export class LogsCommandManager {
 
     /*
      * Register teh log start/stop commands
-     * @param {vscode.ExtensionContext} the extension's context
+     * @param {ExtensionContext} the extension's context
      * @param {key} the event/key for the command
      */
-    static registerCommand(context: vscode.ExtensionContext, key: string) {
+    static registerCommand(context: ExtensionContext, key: string) {
 
         if (LogsCommandManager.instance === undefined) {
             LogsCommandManager.instance = new LogsCommandManager();
         }
 
-        let disposable = vscode.commands.registerCommand(key, () => {
+        const disposable = commands.registerCommand(key, () => {
             if (key === 'extension.bx.cf.logs') {
                 LogsCommandManager.instance.startLogs();
             } else if (key === 'extension.bx.cf.logs-stop') {
@@ -38,11 +38,11 @@ export class LogsCommandManager {
     /*
      * Fetch an output channel for a key
      * @param {key} the CF app name
-     * @returns {vscode.ExtensionContext}
+     * @returns {ExtensionContext}
      */
-    getOutputChannel(key): vscode.OutputChannel {
+    getOutputChannel(key): OutputChannel {
         if (this.outputChannels[key] === undefined) {
-            this.outputChannels[key] = vscode.window.createOutputChannel(`Bluemix: CloudFoundry: ${key}`);
+            this.outputChannels[key] = window.createOutputChannel(`Bluemix: CloudFoundry: ${key}`);
         }
         return this.outputChannels[key];
     }
@@ -51,13 +51,13 @@ export class LogsCommandManager {
      * start consuming logs (user prompted for app name)
      */
     startLogs() {
-        let self = this;
-        vscode.window.showInputBox({prompt: 'Please specify an app name'})
+        const self = this;
+        window.showInputBox({prompt: 'Please specify an app name'})
         .then((val) => {
-            let outputChannel = self.getOutputChannel(val);
+            const outputChannel = self.getOutputChannel(val);
 
             // todo: check if already active
-            let command = new SystemCommand('bx', ['cf', 'logs', val], outputChannel);
+            const command = new SystemCommand('bx', ['cf', 'logs', val], outputChannel);
             command.executeWithOutputChannel();
 
             self.activeLogs[val] = command;
@@ -68,18 +68,18 @@ export class LogsCommandManager {
      * stop consuming logs
      */
     stopLogs() {
-        let logs = [];
+        const logs = [];
 
-        for (let key in this.activeLogs) {
+        for (const key in this.activeLogs) {
             if (this.activeLogs[key] !== undefined && this.activeLogs[key].isActive) {
                 logs.push(key);
             }
         }
 
-        vscode.window.showQuickPick(logs)
+        window.showQuickPick(logs)
         .then((val) => {
             if (val !== undefined && val !== '') {
-                let command = this.activeLogs[val];
+                const command = this.activeLogs[val];
                 if (command !== undefined) {
                     command.kill();
                 }

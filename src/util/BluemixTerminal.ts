@@ -1,21 +1,21 @@
 'use strict';
 
-import * as vscode from 'vscode';
+import {window, Terminal} from 'vscode';
 
 /*
- * Singleton instance of vscode.Terinal wth Bluemix identifier
+ * Singleton instance of Terinal wth Bluemix identifier
  * for use globally within this extension
  */
 export class BluemixTerminal {
 
-    private static _terminal: vscode.Terminal;
+    private static _terminal: Terminal;
 
     /*
-     * @returns {vscode.Terminal} instance
+     * @returns {Terminal} instance
      */
-    public static get instance(): vscode.Terminal {
+    public static get instance(): Terminal {
         if (this._terminal === undefined) {
-            this._terminal = vscode.window.createTerminal('Bluemix', '', []);
+            this._terminal = window.createTerminal('Bluemix', '', []);
         }
         return this._terminal;
     }

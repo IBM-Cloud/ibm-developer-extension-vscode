@@ -1,6 +1,6 @@
 'use strict';
 
-import * as vscode from 'vscode';
+import {window, workspace, OutputChannel, Terminal} from 'vscode';
 import {BluemixTerminal} from './BluemixTerminal';
 
 const spawn = require('child_process').spawn;
@@ -14,7 +14,7 @@ export class SystemCommand {
     command: string;
     args: string[];
     invocation: any;
-    outputChannel: vscode.OutputChannel;
+    outputChannel: OutputChannel;
 
 
     // TECH DEBT: Two methods exist for invoking system commands
@@ -33,9 +33,9 @@ export class SystemCommand {
      * Constructor
      * @param {string} command to be executed
      * @param {string[]} array of additional arguments
-     * @param {vscode.OutputChannel} output channel to display system process output
+     * @param {OutputChannel} output channel to display system process output
      */
-    constructor(public _command: string, public _args: string[] = [], public _outputChannel: vscode.OutputChannel = undefined,
+    constructor(public _command: string, public _args: string[] = [], public _outputChannel: OutputChannel = undefined,
     _additionalArgs: string[] = []) {
         this.command = _command;
         this.args = _args;
@@ -79,7 +79,7 @@ export class SystemCommand {
      */
     executeWithTerminal(): Promise<any> {
         return new Promise<any>((resolve, reject) => {
-            let terminal = BluemixTerminal.instance;
+            const terminal = BluemixTerminal.instance;
             terminal.sendText(`${this.command} ${this.args.join(' ')}\n`);
             terminal.show();
             resolve('OK: sent to terminal');
@@ -94,18 +94,18 @@ export class SystemCommand {
 
             // only check if we're in a folder if not running a unit test
             // (output channel will not be defined in unit test)
-            if (vscode.workspace.rootPath === undefined && this.outputChannel !== undefined) {
-                let message = 'Please select your project\'s working directory.';
+            if (workspace.rootPath === undefined && this.outputChannel !== undefined) {
+                const message = 'Please select your project\'s working directory.';
                 this.output(`\n ERROR: ${message}`);
-                vscode.window.showErrorMessage(message);
+                window.showErrorMessage(message);
                 return;
             }
 
             this.output(`\n> ${this.command} ${this.args.join(' ')}\n`);
 
 
-            let opt = {
-                cwd: vscode.workspace.rootPath,
+            const opt = {
+                cwd: workspace.rootPath,
             };
             this.invocation = spawn(this.command, this.args, opt);
 
@@ -150,23 +150,27 @@ export class SystemCommand {
      */
     kill() {
         if (this.invocation !== undefined) {
-            let self = this;
-            let  signal = 'SIGKILL';
+            const self = this;
+            const  signal = 'SIGKILL';
             psTree(self.invocation.pid, function (err, children) {
-            [self.invocation.pid].concat(
-                children.map(function (p) {
-                    return p.PID;
-                }),
-            ).forEach(function (tpid) {
-                try {
-                    self.outputChannel.append(`killing ${tpid}\n`);
-                    process.kill(tpid, signal);
-                }
-                catch (ex) {
-                    console.log(ex);
-                }
+                [self.invocation.pid].concat(
+                    children.map(function (p) {
+                        return p.PID;
+                    }),
+                ).forEach(function (tpid) {
+                    try {
+                        self.output(`killing ${tpid}\n`);
+                        process.kill(tpid, signal);
+                    }
+                    catch (ex) {
+                        console.log(ex);
+                    }
+                });
             });
-        });
+
+            if (this.outputChannel !== undefined) {
+                this.outputChannel.show();
+            }
         }
     }
 }

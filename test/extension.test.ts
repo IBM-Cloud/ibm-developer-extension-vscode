@@ -20,12 +20,12 @@ suite('Extension Tests', () => {
     // testing generic system command execution
     test('"ls -la" System Command', (done) => {
 
-        let resultHandler = function(code) {
+        const resultHandler = function(code) {
             assert.equal('0', code.toString());
             done();
         };
 
-        let command = new SystemCommand('ls', ['-l', '-a']);
+        const command = new SystemCommand('ls', ['-l', '-a']);
         command.execute()
         .then(resultHandler, resultHandler);
     });
@@ -35,12 +35,12 @@ suite('Extension Tests', () => {
     // testing a non-existant command execution
     test('Error System Command', (done) => {
 
-        let resultHandler = function(code) {
+        const resultHandler = function(code) {
             assert.notEqual('0', code.toString());
             done();
         };
 
-        let command = new SystemCommand('foo');
+        const command = new SystemCommand('foo');
         command.execute()
         .then(resultHandler, resultHandler);
     });
