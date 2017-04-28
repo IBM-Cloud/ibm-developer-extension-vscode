@@ -59,7 +59,7 @@ _editor extension assumes CLI is already logged in_
 ## Dev Environment Configuration
 
 * Use [VS Code](https://code.visualstudio.com/) to develop VS Code extensions.
-* Once you've copied the project source code locally, be sure to run `npm install` from a terminal to download Node.js dependencies and configure you dev environment (auto configures pre-commit hooks).
+* Once you've copied the project source code locally, be sure to run `npm install` from a terminal to download Node.js dependencies and configure your dev environment (auto configures pre-commit hooks).
 * Add launch commands in `.vscode/launch.json` for extension launch and testing:
     (You can also do this from the debug sidebar's gear icon, or select "Add Configuration" from the debug target drop down menu.)
 
@@ -94,7 +94,10 @@ _editor extension assumes CLI is already logged in_
         ]
     }
     ```
-
+* Install `vsce` (to be able to package .vsix builds)
+    ```
+    npm install -g vsce
+    ```
 * Install these VS Code extensions:
     * [TSLint Extension for VSCode](https://marketplace.visualstudio.com/items?itemName=eg2.tslint)
 
