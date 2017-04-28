@@ -101,7 +101,7 @@ export class SystemCommand {
             // (output channel will not be defined in unit test)
             if (workspace.rootPath === undefined && this.outputChannel !== undefined) {
                 const message = 'Please select your project\'s working directory.';
-                this.output(`\n ERROR: ${message}`);
+                this.output(`\nERROR: ${message}`);
                 window.showErrorMessage(message);
                 return;
             }

@@ -64,23 +64,28 @@ export class PromptingCommand extends SystemCommand {
         return new Promise<any>((resolve, reject) => {
             window.showInputBox({prompt: input.prompt})
             .then((val) => {
-                if (input.prefixArgument !== undefined) {
-                    self.args.push( input.prefixArgument );
-                }
-                self.args.push(val);
-                self.index++;
-                if (self.index < self.inputs.length) {
-                    self.requestInput();
+                if (val !== undefined && val.length > 0) {
+                    if (input.prefixArgument !== undefined) {
+                        self.args.push( input.prefixArgument );
+                    }
+                    self.args.push(val);
+                    self.index++;
+                    if (self.index < self.inputs.length) {
+                        self.requestInput();
+                    }
+                    else {
+                        // put any additional arguments on the end, like a -f
+                        self.args = self.args.concat(self.additionalArgs);
+                        super.execute()
+                        .then((value: any) => {
+                            resolve(value);
+                        }, (reason: any) => {
+                            reject(reason);
+                        });
+                    }
                 }
                 else {
-                    // put any additional arguments on the end, like a -f
-                    self.args = self.args.concat(self.additionalArgs);
-                    super.execute()
-                    .then((value: any) => {
-                        resolve(value);
-                    }, (reason: any) => {
-                        reject(reason);
-                    });
+                    this.output(`\n'${this.command} ${this.args.join(' ')}' action canceled: no user input at prompt.`);
                 }
             });
         });
