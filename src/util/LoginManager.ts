@@ -1,6 +1,6 @@
 'use strict';
 
-import {commands, ExtensionContext} from 'vscode';
+import {commands, window, ExtensionContext} from 'vscode';
 import {BluemixTerminal} from './BluemixTerminal';
 
 /*
@@ -26,6 +26,8 @@ export class LoginManager {
             const terminal = BluemixTerminal.instance;
             terminal.sendText(`${terminalArgs.join(' ')}\n`);
             terminal.show(false);
+
+            window.showInformationMessage('Complete your login in the Terminal panel below.');
         });
         context.subscriptions.push(disposable);
     }
