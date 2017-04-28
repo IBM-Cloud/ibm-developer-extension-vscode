@@ -52,143 +52,143 @@
     "commands": [
       {
         "command": "extension.bx.login",
-        "title": "Bluemix: LOGIN"
+        "title": "bx login"
       },
       {
         "command": "extension.bx.login.sso",
-        "title": "Bluemix: LOGIN (SSO)"
+        "title": "bx login --sso"
       },
       {
         "command": "extension.bx.logout",
-        "title": "Bluemix: LOGOUT"
+        "title": "bx logout"
       },
       {
         "command": "extension.bx.dev.list",
-        "title": "Bluemix: dev: LIST"
+        "title": "bx dev list"
       },
       {
         "command": "extension.bx.dev.debug",
-        "title": "Bluemix: dev: DEBUG"
+        "title": "bx dev debug"
       },
       {
         "command": "extension.bx.dev.deploy",
-        "title": "Bluemix: dev: DEPLOY"
+        "title": "bx dev deploy"
       },
       {
         "command": "extension.bx.dev.build",
-        "title": "Bluemix: dev: BUILD"
+        "title": "bx dev build"
       },
       {
         "command": "extension.bx.dev.run",
-        "title": "Bluemix: dev: RUN"
+        "title": "bx dev run"
       },
       {
         "command": "extension.bx.dev.status",
-        "title": "Bluemix: dev: STATUS"
+        "title": "bx dev status"
       },
       {
         "command": "extension.bx.dev.stop",
-        "title": "Bluemix: dev: STOP"
+        "title": "bx dev stop"
       },
       {
         "command": "extension.bx.dev.test",
-        "title": "Bluemix: dev: TEST"
+        "title": "bx dev test"
       },
       {
         "command": "extension.bx.cf.apps",
-        "title": "Bluemix: CloudFoundry: APPS"
+        "title": "bx cf apps"
       },
       {
         "command": "extension.bx.cf.app",
-        "title": "Bluemix: CloudFoundry: APP"
+        "title": "bx cf app"
       },
       {
         "command": "extension.bx.cf.create-app-manifest",
-        "title": "Bluemix: CloudFoundry: CREATE-APP-MANIFEST"
+        "title": "bx cf create-app-manifest"
       },
       {
         "command": "extension.bx.cf.push",
-        "title": "Bluemix: CloudFoundry: PUSH (working directory)"
+        "title": "bx cf push (working directory)"
       },
       {
         "command": "extension.bx.cf.push-appname",
-        "title": "Bluemix: CloudFoundry: PUSH <app name>"
+        "title": "bx cf push <app name>"
       },
       {
         "command": "extension.bx.cf.start",
-        "title": "Bluemix: CloudFoundry: START"
+        "title": "bx cf start"
       },
       {
         "command": "extension.bx.cf.stop",
-        "title": "Bluemix: CloudFoundry: STOP"
+        "title": "bx cf stop"
       },
       {
         "command": "extension.bx.cf.restart",
-        "title": "Bluemix: CloudFoundry: RESTART"
+        "title": "bx cf restart"
       },
       {
         "command": "extension.bx.cf.restage",
-        "title": "Bluemix: CloudFoundry: RESTAGE"
+        "title": "bx cf restage"
       },
       {
         "command": "extension.bx.cf.events",
-        "title": "Bluemix: CloudFoundry: EVENTS"
+        "title": "bx cf events"
       },
       {
         "command": "extension.bx.cf.logs",
-        "title": "Bluemix: CloudFoundry: LOGS"
+        "title": "bx cf logs"
       },
       {
         "command": "extension.bx.cf.logs-stop",
-        "title": "Bluemix: CloudFoundry: LOGS (stop)"
+        "title": "bx cf logs (stop)"
       },
       {
         "command": "extension.bx.cf.env",
-        "title": "Bluemix: CloudFoundry: ENV"
+        "title": "bx cf env"
       },
       {
         "command": "extension.bx.cs.cluster-create",
-        "title": "Bluemix: cs: CLUSTER-CREATE"
+        "title": "bx cs cluster-create"
       },
       {
         "command": "extension.bx.cs.cluster-get",
-        "title": "Bluemix: cs: CLUSTER-GET"
+        "title": "bx cs cluster-get"
       },
       {
         "command": "extension.bx.cs.cluster-rm",
-        "title": "Bluemix: cs: CLUSTER-RM"
+        "title": "bx cs cluster-rm"
       },
       {
         "command": "extension.bx.cs.clusters",
-        "title": "Bluemix: cs: CLUSTERS"
+        "title": "bx cs clusters"
       },
       {
         "command": "extension.bx.cs.init",
-        "title": "Bluemix: cs: INIT"
+        "title": "bx cs init"
       },
       {
         "command": "extension.bx.cs.worker-add",
-        "title": "Bluemix: cs: WORKER-ADD"
+        "title": "bx cs worker-add"
       },
       {
         "command": "extension.bx.cs.worker-get",
-        "title": "Bluemix: cs: WORKER-GET"
+        "title": "bx cs worker-get"
       },
       {
         "command": "extension.bx.cs.worker-reboot",
-        "title": "Bluemix: cs: WORKER-REBOOT"
+        "title": "bx cs worker-reboot"
       },
       {
         "command": "extension.bx.cs.worker-reload",
-        "title": "Bluemix: cs: WORKER-RELOAD"
+        "title": "bx cs worker-reload"
       },
       {
         "command": "extension.bx.cs.worker-rm",
-        "title": "Bluemix: cs: WORKER-RM"
+        "title": "bx cs worker-rm"
       },
       {
         "command": "extension.bx.cs.workers",
-        "title": "Bluemix: cs: WORKERS"
+        "title": "bx cs workers"
       }
     ]
   },
