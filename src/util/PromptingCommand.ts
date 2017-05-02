@@ -1,6 +1,6 @@
 'use strict';
 
-import {window, OutputChannel} from 'vscode';
+import {window, OutputChannel, QuickPickOptions} from 'vscode';
 import {SystemCommand} from './SystemCommand';
 
 /*
@@ -10,10 +10,12 @@ export class PromptInput {
 
     prompt: string = '';
     prefixArgument = undefined;
+    pickerOptions: string[] = undefined;
 
-    constructor( public _prompt: string, public _prefixArgument: string = undefined) {
+    constructor( public _prompt: string, public _prefixArgument: string = undefined, pickerOptions: string[] = undefined) {
         this.prompt = _prompt;
         this.prefixArgument = _prefixArgument;
+        this.pickerOptions = pickerOptions;
     }
 }
 
@@ -35,8 +37,8 @@ export class PromptingCommand extends SystemCommand {
      * @param {PromptInput[]} array of input definitions for vscode prompts
      * @param {string[]} additional arguments to append at the end of system call
      */
-    constructor(public command: string, public args: string[], public _outputChannel: OutputChannel, inputs: PromptInput[], additionalArgs: string[]) {
-        super(command, args, _outputChannel);
+    constructor(public command: string, public args: string[], public _outputChannel: OutputChannel, inputs: PromptInput[], additionalArgs: string[] = [], sanitizeOutput: boolean = false) {
+        super(command, args, _outputChannel, sanitizeOutput);
         this.originalArgs = args.slice(0);
 
         this.inputs = inputs;
@@ -62,8 +64,8 @@ export class PromptingCommand extends SystemCommand {
         const input = this.inputs[this.index];
 
         return new Promise<any>((resolve, reject) => {
-            window.showInputBox({prompt: input.prompt})
-            .then((val) => {
+
+            const handler = (val) => {
                 if (val !== undefined && val.length > 0) {
                     if (input.prefixArgument !== undefined) {
                         self.args.push( input.prefixArgument );
@@ -87,7 +89,15 @@ export class PromptingCommand extends SystemCommand {
                 else {
                     this.output(`\n'${this.command} ${this.args.join(' ')}' action canceled: no user input at prompt.`);
                 }
-            });
+            };
+
+            let invocation;
+            if (input.pickerOptions !== undefined && input.pickerOptions.length > 0) {
+                invocation = window.showQuickPick(input.pickerOptions);
+            } else {
+                invocation = window.showInputBox({prompt: input.prompt});
+            }
+            invocation.then(handler);
         });
     }
 

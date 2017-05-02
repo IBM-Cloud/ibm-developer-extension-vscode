@@ -25,7 +25,7 @@ export function activate(context: ExtensionContext) {
 
 
     // BX DEV commands *************************************
-    registerCommand(context, 'extension.bx.dev.list', {cmd: 'bx', args: ['dev', 'list']}, outputChannel);
+    registerCommand(context, 'extension.bx.dev.list', {cmd: 'bx', args: ['dev', 'list']}, outputChannel, true);
     registerCommand(context, 'extension.bx.dev.build', {cmd: 'bx', args: ['dev', 'build']}, outputChannel);
     registerCommand(context, 'extension.bx.dev.debug', {cmd: 'bx', args: ['dev', 'debug']}, outputChannel);
     registerCommand(context, 'extension.bx.dev.deploy', {cmd: 'bx', args: ['dev', 'deploy']}, outputChannel);
@@ -52,6 +52,13 @@ export function activate(context: ExtensionContext) {
 
 
 
+    // BX SDK commands *************************************
+    registerPromptingCommand(context, 'extension.bx.sdk.generate', {cmd: 'bx', args: ['sdk', 'generate']}, outputChannel, [new PromptInput('Specify target app name'), new PromptInput('Select target platform', undefined, ['--android', '--ios', '--swift'])], [], true);
+    registerCommand(context, 'extension.bx.sdk.list', {cmd: 'bx', args: ['sdk', 'list']}, outputChannel, true);
+    registerPromptingCommand(context, 'extension.bx.sdk.validate', {cmd: 'bx', args: ['sdk', 'validate']}, outputChannel, [new PromptInput('Specify target app name')], [], true);
+
+
+
     // BX CS commands *************************************
     registerPromptingCommand(context, 'extension.bx.cs.cluster-create', {cmd: 'bx', args: ['cs', 'cluster-create']}, outputChannel, [new PromptInput('Specify a cluster name', '--name')]);
     registerPromptingCommand(context, 'extension.bx.cs.cluster-get', {cmd: 'bx', args: ['cs', 'cluster-get']}, outputChannel, [new PromptInput('Specify a cluster name or id')]);
@@ -71,9 +78,9 @@ export function activate(context: ExtensionContext) {
 /*
  *  Helper utility to register system commands
  */
-function registerCommand(context: ExtensionContext, key: string, opt, outputChannel) {
+function registerCommand(context: ExtensionContext, key: string, opt, outputChannel, sanitizeOutput: boolean = false) {
     const disposable = commands.registerCommand(key, () => {
-        const command = new SystemCommand(opt.cmd, opt.args, outputChannel);
+        const command = new SystemCommand(opt.cmd, opt.args, outputChannel, sanitizeOutput);
         command.execute();
     });
     context.subscriptions.push(disposable);
@@ -83,9 +90,9 @@ function registerCommand(context: ExtensionContext, key: string, opt, outputChan
 /*
  *  Helper utility to register prompting system commands
  */
-function registerPromptingCommand(context: ExtensionContext, key: string, opt, outputChannel, inputs: PromptInput[], additionalArgs: string[] = []) {
+function registerPromptingCommand(context: ExtensionContext, key: string, opt, outputChannel, inputs: PromptInput[], additionalArgs: string[] = [], sanitizeOutput: boolean = false) {
     const disposable = commands.registerCommand(key, () => {
-        const command = new PromptingCommand(opt.cmd, opt.args, outputChannel, inputs, additionalArgs);
+        const command = new PromptingCommand(opt.cmd, opt.args, outputChannel, inputs, additionalArgs, sanitizeOutput);
         command.execute();
     });
     context.subscriptions.push(disposable);

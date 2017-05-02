@@ -2,7 +2,7 @@
   "name": "ibm-bluemix",
   "displayName": "vscode-bluemix",
   "description": "",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "publisher": "IBM",
   "engines": {
     "vscode": "^1.10.0"
@@ -45,7 +45,10 @@
     "onCommand:extension.bx.cs.worker-reboot",
     "onCommand:extension.bx.cs.worker-reload",
     "onCommand:extension.bx.cs.worker-rm",
-    "onCommand:extension.bx.cs.workers"
+    "onCommand:extension.bx.cs.workers",
+    "onCommand:extension.bx.sdk.list",
+    "onCommand:extension.bx.sdk.generate",
+    "onCommand:extension.bx.sdk.validate"
   ],
   "main": "./out/src/extension",
   "contributes": {
@@ -189,6 +192,18 @@
       {
         "command": "extension.bx.cs.workers",
         "title": "bx cs workers"
+      },
+      {
+        "command": "extension.bx.sdk.list",
+        "title": "bx sdk list"
+      },
+      {
+        "command": "extension.bx.sdk.generate",
+        "title": "bx sdk generate"
+      },
+      {
+        "command": "extension.bx.sdk.validate",
+        "title": "bx sdk validate"
       }
     ]
   },
@@ -215,6 +230,7 @@
     "ps-tree": "^1.1.0"
   },
   "pre-commit": [
-    "tslint", "test"
+    "tslint",
+    "test"
   ]
 }
