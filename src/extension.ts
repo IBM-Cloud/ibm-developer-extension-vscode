@@ -22,6 +22,7 @@ export function activate(context: ExtensionContext) {
     LoginManager.registerCommand(context, 'extension.bx.login');
     LoginManager.registerCommand(context, 'extension.bx.login.sso');
     registerCommand(context, 'extension.bx.logout', {cmd: 'bx', args: ['logout']}, outputChannel);
+    registerCommand(context, 'extension.bx.cli-update', {cmd: 'bx', args: ['plugin', 'update', '-r', 'Bluemix']}, outputChannel);
 
 
     // BX DEV commands *************************************

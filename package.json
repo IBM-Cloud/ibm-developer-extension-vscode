@@ -14,6 +14,7 @@
     "onCommand:extension.bx.login",
     "onCommand:extension.bx.login.sso",
     "onCommand:extension.bx.logout",
+    "onCommand:extension.bx.cli-update",
     "onCommand:extension.bx.dev.list",
     "onCommand:extension.bx.dev.build",
     "onCommand:extension.bx.dev.debug",
@@ -64,6 +65,10 @@
       {
         "command": "extension.bx.logout",
         "title": "bx logout"
+      },
+      {
+        "command": "extension.bx.cli-update",
+        "title": "bx plugin update -r Bluemix (update cli extensions)"
       },
       {
         "command": "extension.bx.dev.list",
