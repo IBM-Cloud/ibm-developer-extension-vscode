@@ -1,6 +1,6 @@
 # Bluemix for VS Code
 
-This extension provides the capabilities for IBM Bluemix from directly within the VS Code editor.   Use the command pallete to quickly access all `bx dev` commands, without the need to leave the editor context.
+This extension provides the capabilities for IBM Bluemix from directly within the VS Code editor.   Use the command palette to quickly access all `bx dev` commands, without the need to leave the editor context.
 
 Sample Usage: https://youtu.be/aGOXbEOMinE
 
@@ -94,7 +94,7 @@ _editor extension assumes CLI is already logged in_
         ]
     }
     ```
-* Install `vsce` (to be able to package .vsix builds)
+* Install `vsce` (to be able to package `.vsix` builds)
     ```
     npm install -g vsce
     ```
