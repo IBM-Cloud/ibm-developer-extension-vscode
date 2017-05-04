@@ -1,3 +1,5 @@
+[![Build Status](https://travis.ibm.com/arf/ide-vscode-bluemix.svg?token=22QVGbxGPjs4ayNXLeQs&branch=master)](https://travis.ibm.com/arf/ide-vscode-bluemix)
+
 # Bluemix for VS Code
 
 This extension provides the capabilities for IBM Bluemix from directly within the VS Code editor.   Use the command palette to quickly access all `bx dev` commands, without the need to leave the editor context.
