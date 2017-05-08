@@ -5,9 +5,12 @@ import {LogsCommandManager} from './cloudfoundry/LogsCommandManager';
 import {LoginManager} from './util/LoginManager';
 import {PromptingCommand, PromptInput} from './util/PromptingCommand';
 import {SystemCommand} from './util/SystemCommand';
+const semver = require('semver');
+const packageJson = require('../../package.json');
 
 
-
+const outputChannel = window.createOutputChannel('Bluemix');
+let checkedVersions = false;
 
 /*
  * activate method is called when your extension is activated
@@ -16,8 +19,6 @@ import {SystemCommand} from './util/SystemCommand';
 export function activate(context: ExtensionContext) {
 
     console.log('Congratulations, your extension "com-ibm-bluemix" is now active!');
-
-    const outputChannel = window.createOutputChannel('Bluemix');
 
     LoginManager.registerCommand(context, 'extension.bx.login');
     LoginManager.registerCommand(context, 'extension.bx.login.sso');
@@ -82,7 +83,8 @@ export function activate(context: ExtensionContext) {
 function registerCommand(context: ExtensionContext, key: string, opt, outputChannel, sanitizeOutput: boolean = false) {
     const disposable = commands.registerCommand(key, () => {
         const command = new SystemCommand(opt.cmd, opt.args, outputChannel, sanitizeOutput);
-        command.execute();
+        command.execute()
+        .then(checkVersions);
     });
     context.subscriptions.push(disposable);
 }
@@ -94,9 +96,80 @@ function registerCommand(context: ExtensionContext, key: string, opt, outputChan
 function registerPromptingCommand(context: ExtensionContext, key: string, opt, outputChannel, inputs: PromptInput[], additionalArgs: string[] = [], sanitizeOutput: boolean = false) {
     const disposable = commands.registerCommand(key, () => {
         const command = new PromptingCommand(opt.cmd, opt.args, outputChannel, inputs, additionalArgs, sanitizeOutput);
-        command.execute();
+        command.execute()
+        .then(checkVersions);
     });
     context.subscriptions.push(disposable);
+}
+
+
+/*
+ *  Checks the version of the Bluemix CLI and notifies the user if cli or recommended plugins are out of date
+ */
+function checkVersions(code) {
+
+    // only run this once per session of vscode, and only if executed successfully (return code >= 0)
+    if (code >= 0 && checkedVersions !== true) {
+        checkedVersions = true;
+
+        // first check the main cli version
+        const command = new SystemCommand('bx', ['--version']);
+        command.execute()
+        .then(function() {
+            if (command.stdout !== undefined) {
+
+                // parse version from bx --version command output
+                const split = command.stdout.split('+');
+                const detail = split[0].split('version');
+                const version = semver.clean(detail[detail.length - 1]);
+
+                if (semver.gt(packageJson.ibm.cli.version, version)) {
+                    const message = `\n\nThe recommended minimum Bluemix CLI version is ${packageJson.ibm.cli.version}.\nYour system is currently running ${version}.\nA newer version of the IBM Bluemix CLI is available for download at: ${packageJson.ibm.cli.url}`;
+                    outputChannel.append(message);
+                }
+            }
+        })
+        .then(function() {
+
+            // next check the plugin versions
+            // list all plugins with version using `bx plugin list command`
+            const pluginsListCommand = new SystemCommand('bx', ['plugin', 'list']);
+            pluginsListCommand.execute()
+            .then(function() {
+                if (pluginsListCommand.stdout !== undefined) {
+                    const lines = pluginsListCommand.stdout.split('\n');
+
+                    // skip first three lines (heading lines)
+                    for (let x = 3; x < lines.length; x++) {
+                        if (lines.length > 0) {
+
+                            if (lines.length > 0) {
+                                const line = lines[x];
+                                const displayName = line.substr(0, 20).trim();
+                                const pluginVersion = line.substr(20).trim();
+                                const cleanVersion = semver.clean(pluginVersion);
+                                console.log(displayName, cleanVersion);
+
+                                if (cleanVersion !== null) {
+                                    for (const plugin of packageJson.ibm.plugins) {
+                                        // loop over plugins and find match based on name
+                                        if (displayName.search(plugin.displayName) >= 0) {
+                                            if (semver.gt(plugin.version, cleanVersion)) {
+                                                const message = `\n\nThe recommended minimum version for the Bluemix '${plugin.displayName}' CLI plugin is ${plugin.version}.\nYour system is currently running ${cleanVersion}.\nYou can update using the 'bx plugin update' command or visit ${plugin.url}`;
+                                                outputChannel.append(message);
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+        });
+    }
 }
 
 /*

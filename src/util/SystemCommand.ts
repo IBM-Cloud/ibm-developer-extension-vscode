@@ -17,8 +17,8 @@ export class SystemCommand {
     invocation: any;
     outputChannel: OutputChannel;
     sanitizeOutput: boolean = false;
-    private stdout: string = '';
-    private stderr: string = '';
+    stdout: string = '';
+    stderr: string = '';
 
 
     // TECH DEBT: Two methods exist for invoking system commands
@@ -96,7 +96,7 @@ export class SystemCommand {
      * Execution implementation with spawned process & output channels
      */
     executeWithOutputChannel(): Promise<any> {
-        return new Promise<any>((resolve, reject) => {
+        const promise = new Promise<any>((resolve, reject) => {
 
             // only check if we're in a folder if not running a unit test
             // (output channel will not be defined in unit test)
@@ -180,7 +180,13 @@ export class SystemCommand {
                     this.output(errorDetail);
                 }
                 resolve(code);
-                this.destroy();
+
+                // add this at the end of the promise chain, so it gets called last, for certain.
+                // this allos us to fulfill other steps in the promise chain, and clean everything up last
+                const self = this;
+                promise.then(function() {
+                    self.destroy();
+                });
             });
 
             this.invocation.on('error', (error) => {
@@ -189,6 +195,8 @@ export class SystemCommand {
                 // take care of things with negative status code
             });
         });
+
+        return promise;
     }
 
 
