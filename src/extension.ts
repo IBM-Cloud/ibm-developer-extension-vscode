@@ -148,7 +148,6 @@ function checkVersions(code) {
                                 const displayName = line.substr(0, 20).trim();
                                 const pluginVersion = line.substr(20).trim();
                                 const cleanVersion = semver.clean(pluginVersion);
-                                console.log(displayName, cleanVersion);
 
                                 if (cleanVersion !== null) {
                                     for (const plugin of packageJson.ibm.plugins) {
