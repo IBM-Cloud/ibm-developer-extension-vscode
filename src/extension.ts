@@ -1,12 +1,13 @@
 'use strict';
 
-import {commands, window, ExtensionContext} from 'vscode';
+import {commands, window, workspace, ExtensionContext} from 'vscode';
 import {LogsCommandManager} from './cloudfoundry/LogsCommandManager';
 import {LoginManager} from './util/LoginManager';
 import {PromptingCommand, PromptInput} from './util/PromptingCommand';
 import {SystemCommand} from './util/SystemCommand';
 const semver = require('semver');
 const packageJson = require('../../package.json');
+const fs = require('fs');
 
 
 const outputChannel = window.createOutputChannel('Bluemix');
@@ -73,6 +74,119 @@ export function activate(context: ExtensionContext) {
     registerPromptingCommand(context, 'extension.bx.cs.worker-reload', {cmd: 'bx', args: ['cs', 'worker-reload']}, outputChannel, [new PromptInput('Specify a cluster name or id'), new PromptInput('Specify a worker id')], ['-f'] );
     registerPromptingCommand(context, 'extension.bx.cs.worker-rm', {cmd: 'bx', args: ['cs', 'worker-rm']}, outputChannel, [new PromptInput('Specify a cluster name or id'), new PromptInput('Specify a worker id')], ['-f'] );
     registerPromptingCommand(context, 'extension.bx.cs.workers', {cmd: 'bx', args: ['cs', 'workers']}, outputChannel, [new PromptInput('Specify a cluster name or id')] );
+
+
+
+
+    // EXPERIMENTAL DEPLOY TO KUBE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    const disposable = commands.registerCommand('extension.bx.dev.deploy-kubernetes', () => {
+
+        outputChannel.show();
+        outputChannel.append('\nDeploying to IBM Containers (Kubernetes)...');
+
+        if (workspace.rootPath !== undefined) {
+            const deployScript = 'deploy-to-kube.sh';
+            const deployScriptPath = `${workspace.rootPath}/${deployScript}`;
+            const deployYamlPath = `${workspace.rootPath}/kube-deployment.yaml`;
+            const allInOneYamlPath = `${workspace.rootPath}/kube-all-in-one.yaml`;
+            if (fs.existsSync(deployScriptPath)) {
+
+                const getClusterConfig = function() {
+
+                    window.showInputBox({prompt: 'Cluster name'}).then(
+                        function(cluster) {
+                            if (cluster !== undefined && cluster.length > 0) {
+                                const clusterConfigCommand = new SystemCommand('bx', ['cs', 'cluster-config', cluster], undefined, false);
+                                clusterConfigCommand.execute()
+                                .then(function() {
+
+                                    const tokens = clusterConfigCommand.stdout.split('export');
+                                    // see KUBECONFIG == console.log(tokens[tokens.length-1]);
+
+                                    if (clusterConfigCommand.stdout.search('FAILED') >= 0) {
+                                        outputChannel.append(`\nERROR: Invalid cluster or the client is not yet configured. Run 'bx login' and make sure your clustername is valid.`);
+                                    }
+                                    else {
+
+                                        let deployScriptContents = fs.readFileSync(deployScriptPath, 'utf8');
+                                        deployScriptContents = deployScriptContents.replace( /#BEGINCONFIG[\s\S]*ENDCONFIG/g, '');
+                                        deployScriptContents = '#BEGINCONFIG\nexport' + tokens[tokens.length - 1] + '#ENDCONFIG\n' + deployScriptContents;
+                                        fs.writeFileSync(deployScriptPath, deployScriptContents);
+                                        deploy();
+                                    }
+
+                                });
+                            }
+                        });
+                };
+
+
+
+                const deploy = function() {
+                    // add execute permission (in some cases users won't have it after extracting zip)
+                    const permissionsCommand = new SystemCommand('chmod', ['+x', deployScriptPath], undefined, false);
+                    permissionsCommand.execute()
+                    .then(function() {
+                        console.log('complete');
+
+                        console.log(`executing ${deployScript}`);
+                        const deployCommand = new SystemCommand(deployScriptPath, [], outputChannel, false);
+                        // deployCommand.useTerminal = true;
+                        deployCommand.execute()
+                        .then(function() {
+                            console.log('complete');
+
+                            outputChannel.show();
+                            outputChannel.append(`\SUCCESS: Deployment to IBM Containers (Kubernetes) complete`);
+                        });
+                    });
+                };
+
+                console.log(`changing permissions +x for ${deployScript}`);
+
+                const replaceString = 'antonal';
+
+                let deployScriptContents = fs.readFileSync(deployScriptPath, 'utf8');
+                if (deployScriptContents.indexOf(replaceString) >= 0) {
+
+                    window.showInputBox({prompt: 'IBM Container Registry namespace'}).then(
+                        function(namespace) {
+                            if (namespace !== undefined && namespace.length > 0) {
+
+                                deployScriptContents = deployScriptContents.replace(new RegExp(replaceString, 'g'), namespace);
+                                fs.writeFileSync(deployScriptPath, deployScriptContents);
+
+                                let deployYamlContents = fs.readFileSync(deployYamlPath, 'utf8');
+                                deployYamlContents = deployYamlContents.replace(new RegExp(replaceString, 'g'), namespace);
+                                fs.writeFileSync(deployYamlPath, deployYamlContents);
+
+                                let allInOneYamlContents = fs.readFileSync(allInOneYamlPath, 'utf8');
+                                allInOneYamlContents = allInOneYamlContents.replace(new RegExp(replaceString, 'g'), namespace);
+                                fs.writeFileSync(allInOneYamlPath, allInOneYamlContents);
+
+                                getClusterConfig();
+
+                            } else {
+                                outputChannel.append(`\nERROR: Please enter a valid IBM Container Registry namespace.`);
+                            }
+
+                        },
+                    );
+                } else {
+                    getClusterConfig();
+                }
+            }
+            else {
+                outputChannel.append(`\nERROR: Unable to locate ${deployScript} in project folder.`);
+            }
+        }
+        else {
+            outputChannel.append(`\nERROR: Please select a project folder.`);
+        }
+
+    });
+    context.subscriptions.push(disposable);
 }
 
 

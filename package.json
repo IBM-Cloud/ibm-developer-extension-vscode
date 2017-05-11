@@ -2,7 +2,7 @@
   "name": "ibm-bluemix",
   "displayName": "vscode-bluemix",
   "description": "",
-  "version": "0.0.4",
+  "version": "0.0.4.kube",
   "publisher": "IBM",
   "engines": {
     "vscode": "^1.10.0"
@@ -49,7 +49,11 @@
     "onCommand:extension.bx.cs.workers",
     "onCommand:extension.bx.sdk.list",
     "onCommand:extension.bx.sdk.generate",
-    "onCommand:extension.bx.sdk.validate"
+    "onCommand:extension.bx.sdk.validate",
+
+
+
+    "onCommand:extension.bx.dev.deploy-kubernetes"
   ],
   "main": "./out/src/extension",
   "contributes": {
@@ -209,6 +213,13 @@
       {
         "command": "extension.bx.sdk.validate",
         "title": "bx sdk validate"
+      },
+
+
+
+      {
+        "command": "extension.bx.dev.deploy-kubernetes",
+        "title": "bx dev deploy (kubernetes)"
       }
     ]
   },

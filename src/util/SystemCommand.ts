@@ -30,7 +30,7 @@ export class SystemCommand {
     // it takes over the terminal, and you can't invoke anything else until that process exits
     //
     // Toggle between the two using this static var
-    private static useTerminal = false;
+    useTerminal = false;
 
 
     /*
@@ -74,7 +74,7 @@ export class SystemCommand {
      * Execute the commmand
      */
     execute(): Promise<any> {
-        if (SystemCommand.useTerminal)
+        if (this.useTerminal)
             return this.executeWithTerminal();
         else
             return this.executeWithOutputChannel();
@@ -88,7 +88,7 @@ export class SystemCommand {
             const terminal = BluemixTerminal.instance;
             terminal.sendText(`${this.command} ${this.args.join(' ')}\n`);
             terminal.show();
-            resolve('OK: sent to terminal');
+            resolve(0);
         });
     }
 
