@@ -16,6 +16,7 @@
     "onCommand:extension.bx.logout",
     "onCommand:extension.bx.cli-update",
     "onCommand:extension.bx.dev.list",
+    "onCommand:extension.bx.dev.build.release",
     "onCommand:extension.bx.dev.build",
     "onCommand:extension.bx.dev.debug",
     "onCommand:extension.bx.dev.deploy",
@@ -84,7 +85,11 @@
       },
       {
         "command": "extension.bx.dev.build",
-        "title": "bx dev build"
+        "title": "bx dev build (debug)"
+      },
+      {
+        "command": "extension.bx.dev.build.release",
+        "title": "bx dev build (release)"
       },
       {
         "command": "extension.bx.dev.run",

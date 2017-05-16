@@ -224,7 +224,7 @@ export class SystemCommand {
             else {
                 // workaround described above
                 if (x > 0 && char === 160 && buffer[x - 1] === 226) {
-                    newLen -= 2;
+                    newLen -= 1;
                 }
                 else
                     newLen ++;
