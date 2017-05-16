@@ -28,7 +28,8 @@ export function activate(context: ExtensionContext) {
 
     // BX DEV commands *************************************
     registerCommand(context, 'extension.bx.dev.list', {cmd: 'bx', args: ['dev', 'list']}, outputChannel, true);
-    registerCommand(context, 'extension.bx.dev.build', {cmd: 'bx', args: ['dev', 'build']}, outputChannel);
+    registerCommand(context, 'extension.bx.dev.build', {cmd: 'bx', args: ['dev', 'build', '--debug']}, outputChannel, true);
+    registerCommand(context, 'extension.bx.dev.build.release', {cmd: 'bx', args: ['dev', 'build']}, outputChannel, true);
     registerCommand(context, 'extension.bx.dev.debug', {cmd: 'bx', args: ['dev', 'debug']}, outputChannel);
     registerCommand(context, 'extension.bx.dev.deploy', {cmd: 'bx', args: ['dev', 'deploy']}, outputChannel);
     registerCommand(context, 'extension.bx.dev.run', {cmd: 'bx', args: ['dev', 'run']}, outputChannel);
