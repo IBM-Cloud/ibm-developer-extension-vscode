@@ -2,7 +2,7 @@
   "name": "ibm-bluemix",
   "displayName": "vscode-bluemix",
   "description": "",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "publisher": "IBM",
   "engines": {
     "vscode": "^1.10.0"

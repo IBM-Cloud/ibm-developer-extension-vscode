@@ -47,21 +47,17 @@ Next, You have to create a launch configuration inside of `.vscode/launch.json`.
 ```
 
 
-## Feedback
+## ⚠️ Submit an Issue
 
 For more information come find us on Slack
 
 Find a bug?  [Let us know here](https://github.com/IBM-Bluemix/bluemix-vscode-extension/issues)
 
 
-## Contributing
 
-Connect on Slack
-Sign up for our slack team and join the #bluemix-dev-services channel to ask questions and chat with fellow users.
-
-
-Check Stack Overflow
-Search for the bluemix-dev-services tag on Stack Overflow for answers to common questions.
+## ![slack logo](https://developer.ibm.com/cloud-native/public/img/slack-icon.svg) Connect on Slack
+[Sign up](https://ibm.biz/IBMCloudNativeSlack) for our slack team and join the [#bluemix-dev-services](https://ibm-cloud-tech.slack.com/messages/bluemix-dev-services) channel to ask questions and chat with fellow users.
 
 
-// slack links here: https://developer.ibm.com/cloud-native/
+## ![slack logo](https://developer.ibm.com/cloud-native/public/img/so-icon.svg) Check Stack Overflow
+Search for the [bluemix-dev-services](http://stackoverflow.com/questions/tagged/bluemix-dev-services) tag on Stack Overflow for answers to common questions.
