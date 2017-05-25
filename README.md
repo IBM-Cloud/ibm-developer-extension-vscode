@@ -2,11 +2,15 @@
 
 
 
-# Bluemix for VS Code
+# Bluemix Dev Extension for VS Code
 
-This extension provides capabilities for IBM Bluemix from directly within the VS Code editor.   Use the command palette to quickly access all `bx dev` commands, without the need to leave the editor context.
+This extension provides capabilities for the IBM Bluemix [developer cli](https://console.ng.bluemix.net/docs/cloudnative/dev_cli.html) from directly within the VS Code editor.   Use the VS Code command palette to quickly access all `bx dev` commands, without the need to leave the editor's context.
 
 Sample Usage: https://youtu.be/aGOXbEOMinE
+
+## Changelog
+
+- *v0.0.5* - first public release
 
 ## Usage
 
@@ -27,10 +31,9 @@ Easily invoke commands from the Bluemix CLI from directly inside of the VS Code 
 
 
 
+## Debugging Node.js apps within the local Docker container
 
-## Debugging Node.js apps within the local container
-
-First, make sure your app is running inside of a local container using `bx dev debug`.  
+First, make sure your app is running inside of a local container using `bx dev debug`. _Note: `debug` action requires prior `bx dev build --debug` action)_
 
 Next, You have to create a launch configuration inside of `.vscode/launch.json`.   If you don't already have a `launch.json` file, go to the `Debug` -> `Add Configuration` menu and paste the following into the `configurations` array.  The default debug port is `5858` and the default remoteRoot is `/app/`:
 
@@ -46,18 +49,28 @@ Next, You have to create a launch configuration inside of `.vscode/launch.json`.
 }
 ```
 
+## Contributing
 
-## ⚠️ Submit an Issue
+All improvements to the Bluemix Dev Extension for VS Code are very welcome! Here's how to get started ...
 
-For more information come find us on Slack
+Fork this repository.
+$ git clone https://github.com/IBM-Bluemix/bluemix-vscode-extension
+
+Start making your changes, then send us a pull request.
+
+You can find more info on contributing in our [contributing guidelines](./CONTRIBUTING.md).
+
+You can find more info about the development environment and configuration in our [development guidelines](./DEVELOPMENT.md)
+
+## ⚠️  Bugs / Issues / Defects
 
 Find a bug?  [Let us know here](https://github.com/IBM-Bluemix/bluemix-vscode-extension/issues)
 
+For additional support, find us on Slack or Stack Overflow using the links below.
 
-
-## ![slack logo](https://developer.ibm.com/cloud-native/public/img/slack-icon.svg) Connect on Slack
+### <img src="https://developer.ibm.com/cloud-native/public/img/slack-icon.svg" alt="Slack" style="height: 18px;"/> Connect on Slack
 [Sign up](https://ibm.biz/IBMCloudNativeSlack) for our slack team and join the [#bluemix-dev-services](https://ibm-cloud-tech.slack.com/messages/bluemix-dev-services) channel to ask questions and chat with fellow users.
 
 
-## ![slack logo](https://developer.ibm.com/cloud-native/public/img/so-icon.svg) Check Stack Overflow
+### <img src="https://developer.ibm.com/cloud-native/public/img/so-icon.svg" alt="Stack Overflow" style="height: 18px;"/> Check Stack Overflow
 Search for the [bluemix-dev-services](http://stackoverflow.com/questions/tagged/bluemix-dev-services) tag on Stack Overflow for answers to common questions.

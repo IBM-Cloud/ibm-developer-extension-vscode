@@ -51,11 +51,8 @@ To distribute a build, you have to use the [`vsce` tool from Microsoft](https://
 
 You can *only* submit to the VS Code marketplace using the `vsce publish` command.  
 
-## Installation 
 
-Once published, you will be able to install the extension simply by searching for it and going through the default install process via the VS Code marketplace.
-
-### Installing a local build (`.vsix` file):
+## Installing a local/test build (`.vsix` file):
 
 1. Download a release from https://github.com/IBM-Bluemix/bluemix-vscode-extension/releases
 1. From within the VS Code editor, open the extensions browser.
