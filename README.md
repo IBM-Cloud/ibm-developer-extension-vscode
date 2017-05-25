@@ -1,4 +1,4 @@
-[![Build Status](https://status.travisci.com/IBM-Bluemix/bluemix-vscode-extension.svg?branch=master)](https://status.travisci.com/IBM-Bluemix/bluemix-vscode-extension)
+[![Build Status](https://travis-ci.org/IBM-Bluemix/bluemix-vscode-extension.svg?branch=master)](https://travis-ci.org/IBM-Bluemix/bluemix-vscode-extension)
 
 
 
