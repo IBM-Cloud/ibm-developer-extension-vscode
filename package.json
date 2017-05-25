@@ -246,13 +246,13 @@
   "ibm": {
     "cli": {
       "command": "bx",
-      "version": "0.5.2",
+      "version": "0.5.3",
       "url": "https://console.ng.bluemix.net/docs/cli/reference/bluemix_cli/index.html#getting-started"
     },
     "plugins": [{
       "displayName": "dev",
       "command": "dev",
-      "version": "0.0.152",
+      "version": "0.1.5",
       "url": "https://console.ng.bluemix.net/docs/cloudnative/dev_cli.html"
     },{
       "displayName": "sdk-gen",
@@ -262,7 +262,7 @@
     },{
       "displayName": "container-service",
       "command": "cs",
-      "version": "0.1.242",
+      "version": "0.1.259",
       "url": "https://console.ng.bluemix.net/docs/containers/cs_cli_devtools.html"
     }]
   }
