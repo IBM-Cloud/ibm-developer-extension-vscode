@@ -22,6 +22,14 @@ Easily invoke commands from the Bluemix CLI from directly inside of the VS Code 
 - Use the `bd dev debug` command to run the app in local Docker for development
 - USe the `bx dev deploy` command to deploy the app (in the Docker container) to Bluemix
 
+Supported CLI/plugins:
+
+- `bx login/logout` - Bluemix user authentication
+- `bx dev` - Bluemix developer CLI
+- `bx cf` - Bluemix CloudFoundry CLI
+- `bx cs` - Bluemix Container Service CLI
+- `bx sdk` - Bluemix SDK Generation CLI
+
 ## Requirements/Dependencies
 
 * [Bluemix CLI](https://plugins.ng.bluemix.net/ui/home.html)
