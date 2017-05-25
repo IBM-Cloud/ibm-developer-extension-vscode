@@ -18,11 +18,19 @@ Easily invoke commands from the Bluemix CLI from directly inside of the VS Code 
 
 - Open the VS Code command pallette (`F1` or `CMD-Shift-P`)
 - Use the `bx dev login` command to log in to Bluemix
+
+### Using `bx dev` workflow: 
 - Use the `bx dev build` command to build the app into a Docker image
 - Use the `bd dev debug` command to run the app in local Docker for development
 - USe the `bx dev deploy` command to deploy the app (in the Docker container) to Bluemix
 
-Supported CLI/plugins:
+### Using CloudFoundry workflow: 
+- Use `bx cf apps` to list all of your apps
+- Use `bx cf push` to push a build of your app
+- Use `bx cf <start/stop/restage/restart>` to change the status of your app
+- Use `bx cf logs` to view the live log stream for your app
+
+### Supported CLI/plugins:
 
 - `bx login/logout` - Bluemix user authentication
 - `bx dev` - Bluemix developer CLI
