@@ -21,14 +21,14 @@ Easily invoke commands from the IBM Bluemix Developer CLI from directly inside o
 - Use the `bx dev login` command to log in to Bluemix (using your Bluemix credentials)
 
 ### Using `bx dev` workflow: 
-Sample usage: [IBM Developer Extension for VS Code
+Video demonstrating `bx dev` workflow: [IBM Developer Extension for VS Code
 ](https://youtu.be/JmrLaLRRQSk)
 - Use the `bx dev build` command to build the app into a Docker image
 - Use the `bd dev debug` command to run the app in local Docker for development
 - USe the `bx dev deploy` command to deploy the app (in the Docker container) to Bluemix
 
 ### Using CloudFoundry workflow: 
-Sample usage: [IBM Developer Extension for VS Code for CloudFoundry
+Video demonstrating `CloudFoundry` workflow: [IBM Developer Extension for VS Code for CloudFoundry
 ](https://youtu.be/gP_6cpR1JSM)
 - Use `bx cf apps` to list all of your apps
 - Use `bx cf push` to push a build of your app
