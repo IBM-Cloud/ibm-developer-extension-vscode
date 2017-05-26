@@ -10,7 +10,7 @@
 This extension provides capabilities for the IBM [developer cli](https://console.ng.bluemix.net/docs/cloudnative/dev_cli.html) from directly within the VS Code editor.   Use the VS Code command palette to quickly access all `bx dev` commands, without the need to leave the editor's context.
 
 ## Changelog
-
+- *v0.0.9* - Updated usage/getting started in README
 - *v0.0.8* - first public release
 
 ## Usage
@@ -18,11 +18,17 @@ This extension provides capabilities for the IBM [developer cli](https://console
 Easily invoke commands from the IBM Bluemix Developer CLI from directly inside of the VS Code editor:
 
 - Open the VS Code command pallette (`F1` or `CMD-Shift-P`)
-- Use the `bx dev login` command to log in to Bluemix (using your Bluemix credentials)
+- Use the `bx login` command to log in to Bluemix (using your Bluemix credentials)
 
 ### Using `bx dev` workflow: 
 Video demonstrating `bx dev` workflow: [IBM Developer Extension for VS Code
 ](https://youtu.be/JmrLaLRRQSk)
+
+Steps to get started:
+- Create a project using one of the two methods below:
+    - `bx dev create` using the Bluemix Developer CLI (outside of VS Code)
+    - [Bluemix Web console](https://console.ng.bluemix.net/developer/getting-started/)
+- Download and open the *project's folder* locally in the VS Code editor
 - Use the `bx dev build` command to build the app into a Docker image
 - Use the `bd dev debug` command to run the app in local Docker for development
 - USe the `bx dev deploy` command to deploy the app (in the Docker container) to Bluemix
@@ -30,6 +36,12 @@ Video demonstrating `bx dev` workflow: [IBM Developer Extension for VS Code
 ### Using CloudFoundry workflow: 
 Video demonstrating `CloudFoundry` workflow: [IBM Developer Extension for VS Code for CloudFoundry
 ](https://youtu.be/gP_6cpR1JSM)
+
+Steps to get started:
+- Create a new CloudFoundry application
+    - Use the [web console](https://console.ng.bluemix.net/dashboard/cf-apps) and download the starter code
+    - Create a new CloudFoundry app manually
+- Open the project folder locally in the VS Code editor
 - Use `bx cf apps` to list all of your apps
 - Use `bx cf push` to push a build of your app
 - Use `bx cf <start/stop/restage/restart>` to change the status of your app
