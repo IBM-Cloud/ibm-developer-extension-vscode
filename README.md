@@ -1,16 +1,13 @@
-[![Build Status](https://travis-ci.org/IBM-Bluemix/bluemix-vscode-extension.svg?branch=master)](https://travis-ci.org/IBM-Bluemix/bluemix-vscode-extension)
-
-[![License](http://img.shields.io/badge/license-Apache%202.0-green.svg?style=flat)](https://raw.githubusercontent.com/IBM-Bluemix/bluemix-vscode-extension/master/LICENSE.txt)
+[![Build Status](https://travis-ci.org/IBM-Bluemix/ibm-developer-extension-vscode.svg?branch=master)](https://travis-ci.org/IBM-Bluemix/ibm-developer-extension-vscode)
+[![License](http://img.shields.io/badge/license-Apache%202.0-green.svg?style=flat)](https://raw.githubusercontent.com/IBM-Bluemix/ibm-developer-extension-vscode/master/LICENSE.txt)
 [![Version](https://vsmarketplacebadge.apphb.com/version/IBM.ibm-developer.svg)](https://marketplace.visualstudio.com/items?itemName=IBM.ibm-developer)
 [![Installs](https://vsmarketplacebadge.apphb.com/installs/IBM.ibm-developer.svg)](https://marketplace.visualstudio.com/items?itemName=IBM.ibm-developer)
 [![Ratings](https://vsmarketplacebadge.apphb.com/rating/IBM.ibm-developer.svg)](https://marketplace.visualstudio.com/items?itemName=IBM.ibm-developer)
 
 
-# Bluemix Dev Extension for VS Code
+# IBM Developer Extension for VS Code
 
-This extension provides capabilities for the IBM Bluemix [developer cli](https://console.ng.bluemix.net/docs/cloudnative/dev_cli.html) from directly within the VS Code editor.   Use the VS Code command palette to quickly access all `bx dev` commands, without the need to leave the editor's context.
-
-Sample Usage: https://youtu.be/aGOXbEOMinE
+This extension provides capabilities for the IBM [developer cli](https://console.ng.bluemix.net/docs/cloudnative/dev_cli.html) from directly within the VS Code editor.   Use the VS Code command palette to quickly access all `bx dev` commands, without the need to leave the editor's context.
 
 ## Changelog
 
@@ -18,17 +15,21 @@ Sample Usage: https://youtu.be/aGOXbEOMinE
 
 ## Usage
 
-Easily invoke commands from the Bluemix CLI from directly inside of the VS Code editor:
+Easily invoke commands from the IBM Bluemix Developer CLI from directly inside of the VS Code editor:
 
 - Open the VS Code command pallette (`F1` or `CMD-Shift-P`)
-- Use the `bx dev login` command to log in to Bluemix
+- Use the `bx dev login` command to log in to Bluemix (using your Bluemix credentials)
 
 ### Using `bx dev` workflow: 
+Sample usage: [IBM Developer Extension for VS Code
+](https://youtu.be/JmrLaLRRQSk)
 - Use the `bx dev build` command to build the app into a Docker image
 - Use the `bd dev debug` command to run the app in local Docker for development
 - USe the `bx dev deploy` command to deploy the app (in the Docker container) to Bluemix
 
 ### Using CloudFoundry workflow: 
+Sample usage: [IBM Developer Extension for VS Code for CloudFoundry
+](https://youtu.be/gP_6cpR1JSM)
 - Use `bx cf apps` to list all of your apps
 - Use `bx cf push` to push a build of your app
 - Use `bx cf <start/stop/restage/restart>` to change the status of your app
@@ -74,7 +75,7 @@ Next, You have to create a launch configuration inside of `.vscode/launch.json`.
 All improvements to the Bluemix Dev Extension for VS Code are very welcome! Here's how to get started ...
 
 Fork this repository.
-$ git clone https://github.com/IBM-Bluemix/bluemix-vscode-extension
+$ git clone https://github.com/IBM-Bluemix/ibm-developer-extension-vscode.gi
 
 Start making your changes, then send us a pull request.
 
@@ -84,7 +85,7 @@ You can find more info about the development environment and configuration in ou
 
 ## ⚠️  Bugs / Issues / Defects
 
-Find a bug?  [Let us know here](https://github.com/IBM-Bluemix/bluemix-vscode-extension/issues)
+Find a bug?  [Let us know here](https://github.com/IBM-Bluemix/ibm-developer-extension-vscode/issues)
 
 For additional support, find us on Slack or Stack Overflow using the links below.
 

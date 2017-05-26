@@ -9,7 +9,7 @@ We welcome contributions, and request you follow these guidelines.
 
 ## Raising issues
 
-Please raise any bug reports on the [issue tracker](https://github.com/IBM-Bluemix/bluemix-vscode-extension/issues). Be sure to
+Please raise any bug reports on the [issue tracker](https://github.com/IBM-Bluemix/ibm-developer-extension-vscode/issues). Be sure to
 search the list to see if your issue has already been raised.
 
 A good bug report is one that make it easy for us to understand what you were

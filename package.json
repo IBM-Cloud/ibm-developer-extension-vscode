@@ -1,21 +1,17 @@
 {
   "name": "ibm-developer",
-  "displayName": "IBM Bluemix Developer",
-  "description": "Extension for VS Code editor to enable IBM Bluemix `bx dev` CLI capabilities from within the editing environment.",
+  "displayName": "IBM Developer Tools",
+  "description": "Extension for VS Code editor to enable IBM Bluemix developer `bx dev` CLI capabilities from within the editing environment.",
   "version": "0.0.6",
   "publisher": "IBM",
-  "author": {
-      "name": "Andrew Trice",
-      "email": "amtrice@us.ibm.com"
-  },
   "license": "Apache 2.0 (see LICENSE.txt)",
   "bugs": {
-      "url": "https://github.com/IBM-Bluemix/bluemix-vscode-extension/issues"
+      "url": "https://github.com/IBM-Bluemix/ibm-developer-extension-vscode/issues"
   },
-  "homepage": "https://github.com/IBM-Bluemix/bluemix-vscode-extension/README.md",
+  "homepage": "https://github.com/IBM-Bluemix/ibm-developer-extension-vscode/blob/master/README.md",
   "repository": {
       "type": "git",
-      "url": "https://github.com/IBM-Bluemix/bluemix-vscode-extension.git"
+      "url": "https://github.com/IBM-Bluemix/ibm-developer-extension-vscode.git"
   },
   "engines": {
     "vscode": "^1.10.0"
@@ -28,7 +24,8 @@
     "Development",
     "Tools",
     "Bluemix",
-    "Cloud"
+    "Cloud",
+    "IBM Cloud"
   ],
   "activationEvents": [
     "onCommand:extension.bx.login",

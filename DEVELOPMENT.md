@@ -54,7 +54,7 @@ You can *only* submit to the VS Code marketplace using the `vsce publish` comman
 
 ## Installing a local/test build (`.vsix` file):
 
-1. Download a release from https://github.com/IBM-Bluemix/bluemix-vscode-extension/releases
+1. Package or Download a release from https://github.com/IBM-Bluemix/ibm-developer-extension-vscode/releases
 1. From within the VS Code editor, open the extensions browser.
 1. Click on the "`...`" menu. 
 1. Select the `Install from VSIX` option, and select the .vsix file that you downloaded.
