@@ -1,5 +1,9 @@
 [![Build Status](https://travis-ci.org/IBM-Bluemix/bluemix-vscode-extension.svg?branch=master)](https://travis-ci.org/IBM-Bluemix/bluemix-vscode-extension)
 
+[![License](http://img.shields.io/badge/license-Apache%202.0-green.svg?style=flat)](https://raw.githubusercontent.com/IBM-Bluemix/bluemix-vscode-extension/master/LICENSE.txt)
+[![Version](https://vsmarketplacebadge.apphb.com/version/IBM.ibm-developer.svg)](https://marketplace.visualstudio.com/items?itemName=IBM.ibm-developer)
+[![Installs](https://vsmarketplacebadge.apphb.com/installs/IBM.ibm-developer.svg)](https://marketplace.visualstudio.com/items?itemName=IBM.ibm-developer)
+[![Ratings](https://vsmarketplacebadge.apphb.com/rating/IBM.ibm-developer.svg)](https://marketplace.visualstudio.com/items?itemName=IBM.ibm-developer)
 
 
 # Bluemix Dev Extension for VS Code
@@ -10,7 +14,7 @@ Sample Usage: https://youtu.be/aGOXbEOMinE
 
 ## Changelog
 
-- *v0.0.5* - first public release
+- *v0.0.6* - first public release
 
 ## Usage
 
