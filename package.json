@@ -2,7 +2,7 @@
   "name": "ibm-developer",
   "displayName": "IBM Developer Tools",
   "description": "Extension for VS Code editor to enable IBM Bluemix developer `bx dev` CLI capabilities from within the editing environment.",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "publisher": "IBM",
   "license": "Apache 2.0 (see LICENSE.txt)",
   "bugs": {
@@ -24,9 +24,9 @@
     "Development",
     "Tools",
     "Bluemix",
-    "Cloud",
-    "IBM Cloud"
+    "Cloud"
   ],
+  "icon": "assets/icon.png",
   "activationEvents": [
     "onCommand:extension.bx.login",
     "onCommand:extension.bx.login.sso",
