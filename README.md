@@ -11,7 +11,7 @@ This extension provides capabilities for the IBM [developer cli](https://console
 
 ## Changelog
 
-- *v0.0.6* - first public release
+- *v0.0.8* - first public release
 
 ## Usage
 
@@ -75,7 +75,7 @@ Next, You have to create a launch configuration inside of `.vscode/launch.json`.
 All improvements to the Bluemix Dev Extension for VS Code are very welcome! Here's how to get started ...
 
 Fork this repository.
-$ git clone https://github.com/IBM-Bluemix/ibm-developer-extension-vscode.gi
+$ git clone https://github.com/IBM-Bluemix/ibm-developer-extension-vscode.git
 
 Start making your changes, then send us a pull request.
 
