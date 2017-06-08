@@ -16,7 +16,7 @@
 
 'use strict';
 
-import {window, Terminal} from 'vscode';
+import {window, Disposable, Terminal} from 'vscode';
 
 /*
  * Singleton instance of Terinal wth Bluemix identifier
@@ -25,15 +25,34 @@ import {window, Terminal} from 'vscode';
 export class BluemixTerminal {
 
     private static _terminal: Terminal;
+    private static windowListener: Disposable;
+    private static TERMINAL_NAME = 'Bluemix';
 
     /*
      * @returns {Terminal} instance
      */
     public static get instance(): Terminal {
+
         if (this._terminal === undefined) {
-            this._terminal = window.createTerminal('Bluemix', '', []);
+            this._terminal = window.createTerminal(BluemixTerminal.TERMINAL_NAME, '', []);
+            this.initWindowListener();
         }
+        this._terminal.show();
         return this._terminal;
+    }
+
+    /*
+     * initialize a listener on the window object to detect whenever a terminal is closed.
+     * this way we can create a new one if its closed
+     */
+    static initWindowListener() {
+        if (this.windowListener === undefined) {
+            this.windowListener = window.onDidCloseTerminal((e: Terminal) => {
+                if (e.name === BluemixTerminal.TERMINAL_NAME) {
+                    this._terminal = undefined;
+                }
+            });
+        }
     }
 
 }
