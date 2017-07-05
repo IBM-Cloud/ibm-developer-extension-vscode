@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/IBM-Bluemix/ibm-developer-extension-vscode.svg?branch=master)](https://travis-ci.org/IBM-Bluemix/ibm-developer-extension-vscode)
-[![License](http://img.shields.io/badge/license-Apache%202.0-green.svg?style=flat)](https://raw.githubusercontent.com/IBM-Bluemix/ibm-developer-extension-vscode/master/LICENSE.txt)
+[![License](https://img.shields.io/badge/license-Apache%202.0-green.svg?style=flat)](https://raw.githubusercontent.com/IBM-Bluemix/ibm-developer-extension-vscode/master/LICENSE.txt)
 [![Version](https://vsmarketplacebadge.apphb.com/version/IBM.ibm-developer.svg)](https://marketplace.visualstudio.com/items?itemName=IBM.ibm-developer)
 [![Installs](https://vsmarketplacebadge.apphb.com/installs/IBM.ibm-developer.svg)](https://marketplace.visualstudio.com/items?itemName=IBM.ibm-developer)
 [![Ratings](https://vsmarketplacebadge.apphb.com/rating/IBM.ibm-developer.svg)](https://marketplace.visualstudio.com/items?itemName=IBM.ibm-developer)
@@ -10,6 +10,9 @@
 This extension provides capabilities for the IBM [developer cli](https://console.ng.bluemix.net/docs/cloudnative/dev_cli.html) from directly within the VS Code editor.   Use the VS Code command palette to quickly access all `bx dev` commands, without the need to leave the editor's context.
 
 ## Changelog
+- *v0.0.10* 
+  - Updated badges in README for VS Code marketplace compliance.  
+  - Fixed "killed terminal" bug in login/logout commands
 - *v0.0.9* - Updated usage/getting started in README
 - *v0.0.8* - first public release
 
