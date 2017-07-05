@@ -31,9 +31,10 @@ Steps to get started:
 - Create a project using one of the two methods below:
     - `bx dev create` using the Bluemix Developer CLI (outside of VS Code)
     - [Bluemix Web console](https://console.ng.bluemix.net/developer/getting-started/)
-- Download and open the *project's folder* locally in the VS Code editor
+- Open the *project’s folder* locally in the VS Code editor
 - Use the `bx dev build` command to build the app into a Docker image
-- Use the `bd dev debug` command to run the app in local Docker for development
+- Use the `bx dev debug` command to run the app in local Docker for development
+- Use the `bx dev run` command to run the app in local Docker in release mode
 - USe the `bx dev deploy` command to deploy the app (in the Docker container) to Bluemix
 
 ### Using CloudFoundry workflow: 
@@ -44,11 +45,12 @@ Steps to get started:
 - Create a new CloudFoundry application
     - Use the [web console](https://console.ng.bluemix.net/dashboard/cf-apps) and download the starter code
     - Create a new CloudFoundry app manually
-- Open the project folder locally in the VS Code editor
+- Open the *project’s folder* locally in the VS Code editor
 - Use `bx cf apps` to list all of your apps
 - Use `bx cf push` to push a build of your app
 - Use `bx cf <start/stop/restage/restart>` to change the status of your app
 - Use `bx cf logs` to view the live log stream for your app
+  - _Use `bx cf logs` to stop the log stream_
 
 ### Supported CLI/plugins:
 
