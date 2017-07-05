@@ -106,9 +106,8 @@ Find a bug?  [Let us know here](https://github.com/IBM-Bluemix/ibm-developer-ext
 
 For additional support, find us on Slack or Stack Overflow using the links below.
 
-### <img src="assets/slack.png" alt="Slack" /> Connect on Slack
+### ![Slack](assets/slack.png) Connect on Slack
 [Sign up](https://ibm.biz/IBMCloudNativeSlack) for our slack team and join the [#bluemix-dev-services](https://ibm-cloud-tech.slack.com/messages/bluemix-dev-services) channel to ask questions and chat with fellow users.
 
-
-### <img src="assets/stack_overflow.png" alt="Stack Overflow" /> Check Stack Overflow
+### ![Stack Overflow](assets/stack_overflow.png) Check Stack Overflow
 Search for the [bluemix-dev-services](http://stackoverflow.com/questions/tagged/bluemix-dev-services) tag on Stack Overflow for answers to common questions.
