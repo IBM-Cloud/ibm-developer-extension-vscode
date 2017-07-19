@@ -35,7 +35,8 @@ Steps to get started:
 - Use the `bx dev build` command to build the app into a Docker image
 - Use the `bx dev debug` command to run the app in local Docker for development
 - Use the `bx dev run` command to run the app in local Docker in release mode
-- USe the `bx dev deploy` command to deploy the app (in the Docker container) to Bluemix
+- Use the `bx dev deploy` command to deploy the app (in the Docker container) to Bluemix
+- Use the `bx dev console` command to open your project on Bluemix in a web browser
 
 ### Using CloudFoundry workflow: 
 Video demonstrating `CloudFoundry` workflow: [IBM Developer Extension for VS Code for CloudFoundry
