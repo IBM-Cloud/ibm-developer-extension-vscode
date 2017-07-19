@@ -41,6 +41,8 @@
     "onCommand:extension.bx.dev.status",
     "onCommand:extension.bx.dev.stop",
     "onCommand:extension.bx.dev.test",
+    "onCommand:extension.bx.dev.console",
+    "onCommand:extension.bx.dev.console.app",
     "onCommand:extension.bx.cf.apps",
     "onCommand:extension.bx.cf.app",
     "onCommand:extension.bx.cf.create-app-manifest",
@@ -123,6 +125,14 @@
       {
         "command": "extension.bx.dev.test",
         "title": "bx dev test"
+      },
+      {
+        "command": "extension.bx.dev.console",
+        "title": "bx dev console"
+      },
+      {
+        "command": "extension.bx.dev.console.app",
+        "title": "bx dev console <project name>"
       },
       {
         "command": "extension.bx.cf.apps",
