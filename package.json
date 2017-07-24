@@ -2,7 +2,7 @@
   "name": "ibm-developer",
   "displayName": "IBM Developer Tools",
   "description": "Extension for VS Code editor to enable IBM Bluemix developer `bx dev` CLI capabilities from within the editing environment.",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "publisher": "IBM",
   "license": "Apache 2.0 (see LICENSE.txt)",
   "bugs": {
@@ -37,6 +37,8 @@
     "onCommand:extension.bx.dev.build",
     "onCommand:extension.bx.dev.debug",
     "onCommand:extension.bx.dev.deploy",
+    "onCommand:extension.bx.dev.deploy.cloudfoundry",
+    "onCommand:extension.bx.dev.deploy.kubernetes",
     "onCommand:extension.bx.dev.run",
     "onCommand:extension.bx.dev.status",
     "onCommand:extension.bx.dev.stop",
@@ -100,7 +102,15 @@
       },
       {
         "command": "extension.bx.dev.deploy",
-        "title": "bx dev deploy"
+        "title": "bx dev deploy    (using cli-config values)"
+      },
+      {
+        "command": "extension.bx.dev.deploy.cloudfoundry",
+        "title": "bx dev deploy    (explicit Cloud Foundry deployment)"
+      },
+      {
+        "command": "extension.bx.dev.deploy.kubernetes",
+        "title": "bx dev deploy    (explicity Kubernetes deployment)"
       },
       {
         "command": "extension.bx.dev.build",

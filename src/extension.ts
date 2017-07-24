@@ -48,6 +48,8 @@ export function activate(context: ExtensionContext) {
     registerCommand(context, 'extension.bx.dev.build.release', {cmd: 'bx', args: ['dev', 'build']}, outputChannel, true);
     registerCommand(context, 'extension.bx.dev.debug', {cmd: 'bx', args: ['dev', 'debug']}, outputChannel);
     registerCommand(context, 'extension.bx.dev.deploy', {cmd: 'bx', args: ['dev', 'deploy']}, outputChannel);
+    registerCommand(context, 'extension.bx.dev.deploy.cloudfoundry', {cmd: 'bx', args: ['dev', 'deploy', '--target', 'buildpack', '--trace']}, outputChannel);
+    registerCommand(context, 'extension.bx.dev.deploy.kubernetes', {cmd: 'bx', args: ['dev', 'deploy', '--target', 'container', '--trace']}, outputChannel);
     registerCommand(context, 'extension.bx.dev.run', {cmd: 'bx', args: ['dev', 'run']}, outputChannel);
     registerCommand(context, 'extension.bx.dev.status', {cmd: 'bx', args: ['dev', 'status']}, outputChannel);
     registerCommand(context, 'extension.bx.dev.stop', {cmd: 'bx', args: ['dev', 'stop']}, outputChannel);
