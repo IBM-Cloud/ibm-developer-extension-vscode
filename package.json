@@ -110,7 +110,7 @@
       },
       {
         "command": "extension.bx.dev.deploy.kubernetes",
-        "title": "bx dev deploy    (explicity Kubernetes deployment)"
+        "title": "bx dev deploy    (explicit Kubernetes deployment)"
       },
       {
         "command": "extension.bx.dev.build",
