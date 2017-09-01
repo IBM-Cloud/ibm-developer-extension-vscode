@@ -61,7 +61,7 @@ export class DeployCommand extends SystemCommand {
                 }
             }
         }
-        else if (deployTarget !== 'buildpack') {
+        else if (deployTarget !== 'buildpack' && (deployTarget !== '' && deployTarget !== undefined)) {
             return new Promise((resolve, reject) => {
                 this.displayError('Invalid \'deploy-target\' value in cli-config.yml.');
             });
