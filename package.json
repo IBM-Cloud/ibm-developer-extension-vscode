@@ -6,12 +6,12 @@
   "publisher": "IBM",
   "license": "Apache 2.0 (see LICENSE.txt)",
   "bugs": {
-      "url": "https://github.com/IBM-Bluemix/ibm-developer-extension-vscode/issues"
+    "url": "https://github.com/IBM-Bluemix/ibm-developer-extension-vscode/issues"
   },
   "homepage": "https://github.com/IBM-Bluemix/ibm-developer-extension-vscode/blob/master/README.md",
   "repository": {
-      "type": "git",
-      "url": "https://github.com/IBM-Bluemix/ibm-developer-extension-vscode.git"
+    "type": "git",
+    "url": "https://github.com/IBM-Bluemix/ibm-developer-extension-vscode.git"
   },
   "engines": {
     "vscode": "^1.10.0"
@@ -37,8 +37,6 @@
     "onCommand:extension.bx.dev.build",
     "onCommand:extension.bx.dev.debug",
     "onCommand:extension.bx.dev.deploy",
-    "onCommand:extension.bx.dev.deploy.cloudfoundry",
-    "onCommand:extension.bx.dev.deploy.kubernetes",
     "onCommand:extension.bx.dev.run",
     "onCommand:extension.bx.dev.status",
     "onCommand:extension.bx.dev.stop",
@@ -102,15 +100,7 @@
       },
       {
         "command": "extension.bx.dev.deploy",
-        "title": "bx dev deploy    (using cli-config values)"
-      },
-      {
-        "command": "extension.bx.dev.deploy.cloudfoundry",
-        "title": "bx dev deploy    (explicit Cloud Foundry deployment)"
-      },
-      {
-        "command": "extension.bx.dev.deploy.kubernetes",
-        "title": "bx dev deploy    (explicit Kubernetes deployment)"
+        "title": "bx dev deploy"
       },
       {
         "command": "extension.bx.dev.build",
@@ -273,6 +263,7 @@
     "vscode": "^1.0.0"
   },
   "dependencies": {
+    "js-yaml": "^3.9.1",
     "ps-tree": "^1.1.0",
     "semver": "^5.3.0"
   },
@@ -283,24 +274,28 @@
   "ibm": {
     "cli": {
       "command": "bx",
-      "version": "0.5.3",
+      "version": "0.5.6",
       "url": "https://console.ng.bluemix.net/docs/cli/reference/bluemix_cli/index.html#getting-started"
     },
-    "plugins": [{
-      "displayName": "dev",
-      "command": "dev",
-      "version": "0.1.5",
-      "url": "https://console.ng.bluemix.net/docs/cloudnative/dev_cli.html"
-    },{
-      "displayName": "sdk-gen",
-      "command": "sdk",
-      "version": "0.1.1",
-      "url": "https://console.ng.bluemix.net/docs/cloudnative/sdk_cli.html#sdk-cli"
-    },{
-      "displayName": "container-service",
-      "command": "cs",
-      "version": "0.1.259",
-      "url": "https://console.ng.bluemix.net/docs/containers/cs_cli_devtools.html"
-    }]
+    "plugins": [
+      {
+        "displayName": "dev",
+        "command": "dev",
+        "version": "1.0.0",
+        "url": "https://console.ng.bluemix.net/docs/cloudnative/dev_cli.html"
+      },
+      {
+        "displayName": "sdk-gen",
+        "command": "sdk",
+        "version": "0.1.1",
+        "url": "https://console.ng.bluemix.net/docs/cloudnative/sdk_cli.html#sdk-cli"
+      },
+      {
+        "displayName": "container-service",
+        "command": "cs",
+        "version": "0.1.259",
+        "url": "https://console.ng.bluemix.net/docs/containers/cs_cli_devtools.html"
+      }
+    ]
   }
 }
