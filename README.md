@@ -10,6 +10,9 @@
 This extension provides capabilities for the IBM [developer cli](https://console.ng.bluemix.net/docs/cloudnative/dev_cli.html) from directly within the VS Code editor.   Use the VS Code command palette to quickly access all `bx dev` commands, without the need to leave the editor's context.
 
 ## Changelog
+- *v0.0.11* 
+  - Added support for Kubernetes/Helm deployment
+  - Added support for `bx dev console`
 - *v0.0.10* 
   - Updated badges in README for VS Code marketplace compliance.  
   - Fixed "killed terminal" bug in login/logout commands
@@ -35,7 +38,8 @@ Steps to get started:
 - Use the `bx dev build` command to build the app into a Docker image
 - Use the `bx dev debug` command to run the app in local Docker for development
 - Use the `bx dev run` command to run the app in local Docker in release mode
-- USe the `bx dev deploy` command to deploy the app (in the Docker container) to Bluemix
+- Use the `bx dev deploy` command to deploy the app (in the Docker container) to Bluemix
+- Use the `bx dev console` command to open your project on Bluemix in a web browser
 
 ### Using CloudFoundry workflow: 
 Video demonstrating `CloudFoundry` workflow: [IBM Developer Extension for VS Code for CloudFoundry
@@ -106,9 +110,8 @@ Find a bug?  [Let us know here](https://github.com/IBM-Bluemix/ibm-developer-ext
 
 For additional support, find us on Slack or Stack Overflow using the links below.
 
-### <img src="assets/slack.png" alt="Slack" /> Connect on Slack
+### ![Slack](assets/slack.png) Connect on Slack
 [Sign up](https://ibm.biz/IBMCloudNativeSlack) for our slack team and join the [#bluemix-dev-services](https://ibm-cloud-tech.slack.com/messages/bluemix-dev-services) channel to ask questions and chat with fellow users.
 
-
-### <img src="assets/stack_overflow.png" alt="Stack Overflow" /> Check Stack Overflow
+### ![Stack Overflow](assets/stack_overflow.png) Check Stack Overflow
 Search for the [bluemix-dev-services](http://stackoverflow.com/questions/tagged/bluemix-dev-services) tag on Stack Overflow for answers to common questions.

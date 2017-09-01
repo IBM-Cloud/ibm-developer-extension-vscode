@@ -18,6 +18,7 @@
 
 import {commands, window, ExtensionContext} from 'vscode';
 import {LogsCommandManager} from './cloudfoundry/LogsCommandManager';
+import {DeployCommand} from './util/DeployCommand';
 import {LoginManager} from './util/LoginManager';
 import {PromptingCommand, PromptInput} from './util/PromptingCommand';
 import {SystemCommand} from './util/SystemCommand';
@@ -47,11 +48,13 @@ export function activate(context: ExtensionContext) {
     registerCommand(context, 'extension.bx.dev.build', {cmd: 'bx', args: ['dev', 'build', '--debug']}, outputChannel, true);
     registerCommand(context, 'extension.bx.dev.build.release', {cmd: 'bx', args: ['dev', 'build']}, outputChannel, true);
     registerCommand(context, 'extension.bx.dev.debug', {cmd: 'bx', args: ['dev', 'debug']}, outputChannel);
-    registerCommand(context, 'extension.bx.dev.deploy', {cmd: 'bx', args: ['dev', 'deploy']}, outputChannel);
+    registerCommand(context, 'extension.bx.dev.deploy', {cmd: 'bx', args: ['dev', 'deploy', '--trace']}, outputChannel, false, DeployCommand);
     registerCommand(context, 'extension.bx.dev.run', {cmd: 'bx', args: ['dev', 'run']}, outputChannel);
     registerCommand(context, 'extension.bx.dev.status', {cmd: 'bx', args: ['dev', 'status']}, outputChannel);
     registerCommand(context, 'extension.bx.dev.stop', {cmd: 'bx', args: ['dev', 'stop']}, outputChannel);
     registerCommand(context, 'extension.bx.dev.test', {cmd: 'bx', args: ['dev', 'test']}, outputChannel);
+    registerCommand(context, 'extension.bx.dev.console', {cmd: 'bx', args: ['dev', 'console']}, outputChannel);
+    registerPromptingCommand(context, 'extension.bx.dev.console.app', {cmd: 'bx', args: ['dev', 'console']}, outputChannel, [new PromptInput('Specify a project name')]);
 
 
     // bx CF commands *************************************
@@ -97,9 +100,9 @@ export function activate(context: ExtensionContext) {
 /*
  *  Helper utility to register system commands
  */
-function registerCommand(context: ExtensionContext, key: string, opt, outputChannel, sanitizeOutput: boolean = false) {
+function registerCommand(context: ExtensionContext, key: string, opt, outputChannel, sanitizeOutput: boolean = false, CommandClass = SystemCommand) {
     const disposable = commands.registerCommand(key, () => {
-        const command = new SystemCommand(opt.cmd, opt.args, outputChannel, sanitizeOutput);
+        const command = new CommandClass(opt.cmd, opt.args, outputChannel, sanitizeOutput);
         command.execute()
         .then(checkVersions);
     });
