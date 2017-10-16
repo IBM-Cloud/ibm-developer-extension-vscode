@@ -281,7 +281,7 @@
       {
         "displayName": "dev",
         "command": "dev",
-        "version": "1.0.0",
+        "version": "1.0.5",
         "url": "https://console.ng.bluemix.net/docs/cloudnative/dev_cli.html"
       },
       {
