@@ -38,6 +38,8 @@
     "onCommand:extension.bx.dev.debug",
     "onCommand:extension.bx.dev.deploy",
     "onCommand:extension.bx.dev.run",
+    "onCommand:extension.bx.dev.shell.run",
+    "onCommand:extension.bx.dev.shell.tools",
     "onCommand:extension.bx.dev.status",
     "onCommand:extension.bx.dev.stop",
     "onCommand:extension.bx.dev.test",
@@ -66,7 +68,7 @@
     "onCommand:extension.bx.cs.worker-reboot",
     "onCommand:extension.bx.cs.worker-reload",
     "onCommand:extension.bx.cs.worker-rm",
-    "onCommand:extension.bx.cs.workers",
+    "onCommand:extension.bx.cs.workers"
   ],
   "main": "./out/src/extension",
   "contributes": {
@@ -274,7 +276,7 @@
       {
         "displayName": "dev",
         "command": "dev",
-        "version": "1.0.5",
+        "version": "1.1.0",
         "url": "https://console.ng.bluemix.net/docs/cloudnative/dev_cli.html"
       },
       {
