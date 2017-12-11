@@ -119,6 +119,14 @@
         "title": "bx dev status"
       },
       {
+        "command": "extension.bx.dev.shell.run",
+        "title": "bx dev shell (run container)"
+      },
+      {
+        "command": "extension.bx.dev.shell.tools",
+        "title": "bx dev shell (tools container)"
+      },
+      {
         "command": "extension.bx.dev.stop",
         "title": "bx dev stop"
       },
