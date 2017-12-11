@@ -77,13 +77,6 @@ export function activate(context: ExtensionContext) {
 
 
 
-    // BX SDK commands *************************************
-    registerPromptingCommand(context, 'extension.bx.sdk.generate', {cmd: 'bx', args: ['sdk', 'generate']}, outputChannel, [new PromptInput('Specify target app name'), new PromptInput('Select target platform', undefined, ['--android', '--ios', '--swift'])], [], true);
-    registerCommand(context, 'extension.bx.sdk.list', {cmd: 'bx', args: ['sdk', 'list']}, outputChannel, true);
-    registerPromptingCommand(context, 'extension.bx.sdk.validate', {cmd: 'bx', args: ['sdk', 'validate']}, outputChannel, [new PromptInput('Specify target app name')], [], true);
-
-
-
     // BX CS commands *************************************
     registerPromptingCommand(context, 'extension.bx.cs.cluster-create', {cmd: 'bx', args: ['cs', 'cluster-create']}, outputChannel, [new PromptInput('Specify a cluster name', '--name')]);
     registerPromptingCommand(context, 'extension.bx.cs.cluster-get', {cmd: 'bx', args: ['cs', 'cluster-get']}, outputChannel, [new PromptInput('Specify a cluster name or id')]);
