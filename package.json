@@ -2,7 +2,7 @@
   "name": "ibm-developer",
   "displayName": "IBM Developer Tools",
   "description": "Extension for VS Code editor to enable IBM Bluemix developer `bx dev` CLI capabilities from within the editing environment.",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "publisher": "IBM",
   "license": "Apache 2.0 (see LICENSE.txt)",
   "bugs": {
@@ -67,9 +67,6 @@
     "onCommand:extension.bx.cs.worker-reload",
     "onCommand:extension.bx.cs.worker-rm",
     "onCommand:extension.bx.cs.workers",
-    "onCommand:extension.bx.sdk.list",
-    "onCommand:extension.bx.sdk.generate",
-    "onCommand:extension.bx.sdk.validate"
   ],
   "main": "./out/src/extension",
   "contributes": {
@@ -279,12 +276,6 @@
         "command": "dev",
         "version": "1.0.5",
         "url": "https://console.ng.bluemix.net/docs/cloudnative/dev_cli.html"
-      },
-      {
-        "displayName": "sdk-gen",
-        "command": "sdk",
-        "version": "0.1.1",
-        "url": "https://console.ng.bluemix.net/docs/cloudnative/sdk_cli.html#sdk-cli"
       },
       {
         "displayName": "container-service",
