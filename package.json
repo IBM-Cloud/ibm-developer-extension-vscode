@@ -237,18 +237,6 @@
       {
         "command": "extension.bx.cs.workers",
         "title": "bx cs workers"
-      },
-      {
-        "command": "extension.bx.sdk.list",
-        "title": "bx sdk list"
-      },
-      {
-        "command": "extension.bx.sdk.generate",
-        "title": "bx sdk generate"
-      },
-      {
-        "command": "extension.bx.sdk.validate",
-        "title": "bx sdk validate"
       }
     ]
   },
