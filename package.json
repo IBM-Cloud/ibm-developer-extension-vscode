@@ -2,7 +2,7 @@
   "name": "ibm-developer",
   "displayName": "IBM Developer Tools",
   "description": "Extension for VS Code editor to enable IBM Bluemix developer `bx dev` CLI capabilities from within the editing environment.",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "publisher": "IBM",
   "license": "Apache 2.0 (see LICENSE.txt)",
   "bugs": {
@@ -38,6 +38,8 @@
     "onCommand:extension.bx.dev.debug",
     "onCommand:extension.bx.dev.deploy",
     "onCommand:extension.bx.dev.run",
+    "onCommand:extension.bx.dev.shell.run",
+    "onCommand:extension.bx.dev.shell.tools",
     "onCommand:extension.bx.dev.status",
     "onCommand:extension.bx.dev.stop",
     "onCommand:extension.bx.dev.test",
@@ -66,10 +68,7 @@
     "onCommand:extension.bx.cs.worker-reboot",
     "onCommand:extension.bx.cs.worker-reload",
     "onCommand:extension.bx.cs.worker-rm",
-    "onCommand:extension.bx.cs.workers",
-    "onCommand:extension.bx.sdk.list",
-    "onCommand:extension.bx.sdk.generate",
-    "onCommand:extension.bx.sdk.validate"
+    "onCommand:extension.bx.cs.workers"
   ],
   "main": "./out/src/extension",
   "contributes": {
@@ -117,6 +116,14 @@
       {
         "command": "extension.bx.dev.status",
         "title": "bx dev status"
+      },
+      {
+        "command": "extension.bx.dev.shell.run",
+        "title": "bx dev shell (run container)"
+      },
+      {
+        "command": "extension.bx.dev.shell.tools",
+        "title": "bx dev shell (tools container)"
       },
       {
         "command": "extension.bx.dev.stop",
@@ -229,18 +236,6 @@
       {
         "command": "extension.bx.cs.workers",
         "title": "bx cs workers"
-      },
-      {
-        "command": "extension.bx.sdk.list",
-        "title": "bx sdk list"
-      },
-      {
-        "command": "extension.bx.sdk.generate",
-        "title": "bx sdk generate"
-      },
-      {
-        "command": "extension.bx.sdk.validate",
-        "title": "bx sdk validate"
       }
     ]
   },
@@ -281,14 +276,8 @@
       {
         "displayName": "dev",
         "command": "dev",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "url": "https://console.ng.bluemix.net/docs/cloudnative/dev_cli.html"
-      },
-      {
-        "displayName": "sdk-gen",
-        "command": "sdk",
-        "version": "0.1.1",
-        "url": "https://console.ng.bluemix.net/docs/cloudnative/sdk_cli.html#sdk-cli"
       },
       {
         "displayName": "container-service",

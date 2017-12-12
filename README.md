@@ -10,6 +10,11 @@
 This extension provides capabilities for the IBM [developer cli](https://console.ng.bluemix.net/docs/cloudnative/dev_cli.html) from directly within the VS Code editor.   Use the VS Code command palette to quickly access all `bx dev` commands, without the need to leave the editor's context.
 
 ## Changelog
+- *v0.0.12* 
+  - Added support for `bx dev shell` command
+  - Removed support for the `sdkgen` cli
+  - Improved cli version detection with minimum versioning and forced upgrade paths to support new cli features
+  - Added support for "caller" arguments for the `dev` cli
 - *v0.0.11* 
   - Added support for Kubernetes/Helm deployment
   - Added support for `bx dev console`

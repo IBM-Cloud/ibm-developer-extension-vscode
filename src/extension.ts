@@ -28,6 +28,7 @@ const packageJson = require('../../package.json');
 
 const outputChannel = window.createOutputChannel('Bluemix');
 let checkedVersions = false;
+let unsupportedDevVersion = false;
 
 /*
  * activate method is called when your extension is activated
@@ -44,17 +45,19 @@ export function activate(context: ExtensionContext) {
 
 
     // BX DEV commands *************************************
-    registerCommand(context, 'extension.bx.dev.list', {cmd: 'bx', args: ['dev', 'list']}, outputChannel, true);
-    registerCommand(context, 'extension.bx.dev.build', {cmd: 'bx', args: ['dev', 'build', '--debug']}, outputChannel, true);
-    registerCommand(context, 'extension.bx.dev.build.release', {cmd: 'bx', args: ['dev', 'build']}, outputChannel, true);
-    registerCommand(context, 'extension.bx.dev.debug', {cmd: 'bx', args: ['dev', 'debug']}, outputChannel);
-    registerCommand(context, 'extension.bx.dev.deploy', {cmd: 'bx', args: ['dev', 'deploy', '--trace']}, outputChannel, false, DeployCommand);
-    registerCommand(context, 'extension.bx.dev.run', {cmd: 'bx', args: ['dev', 'run']}, outputChannel);
-    registerCommand(context, 'extension.bx.dev.status', {cmd: 'bx', args: ['dev', 'status']}, outputChannel);
-    registerCommand(context, 'extension.bx.dev.stop', {cmd: 'bx', args: ['dev', 'stop']}, outputChannel);
-    registerCommand(context, 'extension.bx.dev.test', {cmd: 'bx', args: ['dev', 'test']}, outputChannel);
-    registerCommand(context, 'extension.bx.dev.console', {cmd: 'bx', args: ['dev', 'console']}, outputChannel);
-    registerPromptingCommand(context, 'extension.bx.dev.console.app', {cmd: 'bx', args: ['dev', 'console']}, outputChannel, [new PromptInput('Specify a project name')]);
+    registerCommand(context, 'extension.bx.dev.list', {cmd: 'bx', args: ['dev', 'list', '--caller-vscode']}, outputChannel, true);
+    registerCommand(context, 'extension.bx.dev.build', {cmd: 'bx', args: ['dev', 'build', '--caller-vscode', '--debug']}, outputChannel, true);
+    registerCommand(context, 'extension.bx.dev.build.release', {cmd: 'bx', args: ['dev', 'build', '--caller-vscode']}, outputChannel, true);
+    registerCommand(context, 'extension.bx.dev.debug', {cmd: 'bx', args: ['dev', 'debug', '--caller-vscode']}, outputChannel);
+    registerCommand(context, 'extension.bx.dev.deploy', {cmd: 'bx', args: ['dev', 'deploy', '--caller-vscode', '--trace']}, outputChannel, false, DeployCommand);
+    registerCommand(context, 'extension.bx.dev.run', {cmd: 'bx', args: ['dev', 'run', '--caller-vscode']}, outputChannel);
+    registerCommand(context, 'extension.bx.dev.status', {cmd: 'bx', args: ['dev', 'status', '--caller-vscode']}, outputChannel);
+    registerCommand(context, 'extension.bx.dev.stop', {cmd: 'bx', args: ['dev', 'stop', '--caller-vscode']}, outputChannel);
+    registerCommand(context, 'extension.bx.dev.test', {cmd: 'bx', args: ['dev', 'test', '--caller-vscode']}, outputChannel);
+    registerCommand(context, 'extension.bx.dev.console', {cmd: 'bx', args: ['dev', 'console', '--caller-vscode']}, outputChannel);
+    registerPromptingCommand(context, 'extension.bx.dev.console.app', {cmd: 'bx', args: ['dev', 'console', '--caller-vscode']}, outputChannel, [new PromptInput('Specify a project name')]);
+    registerCommand(context, 'extension.bx.dev.shell.run', {cmd: 'bx', args: ['dev', 'shell', 'run']}, outputChannel, false, SystemCommand, true);
+    registerCommand(context, 'extension.bx.dev.shell.tools', {cmd: 'bx', args: ['dev', 'shell', 'tools']}, outputChannel, false, SystemCommand, true);
 
 
     // bx CF commands *************************************
@@ -71,13 +74,6 @@ export function activate(context: ExtensionContext) {
     registerPromptingCommand(context, 'extension.bx.cf.env', {cmd: 'bx', args: ['cf', 'env']}, outputChannel, [new PromptInput('Specify an app name')]);
     LogsCommandManager.registerCommand(context, 'extension.bx.cf.logs');
     LogsCommandManager.registerCommand(context, 'extension.bx.cf.logs-stop');
-
-
-
-    // BX SDK commands *************************************
-    registerPromptingCommand(context, 'extension.bx.sdk.generate', {cmd: 'bx', args: ['sdk', 'generate']}, outputChannel, [new PromptInput('Specify target app name'), new PromptInput('Select target platform', undefined, ['--android', '--ios', '--swift'])], [], true);
-    registerCommand(context, 'extension.bx.sdk.list', {cmd: 'bx', args: ['sdk', 'list']}, outputChannel, true);
-    registerPromptingCommand(context, 'extension.bx.sdk.validate', {cmd: 'bx', args: ['sdk', 'validate']}, outputChannel, [new PromptInput('Specify target app name')], [], true);
 
 
 
@@ -100,11 +96,13 @@ export function activate(context: ExtensionContext) {
 /*
  *  Helper utility to register system commands
  */
-function registerCommand(context: ExtensionContext, key: string, opt, outputChannel, sanitizeOutput: boolean = false, CommandClass = SystemCommand) {
+function registerCommand(context: ExtensionContext, key: string, opt, outputChannel, sanitizeOutput: boolean = false, CommandClass = SystemCommand, useTerminal: boolean = false) {
     const disposable = commands.registerCommand(key, () => {
         const command = new CommandClass(opt.cmd, opt.args, outputChannel, sanitizeOutput);
-        command.execute()
-        .then(checkVersions);
+        command.useTerminal = useTerminal;
+        checkVersions().then(function(){
+            executeCommand(command);
+        });
     });
     context.subscriptions.push(disposable);
 }
@@ -116,67 +114,88 @@ function registerCommand(context: ExtensionContext, key: string, opt, outputChan
 function registerPromptingCommand(context: ExtensionContext, key: string, opt, outputChannel, inputs: PromptInput[], additionalArgs: string[] = [], sanitizeOutput: boolean = false) {
     const disposable = commands.registerCommand(key, () => {
         const command = new PromptingCommand(opt.cmd, opt.args, outputChannel, inputs, additionalArgs, sanitizeOutput);
-        command.execute()
-        .then(checkVersions);
+        checkVersions().then(function(){
+            executeCommand(command);
+        });
     });
     context.subscriptions.push(disposable);
+}
+
+
+function executeCommand(command: SystemCommand) {
+
+    const targetPlugin = command.args[0];
+    if (targetPlugin === 'dev' && unsupportedDevVersion === true) {
+        const message = `\n\nExecution blocked. You must update you 'dev' extension to the minimum supported version.`;
+        outputChannel.append(message);
+        return;
+    }
+    command.execute();
 }
 
 
 /*
  *  Checks the version of the Bluemix CLI and notifies the user if cli or recommended plugins are out of date
  */
-function checkVersions(code) {
+function checkVersions(): Promise<any> {
 
-    // only run this once per session of vscode, and only if executed successfully (return code >= 0)
-    if (code >= 0 && checkedVersions !== true) {
-        checkedVersions = true;
+    return new Promise<any>((resolve, reject) => {
 
-        // first check the main cli version
-        const command = new SystemCommand('bx', ['--version']);
-        command.execute()
-        .then(function() {
-            if (command.stdout !== undefined) {
+        // only run this once per session of vscode
+        if (checkedVersions !== true) {
+            checkedVersions = true;
 
-                // parse version from bx --version command output
-                const split = command.stdout.split('+');
-                const detail = split[0].split('version');
-                const version = semver.clean(detail[detail.length - 1]);
-
-                if (semver.gt(packageJson.ibm.cli.version, version)) {
-                    const message = `\n\nThe recommended minimum Bluemix CLI version is ${packageJson.ibm.cli.version}.\nYour system is currently running ${version}.\nA newer version of the IBM Bluemix CLI is available for download at: ${packageJson.ibm.cli.url}`;
-                    outputChannel.append(message);
-                }
-            }
-        })
-        .then(function() {
-
-            // next check the plugin versions
-            // list all plugins with version using `bx plugin list command`
-            const pluginsListCommand = new SystemCommand('bx', ['plugin', 'list']);
-            pluginsListCommand.execute()
+            // first check the main cli version
+            const command = new SystemCommand('bx', ['--version']);
+            command.execute()
             .then(function() {
-                if (pluginsListCommand.stdout !== undefined) {
-                    const lines = pluginsListCommand.stdout.split('\n');
+                if (command.stdout !== undefined) {
 
-                    // skip first three lines (heading lines)
-                    for (let x = 3; x < lines.length; x++) {
-                        if (lines.length > 0) {
+                    // parse version from bx --version command output
+                    const split = command.stdout.split('+');
+                    const detail = split[0].split('version');
+                    const version = semver.clean(detail[detail.length - 1]);
 
+                    if (semver.gt(packageJson.ibm.cli.version, version)) {
+                        const message = `\n\nThe recommended minimum Bluemix CLI version is ${packageJson.ibm.cli.version}.\nYour system is currently running ${version}.\nA newer version of the IBM Bluemix CLI is available for download at: ${packageJson.ibm.cli.url}`;
+                        outputChannel.append(message);
+                    }
+                }
+            })
+            .then(function() {
+
+                // next check the plugin versions
+                // list all plugins with version using `bx plugin list command`
+                const pluginsListCommand = new SystemCommand('bx', ['plugin', 'list']);
+                pluginsListCommand.execute()
+                .then(function() {
+                    if (pluginsListCommand.stdout !== undefined) {
+                        const lines = pluginsListCommand.stdout.split('\n');
+
+                        // skip first three lines (heading lines)
+                        for (let x = 3; x < lines.length; x++) {
                             if (lines.length > 0) {
-                                const line = lines[x];
-                                const displayName = line.substr(0, 20).trim();
-                                const pluginVersion = line.substr(20).trim();
-                                const cleanVersion = semver.clean(pluginVersion);
 
-                                if (cleanVersion !== null) {
-                                    for (const plugin of packageJson.ibm.plugins) {
-                                        // loop over plugins and find match based on name
-                                        if (displayName.search(plugin.displayName) >= 0) {
-                                            if (semver.gt(plugin.version, cleanVersion)) {
-                                                const message = `\n\nThe recommended minimum version for the Bluemix '${plugin.displayName}' CLI plugin is ${plugin.version}.\nYour system is currently running ${cleanVersion}.\nYou can update using the 'bx plugin update' command or visit ${plugin.url}`;
-                                                outputChannel.append(message);
-                                                break;
+                                if (lines.length > 0) {
+                                    const line = lines[x];
+                                    const displayName = line.substr(0, 20).trim();
+                                    const pluginVersion = line.substr(20).trim();
+                                    const cleanVersion = semver.clean(pluginVersion);
+
+                                    if (cleanVersion !== null) {
+                                        for (const plugin of packageJson.ibm.plugins) {
+                                            // loop over plugins and find match based on name
+                                            if (displayName.search(plugin.displayName) >= 0) {
+                                                if (semver.gt(plugin.version, cleanVersion)) {
+                                                    const devPlugin = plugin.command === 'dev';
+                                                    const message = `\n\nThe recommended minimum version for the Bluemix '${plugin.displayName}' CLI plugin is ${plugin.version}.\nYour system is currently running ${cleanVersion}.\nYou ${ devPlugin ? 'must' : 'can' } update using the 'bx plugin update' command or visit ${plugin.url}`;
+                                                    outputChannel.append(message);
+
+                                                    if (devPlugin) {
+                                                        unsupportedDevVersion = true;
+                                                    }
+                                                    break;
+                                                }
                                             }
                                         }
                                     }
@@ -184,11 +203,14 @@ function checkVersions(code) {
                             }
                         }
                     }
-                }
-            });
+                    resolve();
+                });
 
-        });
-    }
+            });
+        } else {
+            resolve();
+        }
+    });
 }
 
 /*
