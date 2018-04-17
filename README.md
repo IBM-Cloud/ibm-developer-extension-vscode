@@ -82,7 +82,7 @@ Steps to get started:
 
 First, make sure your app is running inside of a local container using `bx dev debug`. _Note: `debug` action requires prior `bx dev build --debug` action)_
 
-Next, You have to create a launch configuration inside of `.vscode/launch.json`.   If you don't already have a `launch.json` file, go to the `Debug` -> `Add Configuration` menu and paste the following into the `configurations` array.  The default debug port is `5858` and the default remoteRoot is `/app/`:
+Next, You have to create a launch configuration inside of `.vscode/launch.json`.   If you don't already have a `launch.json` file, go to the `Debug` -> `Add Configuration` menu and paste the following into the `configurations` array.  The default debug port is `9229` and the default remoteRoot is `/app/`:
 
 ```
 {
@@ -90,7 +90,7 @@ Next, You have to create a launch configuration inside of `.vscode/launch.json`.
     "request": "attach",
     "name": "Attach to Local Container",
     "address": "localhost",
-    "port": 5858,
+    "port": 9229,
     "localRoot": "${workspaceRoot}/",
     "remoteRoot": "/app/"
 }
