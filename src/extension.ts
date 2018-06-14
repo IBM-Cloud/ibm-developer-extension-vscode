@@ -101,7 +101,7 @@ function registerCommand(context: ExtensionContext, key: string, opt, outputChan
     const disposable = commands.registerCommand(key, () => {
         const command = new CommandClass(opt.cmd, opt.args, outputChannel, sanitizeOutput);
         command.useTerminal = useTerminal;
-        checkVersions().then(function(){
+        checkVersions().then(function() {
             executeCommand(command);
         });
     });
@@ -115,7 +115,7 @@ function registerCommand(context: ExtensionContext, key: string, opt, outputChan
 function registerPromptingCommand(context: ExtensionContext, key: string, opt, outputChannel, inputs: PromptInput[], additionalArgs: string[] = [], sanitizeOutput: boolean = false) {
     const disposable = commands.registerCommand(key, () => {
         const command = new PromptingCommand(opt.cmd, opt.args, outputChannel, inputs, additionalArgs, sanitizeOutput);
-        checkVersions().then(function(){
+        checkVersions().then(function() {
             executeCommand(command);
         });
     });
