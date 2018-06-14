@@ -56,8 +56,9 @@ export function activate(context: ExtensionContext) {
     registerCommand(context, 'extension.bx.dev.test', {cmd: 'bx', args: ['dev', 'test', '--caller-vscode']}, outputChannel);
     registerCommand(context, 'extension.bx.dev.console', {cmd: 'bx', args: ['dev', 'console', '--caller-vscode']}, outputChannel);
     registerPromptingCommand(context, 'extension.bx.dev.console.app', {cmd: 'bx', args: ['dev', 'console', '--caller-vscode']}, outputChannel, [new PromptInput('Specify a project name')]);
-    registerCommand(context, 'extension.bx.dev.shell.run', {cmd: 'bx', args: ['dev', 'shell', 'run']}, outputChannel, false, SystemCommand, true);
-    registerCommand(context, 'extension.bx.dev.shell.tools', {cmd: 'bx', args: ['dev', 'shell', 'tools']}, outputChannel, false, SystemCommand, true);
+    registerCommand(context, 'extension.bx.dev.shell', {cmd: 'bx', args: ['dev', 'shell', '--caller-vscode']}, outputChannel, false, SystemCommand, true);
+    registerCommand(context, 'extension.bx.dev.shell.run', {cmd: 'bx', args: ['dev', 'shell', 'run', '--caller-vscode']}, outputChannel, false, SystemCommand, true);
+    registerCommand(context, 'extension.bx.dev.shell.tools', {cmd: 'bx', args: ['dev', 'shell', 'tools', '--caller-vscode']}, outputChannel, false, SystemCommand, true);
 
 
     // bx CF commands *************************************

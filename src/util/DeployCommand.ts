@@ -65,6 +65,20 @@ export class DeployCommand extends SystemCommand {
             return new Promise((resolve, reject) => {
                 this.displayError('Invalid \'deploy-target\' value in cli-config.yml.');
             });
+        } else {
+            const hostname = yml['hostname'];
+            if (hostname === undefined || hostname === '') {
+                return new Promise((resolve, reject) => {
+                    this.displayError('Please specify \'hostname\' in cli-config.yml for Cloud Foundry deployment.');
+                });
+            } else {
+                const domain = yml['domain'];
+                if (domain === undefined || domain === '') {
+                    return new Promise((resolve, reject) => {
+                        this.displayError('Please specify \'domain\' in cli-config.yml for Cloud Foundry deployment.');
+                    });
+                }
+            }
         }
         return super.execute();
     }
