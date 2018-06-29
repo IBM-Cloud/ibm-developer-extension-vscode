@@ -10,6 +10,9 @@
 This extension provides capabilities for the IBM [developer cli](https://console.ng.bluemix.net/docs/cloudnative/dev_cli.html) from directly within the VS Code editor.   Use the VS Code command palette to quickly access all `bx dev` commands, without the need to leave the editor's context.
 
 ## Changelog
+- *v0.0.14* 
+  - Added `bx dev console` command
+  - Added check for hostname and domain in cli-config.yml for CF deployment (no longer required when project is created)
 - *v0.0.13* 
   - Updated IBM Cloud icon
 - *v0.0.12* 
