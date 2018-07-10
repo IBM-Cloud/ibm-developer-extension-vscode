@@ -45,20 +45,20 @@ export function activate(context: ExtensionContext) {
 
 
     // BX DEV commands *************************************
-    registerCommand(context, 'extension.bx.dev.list', {cmd: 'bx', args: ['dev', 'list']}, outputChannel, true);
-    registerCommand(context, 'extension.bx.dev.build', {cmd: 'bx', args: ['dev', 'build', '--debug']}, outputChannel, true);
-    registerCommand(context, 'extension.bx.dev.build.release', {cmd: 'bx', args: ['dev', 'build']}, outputChannel, true);
+    registerCommand(context, 'extension.bx.dev.list', {cmd: 'bx', args: ['dev', 'list']}, outputChannel);
+    registerCommand(context, 'extension.bx.dev.build', {cmd: 'bx', args: ['dev', 'build', '--debug']}, outputChannel);
+    registerCommand(context, 'extension.bx.dev.build.release', {cmd: 'bx', args: ['dev', 'build']}, outputChannel);
     registerCommand(context, 'extension.bx.dev.debug', {cmd: 'bx', args: ['dev', 'debug']}, outputChannel);
-    registerCommand(context, 'extension.bx.dev.deploy', {cmd: 'bx', args: ['dev', 'deploy', '--trace']}, outputChannel, false, DeployCommand);
+    registerCommand(context, 'extension.bx.dev.deploy', {cmd: 'bx', args: ['dev', 'deploy', '--trace']}, outputChannel, DeployCommand);
     registerCommand(context, 'extension.bx.dev.run', {cmd: 'bx', args: ['dev', 'run']}, outputChannel);
     registerCommand(context, 'extension.bx.dev.status', {cmd: 'bx', args: ['dev', 'status']}, outputChannel);
     registerCommand(context, 'extension.bx.dev.stop', {cmd: 'bx', args: ['dev', 'stop']}, outputChannel);
     registerCommand(context, 'extension.bx.dev.test', {cmd: 'bx', args: ['dev', 'test']}, outputChannel);
     registerCommand(context, 'extension.bx.dev.console', {cmd: 'bx', args: ['dev', 'console']}, outputChannel);
     registerPromptingCommand(context, 'extension.bx.dev.console.app', {cmd: 'bx', args: ['dev', 'console']}, outputChannel, [new PromptInput('Specify a project name')]);
-    registerCommand(context, 'extension.bx.dev.shell', {cmd: 'bx', args: ['dev', 'shell']}, outputChannel, false, SystemCommand, true);
-    registerCommand(context, 'extension.bx.dev.shell.run', {cmd: 'bx', args: ['dev', 'shell', 'run']}, outputChannel, false, SystemCommand, true);
-    registerCommand(context, 'extension.bx.dev.shell.tools', {cmd: 'bx', args: ['dev', 'shell', 'tools']}, outputChannel, false, SystemCommand, true);
+    registerCommand(context, 'extension.bx.dev.shell', {cmd: 'bx', args: ['dev', 'shell']}, outputChannel, SystemCommand, true);
+    registerCommand(context, 'extension.bx.dev.shell.run', {cmd: 'bx', args: ['dev', 'shell', 'run']}, outputChannel, SystemCommand, true);
+    registerCommand(context, 'extension.bx.dev.shell.tools', {cmd: 'bx', args: ['dev', 'shell', 'tools']}, outputChannel, SystemCommand, true);
 
 
     // bx CF commands *************************************
@@ -98,9 +98,9 @@ export function activate(context: ExtensionContext) {
 /*
  *  Helper utility to register system commands
  */
-function registerCommand(context: ExtensionContext, key: string, opt, outputChannel, sanitizeOutput: boolean = false, CommandClass = SystemCommand, useTerminal: boolean = false) {
+function registerCommand(context: ExtensionContext, key: string, opt, outputChannel, CommandClass = SystemCommand, useTerminal: boolean = false) {
     const disposable = commands.registerCommand(key, () => {
-        const command = new CommandClass(opt.cmd, opt.args, outputChannel, sanitizeOutput);
+        const command = new CommandClass(opt.cmd, opt.args, outputChannel);
         command.useTerminal = useTerminal;
         checkVersions().then(function() {
             executeCommand(command);
@@ -113,9 +113,9 @@ function registerCommand(context: ExtensionContext, key: string, opt, outputChan
 /*
  *  Helper utility to register prompting system commands
  */
-function registerPromptingCommand(context: ExtensionContext, key: string, opt, outputChannel, inputs: PromptInput[], additionalArgs: string[] = [], sanitizeOutput: boolean = false) {
+function registerPromptingCommand(context: ExtensionContext, key: string, opt, outputChannel, inputs: PromptInput[], additionalArgs: string[] = []) {
     const disposable = commands.registerCommand(key, () => {
-        const command = new PromptingCommand(opt.cmd, opt.args, outputChannel, inputs, additionalArgs, sanitizeOutput);
+        const command = new PromptingCommand(opt.cmd, opt.args, outputChannel, inputs, additionalArgs);
         checkVersions().then(function() {
             executeCommand(command);
         });

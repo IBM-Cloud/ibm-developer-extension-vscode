@@ -13,6 +13,7 @@ This extension provides capabilities for the IBM [developer cli](https://console
 - *v0.0.15* 
   - Corrected handling/pass-through of `--caller-vscode` argument
   - Added `bx cs cluster-config` shortcut
+  - Removed "sanitize output" feature, b/c no longer needed by the `dev` plugin.  Now you don't have to wait to see output from the `dev` cli.
 - *v0.0.14* 
   - Added `bx dev console` command
   - Added check for hostname and domain in cli-config.yml for CF deployment (no longer required when project is created)

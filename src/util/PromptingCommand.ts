@@ -53,8 +53,8 @@ export class PromptingCommand extends SystemCommand {
      * @param {PromptInput[]} array of input definitions for vscode prompts
      * @param {string[]} additional arguments to append at the end of system call
      */
-    constructor(public command: string, public args: string[], public _outputChannel: OutputChannel, inputs: PromptInput[], additionalArgs: string[] = [], sanitizeOutput: boolean = false) {
-        super(command, args, _outputChannel, sanitizeOutput);
+    constructor(public command: string, public args: string[], public _outputChannel: OutputChannel, inputs: PromptInput[], additionalArgs: string[] = []) {
+        super(command, args, _outputChannel);
         this.originalArgs = args.slice(0);
 
         this.inputs = inputs;
