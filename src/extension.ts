@@ -45,20 +45,20 @@ export function activate(context: ExtensionContext) {
 
 
     // BX DEV commands *************************************
-    registerCommand(context, 'extension.bx.dev.list', {cmd: 'bx', args: ['dev', 'list', '--caller-vscode']}, outputChannel, true);
-    registerCommand(context, 'extension.bx.dev.build', {cmd: 'bx', args: ['dev', 'build', '--caller-vscode', '--debug']}, outputChannel, true);
-    registerCommand(context, 'extension.bx.dev.build.release', {cmd: 'bx', args: ['dev', 'build', '--caller-vscode']}, outputChannel, true);
-    registerCommand(context, 'extension.bx.dev.debug', {cmd: 'bx', args: ['dev', 'debug', '--caller-vscode']}, outputChannel);
-    registerCommand(context, 'extension.bx.dev.deploy', {cmd: 'bx', args: ['dev', 'deploy', '--caller-vscode', '--trace']}, outputChannel, false, DeployCommand);
-    registerCommand(context, 'extension.bx.dev.run', {cmd: 'bx', args: ['dev', 'run', '--caller-vscode']}, outputChannel);
-    registerCommand(context, 'extension.bx.dev.status', {cmd: 'bx', args: ['dev', 'status', '--caller-vscode']}, outputChannel);
-    registerCommand(context, 'extension.bx.dev.stop', {cmd: 'bx', args: ['dev', 'stop', '--caller-vscode']}, outputChannel);
-    registerCommand(context, 'extension.bx.dev.test', {cmd: 'bx', args: ['dev', 'test', '--caller-vscode']}, outputChannel);
-    registerCommand(context, 'extension.bx.dev.console', {cmd: 'bx', args: ['dev', 'console', '--caller-vscode']}, outputChannel);
-    registerPromptingCommand(context, 'extension.bx.dev.console.app', {cmd: 'bx', args: ['dev', 'console', '--caller-vscode']}, outputChannel, [new PromptInput('Specify a project name')]);
-    registerCommand(context, 'extension.bx.dev.shell', {cmd: 'bx', args: ['dev', 'shell', '--caller-vscode']}, outputChannel, false, SystemCommand, true);
-    registerCommand(context, 'extension.bx.dev.shell.run', {cmd: 'bx', args: ['dev', 'shell', 'run', '--caller-vscode']}, outputChannel, false, SystemCommand, true);
-    registerCommand(context, 'extension.bx.dev.shell.tools', {cmd: 'bx', args: ['dev', 'shell', 'tools', '--caller-vscode']}, outputChannel, false, SystemCommand, true);
+    registerCommand(context, 'extension.bx.dev.list', {cmd: 'bx', args: ['dev', 'list']}, outputChannel, true);
+    registerCommand(context, 'extension.bx.dev.build', {cmd: 'bx', args: ['dev', 'build', '--debug']}, outputChannel, true);
+    registerCommand(context, 'extension.bx.dev.build.release', {cmd: 'bx', args: ['dev', 'build']}, outputChannel, true);
+    registerCommand(context, 'extension.bx.dev.debug', {cmd: 'bx', args: ['dev', 'debug']}, outputChannel);
+    registerCommand(context, 'extension.bx.dev.deploy', {cmd: 'bx', args: ['dev', 'deploy', '--trace']}, outputChannel, false, DeployCommand);
+    registerCommand(context, 'extension.bx.dev.run', {cmd: 'bx', args: ['dev', 'run']}, outputChannel);
+    registerCommand(context, 'extension.bx.dev.status', {cmd: 'bx', args: ['dev', 'status']}, outputChannel);
+    registerCommand(context, 'extension.bx.dev.stop', {cmd: 'bx', args: ['dev', 'stop']}, outputChannel);
+    registerCommand(context, 'extension.bx.dev.test', {cmd: 'bx', args: ['dev', 'test']}, outputChannel);
+    registerCommand(context, 'extension.bx.dev.console', {cmd: 'bx', args: ['dev', 'console']}, outputChannel);
+    registerPromptingCommand(context, 'extension.bx.dev.console.app', {cmd: 'bx', args: ['dev', 'console']}, outputChannel, [new PromptInput('Specify a project name')]);
+    registerCommand(context, 'extension.bx.dev.shell', {cmd: 'bx', args: ['dev', 'shell']}, outputChannel, false, SystemCommand, true);
+    registerCommand(context, 'extension.bx.dev.shell.run', {cmd: 'bx', args: ['dev', 'shell', 'run']}, outputChannel, false, SystemCommand, true);
+    registerCommand(context, 'extension.bx.dev.shell.tools', {cmd: 'bx', args: ['dev', 'shell', 'tools']}, outputChannel, false, SystemCommand, true);
 
 
     // bx CF commands *************************************
@@ -82,6 +82,7 @@ export function activate(context: ExtensionContext) {
     registerPromptingCommand(context, 'extension.bx.cs.cluster-create', {cmd: 'bx', args: ['cs', 'cluster-create']}, outputChannel, [new PromptInput('Specify a cluster name', '--name')]);
     registerPromptingCommand(context, 'extension.bx.cs.cluster-get', {cmd: 'bx', args: ['cs', 'cluster-get']}, outputChannel, [new PromptInput('Specify a cluster name or id')]);
     registerPromptingCommand(context, 'extension.bx.cs.cluster-rm', {cmd: 'bx', args: ['cs', 'cluster-rm']}, outputChannel, [new PromptInput('Specify a cluster name or id')], ['-f']);
+    registerPromptingCommand(context, 'extension.bx.cs.cluster-config', {cmd: 'bx', args: ['cs', 'cluster-config']}, outputChannel, [new PromptInput('Specify a cluster name or id')]);
     registerCommand(context, 'extension.bx.cs.clusters', {cmd: 'bx', args: ['cs', 'clusters']}, outputChannel);
     registerCommand(context, 'extension.bx.cs.init', {cmd: 'bx', args: ['cs', 'init']}, outputChannel);
     registerPromptingCommand(context, 'extension.bx.cs.worker-get', {cmd: 'bx', args: ['cs', 'worker-get']}, outputChannel, [new PromptInput('Specify worker id')] );

@@ -2,7 +2,7 @@
   "name": "ibm-developer",
   "displayName": "IBM Developer Tools",
   "description": "Extension for VS Code editor to enable IBM Bluemix developer `bx dev` CLI capabilities from within the editing environment.",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "publisher": "IBM",
   "license": "Apache 2.0 (see LICENSE.txt)",
   "bugs": {
@@ -61,6 +61,7 @@
     "onCommand:extension.bx.cs.cluster-create",
     "onCommand:extension.bx.cs.cluster-get",
     "onCommand:extension.bx.cs.cluster-rm",
+    "onCommand:extension.bx.cs.cluster-config",
     "onCommand:extension.bx.cs.clusters",
     "onCommand:extension.bx.cs.init",
     "onCommand:extension.bx.cs.worker-add",
@@ -204,6 +205,10 @@
       {
         "command": "extension.bx.cs.cluster-rm",
         "title": "bx cs cluster-rm"
+      },
+      {
+        "command": "extension.bx.cs.cluster-config",
+        "title": "bx cs cluster-config"
       },
       {
         "command": "extension.bx.cs.clusters",

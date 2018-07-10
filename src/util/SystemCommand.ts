@@ -86,10 +86,23 @@ export class SystemCommand {
         this.stderr = undefined;
     }
 
+
+    /*
+    *  Helper utility to add caller arguments for the `dev` plugin
+    */
+    prepareArguments(inArgs: string[]) {
+        const args = inArgs ? inArgs : [];
+        if (args[0] && args[0] === 'dev') {
+            return args.concat('--caller-vscode');
+        }
+        return args;
+    }
+
     /*
      * Execute the commmand
      */
     execute(): Promise<any> {
+        this.args = this.prepareArguments(this.args);
         if (this.useTerminal)
             return this.executeWithTerminal();
         else
