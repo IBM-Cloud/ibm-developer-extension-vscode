@@ -259,7 +259,7 @@
     "vscode": "^1.0.0"
   },
   "dependencies": {
-    "js-yaml": "^3.9.1",
+    "js-yaml": "^3.13.1",
     "ps-tree": "^1.1.0",
     "semver": "^5.3.0"
   },
