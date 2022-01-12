@@ -1,5 +1,5 @@
 /**
- * Copyright IBM Corporation 2016, 2017
+ * Copyright IBM Corporation 2016, 2021
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 'use strict';
 
 import {window, workspace, OutputChannel, Terminal} from 'vscode';
-import {BluemixTerminal} from './BluemixTerminal';
+import {IBMCloudTerminal} from './IBMCloudTerminal';
 import {CommandDetection} from './CommandDetection';
 
 const spawn = require('child_process').spawn;
@@ -101,7 +101,7 @@ export class SystemCommand {
      */
     executeWithTerminal(): Promise<any> {
         return new Promise<any>((resolve, reject) => {
-            const terminal = BluemixTerminal.instance;
+            const terminal = IBMCloudTerminal.instance;
             terminal.sendText(`${this.command} ${this.args.join(' ')}\n`);
             terminal.show();
             resolve('OK: sent to terminal');
@@ -192,7 +192,7 @@ export class SystemCommand {
                     }
                     window.showErrorMessage(errorDetail);
 
-                    errorDetail += '\nFor additional detail, please see https://console.ng.bluemix.net/docs/cli/reference/bluemix_cli/index.html#getting-started';
+                    errorDetail += '\nFor additional detail, please see https://cloud.ibm.com/docs/cli';
                     this.output(errorDetail);
                 }
                 resolve(code);
