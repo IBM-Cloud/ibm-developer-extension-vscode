@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/IBM-IBMCloud/ibm-developer-extension-vscode.svg?branch=master)](https://travis-ci.org/IBM-Bluemix/ibm-developer-extension-vscode)
+[![Build Status](https://travis-ci.org/IBM-Cloud/ibm-developer-extension-vscode.svg?branch=master)](https://travis-ci.org/IBM-Cloud/ibm-developer-extension-vscode)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg?style=flat)](https://raw.githubusercontent.com/IBM-IBMCloud/ibm-developer-extension-vscode/master/LICENSE.txt)
 [![Version](https://vsmarketplacebadge.apphb.com/version/IBM.ibm-developer.svg)](https://marketplace.visualstudio.com/items?itemName=IBM.ibm-developer)
 [![Installs](https://vsmarketplacebadge.apphb.com/installs/IBM.ibm-developer.svg)](https://marketplace.visualstudio.com/items?itemName=IBM.ibm-developer)
@@ -108,7 +108,7 @@ Next, You have to create a launch configuration inside of `.vscode/launch.json`.
 All improvements to the IBMCloud Dev Extension for VS Code are very welcome! Here's how to get started ...
 
 Fork this repository.
-$ git clone https://github.com/IBM-IBMCloud/ibm-developer-extension-vscode.git
+$ git clone https://github.com/IBM-Cloud/ibm-developer-extension-vscode.git
 
 Start making your changes, then send us a pull request.
 
