@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/IBM-Cloud/ibm-developer-extension-vscode.svg?branch=master)](https://travis-ci.org/IBM-Cloud/ibm-developer-extension-vscode)
-[![License](https://img.shields.io/badge/license-Apache%202.0-green.svg?style=flat)](https://raw.githubusercontent.com/IBM-IBMCloud/ibm-developer-extension-vscode/master/LICENSE.txt)
+[![License](https://img.shields.io/badge/license-Apache%202.0-green.svg?style=flat)](https://raw.githubusercontent.com/IBM-Cloud/ibm-developer-extension-vscode/master/LICENSE.txt)
 [![Version](https://vsmarketplacebadge.apphb.com/version/IBM.ibm-developer.svg)](https://marketplace.visualstudio.com/items?itemName=IBM.ibm-developer)
 [![Installs](https://vsmarketplacebadge.apphb.com/installs/IBM.ibm-developer.svg)](https://marketplace.visualstudio.com/items?itemName=IBM.ibm-developer)
 [![Ratings](https://vsmarketplacebadge.apphb.com/rating/IBM.ibm-developer.svg)](https://marketplace.visualstudio.com/items?itemName=IBM.ibm-developer)
@@ -11,7 +11,7 @@ This extension provides capabilities for the IBM [developer cli](https://console
 
 ## Changelog
 - *v0.0.15*
-- Replaced `bx` with `ibmcloud`
+- Updated to IBMCloud 2.3.0
 - *v0.0.14*
   - Added `bx dev console` command
   - Added check for hostname and domain in cli-config.yml for CF deployment (no longer required when project is created)
@@ -118,7 +118,7 @@ You can find more info about the development environment and configuration in ou
 
 ## ⚠️  Bugs / Issues / Defects
 
-Find a bug?  [Let us know here](https://github.com/IBM-IBMCloud/ibm-developer-extension-vscode/issues)
+Find a bug?  [Let us know here](https://github.com/IBM-Cloud/ibm-developer-extension-vscode/issues)
 
 For additional support, find us on Slack or Stack Overflow using the links below.
 
