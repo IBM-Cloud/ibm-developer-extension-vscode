@@ -61,17 +61,17 @@
     "onCommand:extension.ibmcloud.cf.logs",
     "onCommand:extension.ibmcloud.cf.logs-stop",
     "onCommand:extension.ibmcloud.cf.env",
-    "onCommand:extension.ibmcloud.cs.cluster.create",
-    "onCommand:extension.ibmcloud.cs.cluster.get",
-    "onCommand:extension.ibmcloud.cs.cluster.rm",
-    "onCommand:extension.ibmcloud.cs.clusters",
-    "onCommand:extension.ibmcloud.cs.init",
-    "onCommand:extension.ibmcloud.cs.worker.add",
-    "onCommand:extension.ibmcloud.cs.worker.get",
-    "onCommand:extension.ibmcloud.cs.worker.reboot",
-    "onCommand:extension.ibmcloud.cs.worker.reload",
-    "onCommand:extension.ibmcloud.cs.worker.rm",
-    "onCommand:extension.ibmcloud.cs.workers"
+    "onCommand:extension.ibmcloud.ks.cluster.create",
+    "onCommand:extension.ibmcloud.ks.cluster.get",
+    "onCommand:extension.ibmcloud.ks.cluster.rm",
+    "onCommand:extension.ibmcloud.ks.clusters",
+    "onCommand:extension.ibmcloud.ks.init",
+    "onCommand:extension.ibmcloud.ks.worker.add",
+    "onCommand:extension.ibmcloud.ks.worker.get",
+    "onCommand:extension.ibmcloud.ks.worker.reboot",
+    "onCommand:extension.ibmcloud.ks.worker.reload",
+    "onCommand:extension.ibmcloud.ks.worker.rm",
+    "onCommand:extension.ibmcloud.ks.workers"
   ],
   "main": "./out/src/extension",
   "contributes": {
@@ -209,48 +209,48 @@
         "title": "ibmcloud cf env"
       },
       {
-        "command": "extension.ibmcloud.cs.cluster.create",
-        "title": "ibmcloud cs cluster create"
+        "command": "extension.ibmcloud.ks.cluster.create",
+        "title": "ibmcloud ks cluster create"
       },
       {
-        "command": "extension.ibmcloud.cs.cluster.get",
-        "title": "ibmcloud cs cluster get"
+        "command": "extension.ibmcloud.ks.cluster.get",
+        "title": "ibmcloud ks cluster get"
       },
       {
-        "command": "extension.ibmcloud.cs.cluster.rm",
-        "title": "ibmcloud cs cluster rm"
+        "command": "extension.ibmcloud.ks.cluster.rm",
+        "title": "ibmcloud ks cluster rm"
       },
       {
-        "command": "extension.ibmcloud.cs.clusters",
-        "title": "ibmcloud cs clusters"
+        "command": "extension.ibmcloud.ks.clusters",
+        "title": "ibmcloud ks clusters"
       },
       {
-        "command": "extension.ibmcloud.cs.init",
-        "title": "ibmcloud cs init"
+        "command": "extension.ibmcloud.ks.init",
+        "title": "ibmcloud ks init"
       },
       {
-        "command": "extension.ibmcloud.cs.worker.add",
-        "title": "ibmcloud cs worker add"
+        "command": "extension.ibmcloud.ks.worker.add",
+        "title": "ibmcloud ks worker add"
       },
       {
-        "command": "extension.ibmcloud.cs.worker.get",
-        "title": "ibmcloud cs worker get"
+        "command": "extension.ibmcloud.ks.worker.get",
+        "title": "ibmcloud ks worker get"
       },
       {
-        "command": "extension.ibmcloud.cs.worker.reboot",
-        "title": "ibmcloud cs worker reboot"
+        "command": "extension.ibmcloud.ks.worker.reboot",
+        "title": "ibmcloud ks worker reboot"
       },
       {
-        "command": "extension.ibmcloud.cs.worker.reload",
-        "title": "ibmcloud cs worker reload"
+        "command": "extension.ibmcloud.ks.worker.reload",
+        "title": "ibmcloud ks worker reload"
       },
       {
-        "command": "extension.ibmcloud.cs.worker.rm",
-        "title": "ibmcloud cs worker rm"
+        "command": "extension.ibmcloud.ks.worker.rm",
+        "title": "ibmcloud ks worker rm"
       },
       {
-        "command": "extension.ibmcloud.cs.workers",
-        "title": "ibmcloud cs workers"
+        "command": "extension.ibmcloud.ks.workers",
+        "title": "ibmcloud ks workers"
       }
     ]
   },
@@ -297,7 +297,7 @@
       },
       {
         "displayName": "container-service[kubernetes-service]",
-        "command": "cs",
+        "command": "ks",
         "version": "1.0.353",
         "url": "https://cloud.ibm.com/docs/containers?topic=containers-kubernetes-service-cli"
       }

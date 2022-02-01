@@ -82,16 +82,16 @@ export function activate(context: ExtensionContext) {
 
 
     // IBMCloud CS commands *************************************
-    registerPromptingCommand(context, 'extension.ibmcloud.cs.cluster.get', {cmd: 'ibmcloud', args: ['cs', 'cluster', 'get']}, outputChannel, [new PromptInput('Specify a cluster name or id', '--cluster')]);
-    registerPromptingCommand(context, 'extension.ibmcloud.cs.cluster.rm', {cmd: 'ibmcloud', args: ['cs', 'cluster', 'rm']}, outputChannel, [new PromptInput('Specify a cluster name or id')], ['-f']);
-    registerCommand(context, 'extension.ibmcloud.cs.clusters', {cmd: 'ibmcloud', args: ['cs', 'clusters']}, outputChannel);
-    registerCommand(context, 'extension.ibmcloud.cs.init', {cmd: 'ibmcloud', args: ['cs', 'init']}, outputChannel);
-    registerPromptingCommand(context, 'extension.ibmcloud.cs.worker.get',  {cmd: 'ibmcloud', args: ['cs', 'worker', 'get']}, outputChannel, [new PromptInput('Specify cluster name or id', '--cluster'), new PromptInput('Specify worker id', '--worker')]);
-    registerPromptingCommand(context, 'extension.ibmcloud.cs.worker.add', {cmd: 'ibmcloud', args: ['cs', 'worker' ,'add']}, outputChannel, [new PromptInput('Specify cluster name or id', '--cluster')], ['1'] );
-    registerPromptingCommand(context, 'extension.ibmcloud.cs.worker.reboot', {cmd: 'ibmcloud', args: ['cs', 'worker', 'reboot']}, outputChannel, [new PromptInput('Specify a cluster name or id', '--cluster'), new PromptInput('Specify a worker id', '--worker')], ['-f'] );
-    registerPromptingCommand(context, 'extension.ibmcloud.cs.worker.reload', {cmd: 'ibmcloud', args: ['cs', 'worker', 'reload']}, outputChannel, [new PromptInput('Specify a cluster name or id', '--cluster'), new PromptInput('Specify a worker id', '--worker')], ['-f'] );
-    registerPromptingCommand(context, 'extension.ibmcloud.cs.worker.rm', {cmd: 'ibmcloud', args: ['cs', 'worker', 'rm']}, outputChannel, [new PromptInput('Specify a cluster name or id', '--cluster'), new PromptInput('Specify a worker id')], ['-f'] );
-    registerPromptingCommand(context, 'extension.ibmcloud.cs.workers', {cmd: 'ibmcloud', args: ['cs', 'workers']}, outputChannel, [new PromptInput('Specify a cluster name or id', '--cluster')] );
+    registerPromptingCommand(context, 'extension.ibmcloud.ks.cluster.get', {cmd: 'ibmcloud', args: ['ks', 'cluster', 'get']}, outputChannel, [new PromptInput('Specify a cluster name or id', '--cluster')]);
+    registerPromptingCommand(context, 'extension.ibmcloud.ks.cluster.rm', {cmd: 'ibmcloud', args: ['ks', 'cluster', 'rm']}, outputChannel, [new PromptInput('Specify a cluster name or id')], ['-f']);
+    registerCommand(context, 'extension.ibmcloud.ks.clusters', {cmd: 'ibmcloud', args: ['ks', 'clusters']}, outputChannel);
+    registerCommand(context, 'extension.ibmcloud.ks.init', {cmd: 'ibmcloud', args: ['ks', 'init']}, outputChannel);
+    registerPromptingCommand(context, 'extension.ibmcloud.ks.worker.get',  {cmd: 'ibmcloud', args: ['ks', 'worker', 'get']}, outputChannel, [new PromptInput('Specify cluster name or id', '--cluster'), new PromptInput('Specify worker id', '--worker')]);
+    registerPromptingCommand(context, 'extension.ibmcloud.ks.worker.add', {cmd: 'ibmcloud', args: ['ks', 'worker' ,'add']}, outputChannel, [new PromptInput('Specify cluster name or id', '--cluster')], ['1'] );
+    registerPromptingCommand(context, 'extension.ibmcloud.ks.worker.reboot', {cmd: 'ibmcloud', args: ['ks', 'worker', 'reboot']}, outputChannel, [new PromptInput('Specify a cluster name or id', '--cluster'), new PromptInput('Specify a worker id', '--worker')], ['-f'] );
+    registerPromptingCommand(context, 'extension.ibmcloud.ks.worker.reload', {cmd: 'ibmcloud', args: ['ks', 'worker', 'reload']}, outputChannel, [new PromptInput('Specify a cluster name or id', '--cluster'), new PromptInput('Specify a worker id', '--worker')], ['-f'] );
+    registerPromptingCommand(context, 'extension.ibmcloud.ks.worker.rm', {cmd: 'ibmcloud', args: ['ks', 'worker', 'rm']}, outputChannel, [new PromptInput('Specify a cluster name or id', '--cluster'), new PromptInput('Specify a worker id')], ['-f'] );
+    registerPromptingCommand(context, 'extension.ibmcloud.ks.workers', {cmd: 'ibmcloud', args: ['ks', 'workers']}, outputChannel, [new PromptInput('Specify a cluster name or id', '--cluster')] );
 }
 
 
