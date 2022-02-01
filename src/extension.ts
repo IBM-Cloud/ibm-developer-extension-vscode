@@ -44,7 +44,7 @@ export function activate(context: ExtensionContext) {
     registerCommand(context, 'extension.ibmcloud.cli-update', {cmd: 'ibmcloud', args: ['plugin', 'update', '-r', 'IBMCloud']}, outputChannel);
 
 
-    // IBMCloud DEV commands *************************************
+    // IBM Cloud DEV commands *************************************
     registerCommand(context, 'extension.ibmcloud.dev.list', {cmd: 'ibmcloud', args: ['dev', 'list', '--caller-vscode']}, outputChannel, true);
     registerCommand(context, 'extension.ibmcloud.dev.build', {cmd: 'ibmcloud', args: ['dev', 'build', '--caller-vscode', '--debug']}, outputChannel, true);
     registerCommand(context, 'extension.ibmcloud.dev.build.release', {cmd: 'ibmcloud', args: ['dev', 'build', '--caller-vscode']}, outputChannel, true);
@@ -63,7 +63,7 @@ export function activate(context: ExtensionContext) {
     registerCommand(context, 'extension.ibmcloud.dev.shell.tools', {cmd: 'ibmcloud', args: ['dev', 'shell', 'tools', '--caller-vscode']}, outputChannel, false, SystemCommand, true);
 
 
-    // IBMCloud CF commands *************************************
+    // IBM Cloud CF commands *************************************
     registerCommand(context, 'extension.ibmcloud.cf.apps', {cmd: 'ibmcloud', args: ['cf', 'apps']}, outputChannel);
     registerPromptingCommand(context, 'extension.ibmcloud.cf.app', {cmd: 'ibmcloud', args: ['cf', 'app']}, outputChannel, [new PromptInput('Specify an app name')]);
     registerPromptingCommand(context, 'extension.ibmcloud.cf.create-app-manifest', {cmd: 'ibmcloud', args: ['cf', 'create-app-manifest']}, outputChannel, [new PromptInput('Specify an app name')]);
@@ -80,7 +80,7 @@ export function activate(context: ExtensionContext) {
 
 
 
-    // IBMCloud CS commands *************************************
+    // IBM Cloud CS commands *************************************
     registerPromptingCommand(context, 'extension.ibmcloud.ks.cluster.get', {cmd: 'ibmcloud', args: ['ks', 'cluster', 'get']}, outputChannel, [new PromptInput('Specify a cluster name or id', '--cluster')]);
     registerPromptingCommand(context, 'extension.ibmcloud.ks.cluster.rm', {cmd: 'ibmcloud', args: ['ks', 'cluster', 'rm']}, outputChannel, [new PromptInput('Specify a cluster name or id')], ['-f']);
     registerCommand(context, 'extension.ibmcloud.ks.clusters', {cmd: 'ibmcloud', args: ['ks', 'clusters']}, outputChannel);
