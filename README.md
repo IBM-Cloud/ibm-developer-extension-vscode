@@ -11,7 +11,7 @@ This extension provides capabilities for the IBM [developer cli](https://console
 
 ## Changelog
 - *v0.0.15*
-- Updated to IBMCloud 2.3.0
+- Updated to IBM Cloud 2.3.0
 - *v0.0.14*
   - Added `bx dev console` command
   - Added check for hostname and domain in cli-config.yml for CF deployment (no longer required when project is created)
@@ -51,7 +51,7 @@ Steps to get started:
 - Use the `ibmcloud dev debug` command to run the app in local Docker for development
 - Use the `ibmcloud dev run` command to run the app in local Docker in release mode
 - Use the `ibmcloud dev deploy` command to deploy the app (in the Docker container) to IBM Cloud
-- Use the `ibmcloud dev view` command to open your project on IBM Cloud in a web browser
+- Use the `ibmcloud dev view` command to open your deployed project on IBM Cloud in a web browser
 - Use the `ibmcloud dev console` command to open the IBM Cloud console for your project in a web browser
 
 ### Using CloudFoundry workflow:
@@ -71,16 +71,14 @@ Steps to get started:
 
 ### Supported CLI/plugins:
 
-- `ibmcloud login/logout` - IBMCloud user authentication
-- `ibmcloud dev` - IBMCloud developer CLI
-- `ibmcloud cf` - IBMCloud CloudFoundry CLI
-- `ibmcloud cs` - IBMCloud Container Service CLI
+- `ibmcloud login/logout` - IBM Cloud user authentication
+- `ibmcloud dev` - IBM Cloud developer CLI
+- `ibmcloud cf` - IBM Cloud CloudFoundry CLI
+- `ibmcloud ks` - IBM Cloud Container Service CLI
 
 ## Requirements/Dependencies
 
-* [IBMCloud CLI](https://cloud.ibm.com/docs/cli/index.html)
-* IBMCloud `dev` cli plugin
-    After installing the IBMCloud CLI, open up a terminal and run `ibmcloud plugin install dev -r IBMCloud`
+* [IBM Cloud CLI](https://cloud.ibm.com/docs/cli/index.html)
 * [Docker](https://www.docker.com/) - required by `ibmcloud dev` containers
 
 
@@ -105,7 +103,7 @@ Next, You have to create a launch configuration inside of `.vscode/launch.json`.
 
 ## Contributing
 
-All improvements to the IBMCloud Dev Extension for VS Code are very welcome! Here's how to get started ...
+All improvements to the IBM Cloud Dev Extension for VS Code are very welcome! Here's how to get started ...
 
 Fork this repository.
 $ git clone https://github.com/IBM-Cloud/ibm-developer-extension-vscode.git
@@ -123,7 +121,7 @@ Find a bug?  [Let us know here](https://github.com/IBM-Cloud/ibm-developer-exten
 For additional support, find us on Slack or Stack Overflow using the links below.
 
 ### ![Slack](assets/slack.png) Connect on Slack
-[Sign up](https://ibm.biz/IBMCloudNativeSlack) for our slack team and join the [#bluemix-dev-services](https://ibm-cloud-tech.slack.com/messages/bluemix-dev-services) channel to ask questions and chat with fellow users.
+[Sign up](https://ibm.biz/IBM CloudNativeSlack) for our slack team and join the [#bluemix-dev-services](https://ibm-cloud-tech.slack.com/messages/bluemix-dev-services) channel to ask questions and chat with fellow users.
 
 ### ![Stack Overflow](assets/stack_overflow.png) Check Stack Overflow
 Search for the [bluemix-dev-services](http://stackoverflow.com/questions/tagged/bluemix-dev-services) tag on Stack Overflow for answers to common questions.
