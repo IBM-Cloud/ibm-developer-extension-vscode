@@ -46,7 +46,6 @@ export function activate(context: ExtensionContext) {
 
     // IBMCloud DEV commands *************************************
     registerCommand(context, 'extension.ibmcloud.dev.list', {cmd: 'ibmcloud', args: ['dev', 'list', '--caller-vscode']}, outputChannel, true);
-    registerCommand(context, 'extension.ibmcloud.dev.create', {cmd: 'ibmcloud', args: ['dev', 'create', '--caller-vscode']}, outputChannel, true, SystemCommand, true);
     registerCommand(context, 'extension.ibmcloud.dev.build', {cmd: 'ibmcloud', args: ['dev', 'build', '--caller-vscode', '--debug']}, outputChannel, true);
     registerCommand(context, 'extension.ibmcloud.dev.build.release', {cmd: 'ibmcloud', args: ['dev', 'build', '--caller-vscode']}, outputChannel, true);
     registerCommand(context, 'extension.ibmcloud.dev.debug', {cmd: 'ibmcloud', args: ['dev', 'debug', '--caller-vscode']}, outputChannel);

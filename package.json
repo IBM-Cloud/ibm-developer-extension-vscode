@@ -32,7 +32,6 @@
     "onCommand:extension.ibmcloud.login.sso",
     "onCommand:extension.ibmcloud.logout",
     "onCommand:extension.ibmcloud.cli-update",
-    "onCommand:extension.ibmcloud.dev.create",
     "onCommand:extension.ibmcloud.dev.list",
     "onCommand:extension.ibmcloud.dev.build.release",
     "onCommand:extension.ibmcloud.dev.build",
@@ -91,10 +90,6 @@
       {
         "command": "extension.ibmcloud.cli-update",
         "title": "ibmcloud plugin update -r IBMCloud (update cli extensions)"
-      },
-      {
-        "command": "extension.ibmcloud.dev.create",
-        "title": "ibmcloud dev create"
       },
       {
         "command": "extension.ibmcloud.dev.list",
