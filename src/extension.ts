@@ -138,7 +138,7 @@ function executeCommand(command: SystemCommand) {
 
 
 /*
- *  Checks the version of the IBMCloud CLI and notifies the user if cli or recommended plugins are out of date
+ *  Checks the version of the IBM Cloud CLI and notifies the user if cli or recommended plugins are out of date
  */
 function checkVersions(): Promise<any> {
 
@@ -160,7 +160,7 @@ function checkVersions(): Promise<any> {
                     const version = semver.clean(detail[detail.length - 1]);
 
                     if (semver.gt(packageJson.ibm.cli.version, version)) {
-                        const message = `\n\nThe recommended minimum IBMCloud CLI version is ${packageJson.ibm.cli.version}.\nYour system is currently running ${version}.\nA newer version of the IBMCloud CLI is available for download at: ${packageJson.ibm.cli.url}`;
+                        const message = `\n\nThe recommended minimum IBM Cloud CLI version is ${packageJson.ibm.cli.version}.\nYour system is currently running ${version}.\nA newer version of the IBM Cloud CLI is available for download at: ${packageJson.ibm.cli.url}`;
                         outputChannel.append(message);
                     }
                 }
@@ -191,7 +191,7 @@ function checkVersions(): Promise<any> {
                                             if (displayName.search(plugin.displayName) >= 0) {
                                                 if (semver.gt(plugin.version, cleanVersion)) {
                                                     const devPlugin = plugin.command === 'dev';
-                                                    const message = `\n\nThe recommended minimum version for the IBMCloud '${plugin.displayName}' CLI plugin is ${plugin.version}.\nYour system is currently running ${cleanVersion}.\nYou ${ devPlugin ? 'must' : 'can' } update using the 'ibmcloud plugin update' command or visit ${plugin.url}`;
+                                                    const message = `\n\nThe recommended minimum version for the IBM Cloud '${plugin.displayName}' CLI plugin is ${plugin.version}.\nYour system is currently running ${cleanVersion}.\nYou ${ devPlugin ? 'must' : 'can' } update using the 'ibmcloud plugin update' command or visit ${plugin.url}`;
                                                     outputChannel.append(message);
 
                                                     if (devPlugin) {
