@@ -50,7 +50,7 @@ export class DeployCommand extends SystemCommand {
                     this.displayError('Please specify \'deploy-image-target\' in cli-config.yml for Kubernetes deployment.');
                 });
             } else {
-                const regex = new RegExp(/registry.*.icr.io/);
+                const regex = new RegExp(/.*icr.io/);
                 if (regex.test(deployImageTarget)) {
                     const cluster = yml['ibm-cluster'];
                     if (cluster === undefined || cluster === '') {
