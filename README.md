@@ -118,10 +118,5 @@ You can find more info about the development environment and configuration in ou
 
 Find a bug?  [Let us know here](https://github.com/IBM-Cloud/ibm-developer-extension-vscode/issues)
 
-For additional support, find us on Slack or Stack Overflow using the links below.
-
 ### ![Slack](assets/slack.png) Connect on Slack
-[Sign up](https://ibm.biz/IBMCloudNativeSlack) for our slack team and join the [#bluemix-dev-services](https://ibm-cloud-tech.slack.com/messages/bluemix-dev-services) channel to ask questions and chat with fellow users.
-
-### ![Stack Overflow](assets/stack_overflow.png) Check Stack Overflow
-Search for the [bluemix-dev-services](http://stackoverflow.com/questions/tagged/bluemix-dev-services) tag on Stack Overflow for answers to common questions.
+Please provide your experience, questions and feedback in the #ask-your-question Slack channel. Apply for access or login here: http://ibm.biz/cli-feedback
