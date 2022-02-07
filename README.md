@@ -81,8 +81,6 @@ Steps to get started:
 * [IBM Cloud CLI](https://cloud.ibm.com/docs/cli/index.html)
 * [Docker](https://www.docker.com/) - required by `ibmcloud dev` containers
 
-
-
 ## Debugging Node.js apps within the local Docker container
 
 First, make sure your app is running inside of a local container using `ibmcloud dev debug`. _Note: `debug` action requires prior `ibmcloud dev build --debug` action)_
