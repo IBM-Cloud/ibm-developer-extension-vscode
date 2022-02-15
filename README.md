@@ -74,7 +74,7 @@ Steps to get started:
 - `ibmcloud login/logout` - IBM Cloud user authentication
 - `ibmcloud dev` - IBM Cloud developer CLI
 - `ibmcloud cf` - IBM Cloud CloudFoundry CLI
-- `ibmcloud ks` - IBM Cloud Container Service CLI
+- `ibmcloud ks` - IBM Cloud Kubernetes Service CLI
 
 ## Requirements/Dependencies
 
