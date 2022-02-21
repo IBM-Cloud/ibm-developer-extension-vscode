@@ -19,3 +19,12 @@ before_install:
 
 script:
   - npm test --silent
+
+after_script:
+- |
+  echo ">>> Publish"
+  npm run vscode:publish
+
+stages:
+- name: after_script
+  if: env(TRAVIS_TAG) =~ ^v
