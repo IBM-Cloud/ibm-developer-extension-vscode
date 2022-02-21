@@ -5,7 +5,7 @@
 [![Ratings](https://vsmarketplacebadge.apphb.com/rating/IBM.ibm-developer.svg)](https://marketplace.visualstudio.com/items?itemName=IBM.ibm-developer)
 
 
-# IBM Developer Extension for VS Code
+# IBM Cloud Developer Tools Extension for VS Code
 
 This extension provides capabilities for the IBM [developer cli](https://console.ng.bluemix.net/docs/cloudnative/dev_cli.html) from directly within the VS Code editor.   Use the VS Code command palette to quickly access all `ibmcloud dev` commands, without the need to leave the editor's context.
 
@@ -33,7 +33,7 @@ This extension provides capabilities for the IBM [developer cli](https://console
 
 ## Usage
 
-Easily invoke commands from the IBM Cloud Developer CLI from directly inside of the VS Code editor:
+Easily invoke commands from the IBM Cloud CLI from directly inside of the VS Code editor:
 
 - Open the VS Code command palette (`F1` or `CMD-Shift-P`)
 - Use the `ibmcloud login` command to log in to IBM Cloud (using your IBM Cloud credentials)
@@ -44,7 +44,7 @@ Video demonstrating `ibmcloud dev` workflow: [IBM Developer Extension for VS Cod
 
 Steps to get started:
 - Create a project using one of the two methods below:
-    - `ibmcloud dev create` using the IBM Cloud Developer CLI (outside of VS Code)
+    - `ibmcloud dev create` using the IBM Cloud CLI (outside of VS Code)
     - [IBM Cloud Developer Documentation](https://cloud.ibm.com/docs?tab=develop)
 - Open the *project’s folder* locally in the VS Code editor
 - Use the `ibmcloud dev build` command to build the app into a Docker image
@@ -101,7 +101,7 @@ Next, You have to create a launch configuration inside of `.vscode/launch.json`.
 
 ## Contributing
 
-All improvements to the IBM Cloud Dev Extension for VS Code are very welcome! Here's how to get started ...
+All improvements to the IBM Cloud CLI Extension for VS Code are very welcome! Here's how to get started ...
 
 Fork this repository.
 $ git clone https://github.com/IBM-Cloud/ibm-developer-extension-vscode.git
