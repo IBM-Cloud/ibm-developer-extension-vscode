@@ -1,6 +1,6 @@
 {
   "name": "ibm-developer",
-  "displayName": "IBM Cloud Developer Tools",
+  "displayName": "IBM Developer Tools",
   "description": "Extension for VS Code editor to enable IBM Cloud developer `ibmcloud dev` CLI capabilities from within the editing environment.",
   "version": "0.0.15",
   "publisher": "IBM",
