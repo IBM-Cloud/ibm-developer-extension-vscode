@@ -61,7 +61,6 @@
     "onCommand:extension.ibmcloud.cf.logs",
     "onCommand:extension.ibmcloud.cf.logs-stop",
     "onCommand:extension.ibmcloud.cf.env",
-    "onCommand:extension.ibmcloud.ks.cluster.create",
     "onCommand:extension.ibmcloud.ks.cluster.get",
     "onCommand:extension.ibmcloud.ks.cluster.rm",
     "onCommand:extension.ibmcloud.ks.clusters",
@@ -203,10 +202,6 @@
       {
         "command": "extension.ibmcloud.cf.env",
         "title": "ibmcloud cf env"
-      },
-      {
-        "command": "extension.ibmcloud.ks.cluster.create",
-        "title": "ibmcloud ks cluster create"
       },
       {
         "command": "extension.ibmcloud.ks.cluster.get",
