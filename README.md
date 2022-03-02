@@ -3,14 +3,15 @@
 [![Version](https://vsmarketplacebadge.apphb.com/version/IBM.ibm-developer.svg)](https://marketplace.visualstudio.com/items?itemName=IBM.ibm-developer)
 [![Installs](https://vsmarketplacebadge.apphb.com/installs/IBM.ibm-developer.svg)](https://marketplace.visualstudio.com/items?itemName=IBM.ibm-developer)
 [![Ratings](https://vsmarketplacebadge.apphb.com/rating/IBM.ibm-developer.svg)](https://marketplace.visualstudio.com/items?itemName=IBM.ibm-developer)
-  
-# IBM Developer Extension for VS Code
 
-This extension provides capabilities for the IBM [developer cli](https://console.ng.bluemix.net/docs/cloudnative/dev_cli.html) from directly within the VS Code editor.   Use the VS Code command palette to quickly access all `ibmcloud dev` commands, without the need to leave the editor's context.
+# IBM Cloud CLI Extension for VS Code
+
+This extension provides capabilities for the [IBM Cloud CLI](https://cloud.ibm.com/docs/cli/index.html) from directly within the VS Code editor. Use the VS Code command palette to quickly access all `ibmcloud dev` commands, without the need to leave the editor's context.
 
 ## Changelog
 - *v0.0.15*
 - Updated to IBM Cloud 2.3.0
+- Rebranded extension to IBM Cloud CLI
 - *v0.0.14*
   - Added `bx dev console` command
   - Added check for hostname and domain in cli-config.yml for CF deployment (no longer required when project is created)
@@ -38,13 +39,13 @@ Easily invoke commands from the IBM Cloud CLI from directly inside of the VS Cod
 - Use the `ibmcloud login` command to log in to IBM Cloud (using your IBM Cloud credentials)
 
 ### Using `ibmcloud dev` workflow:
-Video demonstrating `ibmcloud dev` workflow: [IBM Developer Extension for VS Code
+Video demonstrating `ibmcloud dev` workflow: [IBM Cloud CLI Extension for VS Code
 ](https://youtu.be/JmrLaLRRQSk)
 
 Steps to get started:
 - Create a project using one of the two methods below:
     - `ibmcloud dev create` using the IBM Cloud CLI (outside of VS Code)
-    - [IBM Cloud Developer Documentation](https://cloud.ibm.com/docs?tab=develop)
+    - [IBM Cloud CLI Documentation](https://cloud.ibm.com/docs/apps?topic=apps-create-deploy-app-cli)
 - Open the *project’s folder* locally in the VS Code editor
 - Use the `ibmcloud dev build` command to build the app into a Docker image
 - Use the `ibmcloud dev debug` command to run the app in local Docker for development
@@ -54,7 +55,7 @@ Steps to get started:
 - Use the `ibmcloud dev console` command to open the IBM Cloud console for your project in a web browser
 
 ### Using CloudFoundry workflow:
-Video demonstrating `CloudFoundry` workflow: [IBM Developer Extension for VS Code for CloudFoundry
+Video demonstrating `CloudFoundry` workflow: [IBM Cloud CLI Extension for VS Code for CloudFoundry
 ](https://youtu.be/gP_6cpR1JSM)
 
 Steps to get started:
@@ -70,8 +71,8 @@ Steps to get started:
 
 ### Supported CLI/plugins:
 
-- `ibmcloud login/logout` - IBM Cloud user authentication
-- `ibmcloud dev` - IBM Cloud developer CLI
+- `ibmcloud login/logout` - IBM Cloud User Authentication
+- `ibmcloud dev` - IBM Cloud Developer CLI
 - `ibmcloud cf` - IBM Cloud CloudFoundry CLI
 - `ibmcloud ks` - IBM Cloud Kubernetes Service CLI
 
