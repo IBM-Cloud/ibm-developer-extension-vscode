@@ -10,7 +10,7 @@ This extension provides capabilities for the [IBM Cloud CLI](https://cloud.ibm.c
 
 ## Changelog
 - *v0.0.15*
-- Updated to IBM Cloud 2.3.0
+- Updated to IBM Cloud 2.5.0
 - Rebranded extension to IBM Cloud CLI
 - *v0.0.14*
   - Added `bx dev console` command

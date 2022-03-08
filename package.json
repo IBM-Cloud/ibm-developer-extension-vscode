@@ -277,7 +277,7 @@
   "ibm": {
     "cli": {
       "command": "ibmcloud",
-      "version": "2.3.0",
+      "version": "2.5.0",
       "url": "https://cloud.ibm.com/docs/cli"
     },
     "plugins": [
