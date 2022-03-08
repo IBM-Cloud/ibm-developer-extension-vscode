@@ -62,7 +62,9 @@ export class SystemCommand {
         this.sanitizeOutput = sanitizeOutput;
 
         if (this.outputChannel !== undefined) {
-            this.outputChannel.show();
+            // NOTE: Do not perserve focus (`preserveFocus`) when showing output channel to allow 
+            // other UI components a chance to be in focus such as window.showInputBox and window.showQuickPick
+            this.outputChannel.show(true);
         }
     }
 
