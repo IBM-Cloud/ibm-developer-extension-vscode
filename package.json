@@ -91,7 +91,7 @@
       },
       {
         "command": "extension.ibmcloud.cli-update",
-        "title": "ibmcloud plugin update -r IBMCloud (update cli extensions)"
+        "title": "ibmcloud plugin update --all -r 'IBM Cloud' (update cli extensions)"
       },
       {
         "command": "extension.ibmcloud.dev.list",

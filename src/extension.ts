@@ -41,7 +41,7 @@ export function activate(context: ExtensionContext) {
     LoginManager.registerCommand(context, 'extension.ibmcloud.login');
     LoginManager.registerCommand(context, 'extension.ibmcloud.login.sso');
     registerCommand(context, 'extension.ibmcloud.logout', {cmd: 'ibmcloud', args: ['logout']}, outputChannel);
-    registerCommand(context, 'extension.ibmcloud.cli-update', {cmd: 'ibmcloud', args: ['plugin', 'update', '-r', 'IBMCloud']}, outputChannel);
+    registerCommand(context, 'extension.ibmcloud.cli-update', {cmd: 'ibmcloud', args: ['plugin', 'update', '--all', '-r', 'IBM Cloud']}, outputChannel);
 
 
     // IBM Cloud DEV commands *************************************
