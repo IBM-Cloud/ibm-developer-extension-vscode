@@ -173,7 +173,7 @@ export class SystemCommand {
             this.invocation.on('close', (code, signal) => {
                 this.output(`\n`);
 
-                if (this.sanitizeOutput) {
+                if (this.sanitizeOutput && buffer) {
                     const stringOutput = this.sanitizeBuffer(buffer).toString();
                     this.output(stringOutput);
                     this.stdout = stringOutput;
