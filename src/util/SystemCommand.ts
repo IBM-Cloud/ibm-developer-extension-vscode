@@ -130,9 +130,16 @@ export class SystemCommand {
             this.stdout = '';
             this.stderr = '';
 
-            const opt = {
+            const opt:any = {
                 cwd: workspace.rootPath,
             };
+
+            // NOTE: Currently there is an issue where the ANIS escape color sequences are not rendered correctly on Macs
+            // Until a solution is found color will be disabled on output for users running on Darwin
+            if (process.platform === 'darwin') {
+              opt.env = { ...process.env, IBMCLOUD_COLOR: false };
+            }
+
             this.invocation = spawn(this.command, this.args, opt);
 
             let buffer;
