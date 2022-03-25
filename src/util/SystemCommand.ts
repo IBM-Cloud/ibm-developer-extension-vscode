@@ -1,5 +1,5 @@
 /**
- * Copyright IBM Corporation 2016, 2017
+ * Copyright IBM Corporation 2016, 2022
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 'use strict';
 
 import {window, workspace, OutputChannel, Terminal} from 'vscode';
-import {BluemixTerminal} from './BluemixTerminal';
+import {IBMCloudTerminal} from './IBMCloudTerminal';
 import {CommandDetection} from './CommandDetection';
 
 const spawn = require('child_process').spawn;
@@ -62,7 +62,9 @@ export class SystemCommand {
         this.sanitizeOutput = sanitizeOutput;
 
         if (this.outputChannel !== undefined) {
-            this.outputChannel.show();
+            // NOTE: Do not perserve focus (`preserveFocus`) when showing output channel to allow 
+            // other UI components a chance to be in focus such as window.showInputBox and window.showQuickPick
+            this.outputChannel.show(true);
         }
     }
 
@@ -101,7 +103,7 @@ export class SystemCommand {
      */
     executeWithTerminal(): Promise<any> {
         return new Promise<any>((resolve, reject) => {
-            const terminal = BluemixTerminal.instance;
+            const terminal = IBMCloudTerminal.instance;
             terminal.sendText(`${this.command} ${this.args.join(' ')}\n`);
             terminal.show();
             resolve('OK: sent to terminal');
@@ -128,9 +130,16 @@ export class SystemCommand {
             this.stdout = '';
             this.stderr = '';
 
-            const opt = {
+            const opt:any = {
                 cwd: workspace.rootPath,
             };
+
+            // NOTE: Currently there is an issue where the ANIS escape color sequences are not rendered correctly on Macs
+            // Until a solution is found color will be disabled on output for users running on Darwin
+            if (process.platform === 'darwin') {
+              opt.env = { ...process.env, IBMCLOUD_COLOR: false };
+            }
+
             this.invocation = spawn(this.command, this.args, opt);
 
             let buffer;
@@ -171,7 +180,7 @@ export class SystemCommand {
             this.invocation.on('close', (code, signal) => {
                 this.output(`\n`);
 
-                if (this.sanitizeOutput) {
+                if (this.sanitizeOutput && buffer) {
                     const stringOutput = this.sanitizeBuffer(buffer).toString();
                     this.output(stringOutput);
                     this.stdout = stringOutput;
@@ -192,7 +201,7 @@ export class SystemCommand {
                     }
                     window.showErrorMessage(errorDetail);
 
-                    errorDetail += '\nFor additional detail, please see https://console.ng.bluemix.net/docs/cli/reference/bluemix_cli/index.html#getting-started';
+                    errorDetail += '\nFor additional detail, please see https://cloud.ibm.com/docs/cli';
                     this.output(errorDetail);
                 }
                 resolve(code);

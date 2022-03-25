@@ -1,20 +1,22 @@
 {
   "name": "ibm-developer",
-  "displayName": "IBM Developer Tools",
-  "description": "Extension for VS Code editor to enable IBM Bluemix developer `bx dev` CLI capabilities from within the editing environment.",
-  "version": "0.0.14",
+  "displayName": "IBM Cloud CLI",
+  "description": "Extension for VS Code editor to enable IBM Cloud CLI `ibmcloud dev` CLI capabilities from within the editing environment.",
+  "version": "0.0.15",
   "publisher": "IBM",
   "license": "Apache 2.0 (see LICENSE.txt)",
   "bugs": {
-    "url": "https://github.com/IBM-Bluemix/ibm-developer-extension-vscode/issues"
+    "url": "https://github.com/IBM-Cloud/ibm-developer-extension-vscode/issues"
   },
-  "homepage": "https://github.com/IBM-Bluemix/ibm-developer-extension-vscode/blob/master/README.md",
+  "homepage": "https://github.com/IBM-Cloud/ibm-developer-extension-vscode/blob/master/README.md",
   "repository": {
     "type": "git",
-    "url": "https://github.com/IBM-Bluemix/ibm-developer-extension-vscode.git"
+    "url": "https://github.com/IBM-Cloud/ibm-developer-extension-vscode"
   },
+  "engineStrict": true,
   "engines": {
-    "vscode": "^1.10.0"
+    "vscode": "^1.10.0",
+    "node": ">=14.0.1 <14.6.0"
   },
   "categories": [
     "Other"
@@ -23,240 +25,248 @@
     "IBM",
     "Development",
     "Tools",
+    "CLI",
     "Bluemix",
     "Cloud"
   ],
   "icon": "assets/icon.png",
   "activationEvents": [
-    "onCommand:extension.bx.login",
-    "onCommand:extension.bx.login.sso",
-    "onCommand:extension.bx.logout",
-    "onCommand:extension.bx.cli-update",
-    "onCommand:extension.bx.dev.list",
-    "onCommand:extension.bx.dev.build.release",
-    "onCommand:extension.bx.dev.build",
-    "onCommand:extension.bx.dev.debug",
-    "onCommand:extension.bx.dev.deploy",
-    "onCommand:extension.bx.dev.run",
-    "onCommand:extension.bx.dev.shell.run",
-    "onCommand:extension.bx.dev.shell.tools",
-    "onCommand:extension.bx.dev.status",
-    "onCommand:extension.bx.dev.stop",
-    "onCommand:extension.bx.dev.test",
-    "onCommand:extension.bx.dev.console",
-    "onCommand:extension.bx.dev.console.app",
-    "onCommand:extension.bx.cf.apps",
-    "onCommand:extension.bx.cf.app",
-    "onCommand:extension.bx.cf.create-app-manifest",
-    "onCommand:extension.bx.cf.push",
-    "onCommand:extension.bx.cf.push-appname",
-    "onCommand:extension.bx.cf.start",
-    "onCommand:extension.bx.cf.stop",
-    "onCommand:extension.bx.cf.restart",
-    "onCommand:extension.bx.cf.restage",
-    "onCommand:extension.bx.cf.events",
-    "onCommand:extension.bx.cf.logs",
-    "onCommand:extension.bx.cf.logs-stop",
-    "onCommand:extension.bx.cf.env",
-    "onCommand:extension.bx.cs.cluster-create",
-    "onCommand:extension.bx.cs.cluster-get",
-    "onCommand:extension.bx.cs.cluster-rm",
-    "onCommand:extension.bx.cs.clusters",
-    "onCommand:extension.bx.cs.init",
-    "onCommand:extension.bx.cs.worker-add",
-    "onCommand:extension.bx.cs.worker-get",
-    "onCommand:extension.bx.cs.worker-reboot",
-    "onCommand:extension.bx.cs.worker-reload",
-    "onCommand:extension.bx.cs.worker-rm",
-    "onCommand:extension.bx.cs.workers"
+    "onCommand:extension.ibmcloud.login",
+    "onCommand:extension.ibmcloud.login.sso",
+    "onCommand:extension.ibmcloud.logout",
+    "onCommand:extension.ibmcloud.cli-update",
+    "onCommand:extension.ibmcloud.dev.list",
+    "onCommand:extension.ibmcloud.dev.build.release",
+    "onCommand:extension.ibmcloud.dev.build",
+    "onCommand:extension.ibmcloud.dev.debug",
+    "onCommand:extension.ibmcloud.dev.deploy",
+    "onCommand:extension.ibmcloud.dev.diag",
+    "onCommand:extension.ibmcloud.dev.run",
+    "onCommand:extension.ibmcloud.dev.shell.run",
+    "onCommand:extension.ibmcloud.dev.shell.tools",
+    "onCommand:extension.ibmcloud.dev.status",
+    "onCommand:extension.ibmcloud.dev.stop",
+    "onCommand:extension.ibmcloud.dev.test",
+    "onCommand:extension.ibmcloud.dev.console",
+    "onCommand:extension.ibmcloud.dev.view",
+    "onCommand:extension.ibmcloud.dev.console.app",
+    "onCommand:extension.ibmcloud.cf.apps",
+    "onCommand:extension.ibmcloud.cf.app",
+    "onCommand:extension.ibmcloud.cf.create-app-manifest",
+    "onCommand:extension.ibmcloud.cf.push",
+    "onCommand:extension.ibmcloud.cf.push-appname",
+    "onCommand:extension.ibmcloud.cf.start",
+    "onCommand:extension.ibmcloud.cf.stop",
+    "onCommand:extension.ibmcloud.cf.restart",
+    "onCommand:extension.ibmcloud.cf.restage",
+    "onCommand:extension.ibmcloud.cf.events",
+    "onCommand:extension.ibmcloud.cf.logs",
+    "onCommand:extension.ibmcloud.cf.logs-stop",
+    "onCommand:extension.ibmcloud.cf.env",
+    "onCommand:extension.ibmcloud.ks.cluster.get",
+    "onCommand:extension.ibmcloud.ks.cluster.rm",
+    "onCommand:extension.ibmcloud.ks.clusters",
+    "onCommand:extension.ibmcloud.ks.init",
+    "onCommand:extension.ibmcloud.ks.worker.add",
+    "onCommand:extension.ibmcloud.ks.worker.get",
+    "onCommand:extension.ibmcloud.ks.worker.reboot",
+    "onCommand:extension.ibmcloud.ks.worker.reload",
+    "onCommand:extension.ibmcloud.ks.worker.rm",
+    "onCommand:extension.ibmcloud.ks.workers"
   ],
   "main": "./out/src/extension",
   "contributes": {
     "commands": [
       {
-        "command": "extension.bx.login",
-        "title": "bx login"
+        "command": "extension.ibmcloud.login",
+        "title": "ibmcloud login"
       },
       {
-        "command": "extension.bx.login.sso",
-        "title": "bx login --sso"
+        "command": "extension.ibmcloud.login.sso",
+        "title": "ibmcloud login --sso"
       },
       {
-        "command": "extension.bx.logout",
-        "title": "bx logout"
+        "command": "extension.ibmcloud.logout",
+        "title": "ibmcloud logout"
       },
       {
-        "command": "extension.bx.cli-update",
-        "title": "bx plugin update -r Bluemix (update cli extensions)"
+        "command": "extension.ibmcloud.cli-update",
+        "title": "ibmcloud plugin update --all -r 'IBM Cloud' (update cli extensions)"
       },
       {
-        "command": "extension.bx.dev.list",
-        "title": "bx dev list"
+        "command": "extension.ibmcloud.dev.list",
+        "title": "ibmcloud dev list"
       },
       {
-        "command": "extension.bx.dev.debug",
-        "title": "bx dev debug"
+        "command": "extension.ibmcloud.dev.debug",
+        "title": "ibmcloud dev debug"
       },
       {
-        "command": "extension.bx.dev.deploy",
-        "title": "bx dev deploy"
+        "command": "extension.ibmcloud.dev.deploy",
+        "title": "ibmcloud dev deploy"
       },
       {
-        "command": "extension.bx.dev.build",
-        "title": "bx dev build (debug)"
+        "command": "extension.ibmcloud.dev.diag",
+        "title": "ibmcloud dev diag"
       },
       {
-        "command": "extension.bx.dev.build.release",
-        "title": "bx dev build (release)"
+        "command": "extension.ibmcloud.dev.build",
+        "title": "ibmcloud dev build (debug)"
       },
       {
-        "command": "extension.bx.dev.run",
-        "title": "bx dev run"
+        "command": "extension.ibmcloud.dev.build.release",
+        "title": "ibmcloud dev build (release)"
       },
       {
-        "command": "extension.bx.dev.status",
-        "title": "bx dev status"
+        "command": "extension.ibmcloud.dev.run",
+        "title": "ibmcloud dev run"
       },
       {
-        "command": "extension.bx.dev.shell.run",
-        "title": "bx dev shell (run container)"
+        "command": "extension.ibmcloud.dev.status",
+        "title": "ibmcloud dev status"
       },
       {
-        "command": "extension.bx.dev.shell.tools",
-        "title": "bx dev shell (tools container)"
+        "command": "extension.ibmcloud.dev.shell.run",
+        "title": "ibmcloud dev shell (run container)"
       },
       {
-        "command": "extension.bx.dev.stop",
-        "title": "bx dev stop"
+        "command": "extension.ibmcloud.dev.shell.tools",
+        "title": "ibmcloud dev shell (tools container)"
       },
       {
-        "command": "extension.bx.dev.test",
-        "title": "bx dev test"
+        "command": "extension.ibmcloud.dev.stop",
+        "title": "ibmcloud dev stop"
       },
       {
-        "command": "extension.bx.dev.console",
-        "title": "bx dev console"
+        "command": "extension.ibmcloud.dev.test",
+        "title": "ibmcloud dev test"
       },
       {
-        "command": "extension.bx.dev.console.app",
-        "title": "bx dev console <project name>"
+        "command": "extension.ibmcloud.dev.console",
+        "title": "ibmcloud dev console"
       },
       {
-        "command": "extension.bx.cf.apps",
-        "title": "bx cf apps"
+        "command": "extension.ibmcloud.dev.console.app",
+        "title": "ibmcloud dev console <project name>"
       },
       {
-        "command": "extension.bx.cf.app",
-        "title": "bx cf app"
+        "command": "extension.ibmcloud.dev.view",
+        "title": "ibmcloud dev view"
       },
       {
-        "command": "extension.bx.cf.create-app-manifest",
-        "title": "bx cf create-app-manifest"
+        "command": "extension.ibmcloud.cf.apps",
+        "title": "ibmcloud cf apps"
       },
       {
-        "command": "extension.bx.cf.push",
-        "title": "bx cf push (working directory)"
+        "command": "extension.ibmcloud.cf.app",
+        "title": "ibmcloud cf app"
       },
       {
-        "command": "extension.bx.cf.push-appname",
-        "title": "bx cf push <app name>"
+        "command": "extension.ibmcloud.cf.create-app-manifest",
+        "title": "ibmcloud cf create-app-manifest"
       },
       {
-        "command": "extension.bx.cf.start",
-        "title": "bx cf start"
+        "command": "extension.ibmcloud.cf.push",
+        "title": "ibmcloud cf push (working directory)"
       },
       {
-        "command": "extension.bx.cf.stop",
-        "title": "bx cf stop"
+        "command": "extension.ibmcloud.cf.push-appname",
+        "title": "ibmcloud cf push <app name>"
       },
       {
-        "command": "extension.bx.cf.restart",
-        "title": "bx cf restart"
+        "command": "extension.ibmcloud.cf.start",
+        "title": "ibmcloud cf start"
       },
       {
-        "command": "extension.bx.cf.restage",
-        "title": "bx cf restage"
+        "command": "extension.ibmcloud.cf.stop",
+        "title": "ibmcloud cf stop"
       },
       {
-        "command": "extension.bx.cf.events",
-        "title": "bx cf events"
+        "command": "extension.ibmcloud.cf.restart",
+        "title": "ibmcloud cf restart"
       },
       {
-        "command": "extension.bx.cf.logs",
-        "title": "bx cf logs"
+        "command": "extension.ibmcloud.cf.restage",
+        "title": "ibmcloud cf restage"
       },
       {
-        "command": "extension.bx.cf.logs-stop",
-        "title": "bx cf logs (stop)"
+        "command": "extension.ibmcloud.cf.events",
+        "title": "ibmcloud cf events"
       },
       {
-        "command": "extension.bx.cf.env",
-        "title": "bx cf env"
+        "command": "extension.ibmcloud.cf.logs",
+        "title": "ibmcloud cf logs"
       },
       {
-        "command": "extension.bx.cs.cluster-create",
-        "title": "bx cs cluster-create"
+        "command": "extension.ibmcloud.cf.logs-stop",
+        "title": "ibmcloud cf logs (stop)"
       },
       {
-        "command": "extension.bx.cs.cluster-get",
-        "title": "bx cs cluster-get"
+        "command": "extension.ibmcloud.cf.env",
+        "title": "ibmcloud cf env"
       },
       {
-        "command": "extension.bx.cs.cluster-rm",
-        "title": "bx cs cluster-rm"
+        "command": "extension.ibmcloud.ks.cluster.get",
+        "title": "ibmcloud ks cluster get"
       },
       {
-        "command": "extension.bx.cs.clusters",
-        "title": "bx cs clusters"
+        "command": "extension.ibmcloud.ks.cluster.rm",
+        "title": "ibmcloud ks cluster rm"
       },
       {
-        "command": "extension.bx.cs.init",
-        "title": "bx cs init"
+        "command": "extension.ibmcloud.ks.clusters",
+        "title": "ibmcloud ks clusters"
       },
       {
-        "command": "extension.bx.cs.worker-add",
-        "title": "bx cs worker-add"
+        "command": "extension.ibmcloud.ks.init",
+        "title": "ibmcloud ks init"
       },
       {
-        "command": "extension.bx.cs.worker-get",
-        "title": "bx cs worker-get"
+        "command": "extension.ibmcloud.ks.worker.add",
+        "title": "ibmcloud ks worker add"
       },
       {
-        "command": "extension.bx.cs.worker-reboot",
-        "title": "bx cs worker-reboot"
+        "command": "extension.ibmcloud.ks.worker.get",
+        "title": "ibmcloud ks worker get"
       },
       {
-        "command": "extension.bx.cs.worker-reload",
-        "title": "bx cs worker-reload"
+        "command": "extension.ibmcloud.ks.worker.reboot",
+        "title": "ibmcloud ks worker reboot"
       },
       {
-        "command": "extension.bx.cs.worker-rm",
-        "title": "bx cs worker-rm"
+        "command": "extension.ibmcloud.ks.worker.reload",
+        "title": "ibmcloud ks worker reload"
       },
       {
-        "command": "extension.bx.cs.workers",
-        "title": "bx cs workers"
+        "command": "extension.ibmcloud.ks.worker.rm",
+        "title": "ibmcloud ks worker rm"
+      },
+      {
+        "command": "extension.ibmcloud.ks.workers",
+        "title": "ibmcloud ks workers"
       }
     ]
   },
   "scripts": {
-    "vscode:prepublish": "tsc -p ./",
-    "compile": "tsc -watch -p ./",
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
     "postinstall": "node ./node_modules/vscode/bin/install",
     "pretest": "npm run vscode:prepublish",
     "test": "node ./node_modules/vscode/bin/test",
-    "tslint": "gulp tslint"
+    "tslint": "gulp tslint",
+    "vscode:publish": "vsce publish"
   },
   "devDependencies": {
     "@types/mocha": "^2.2.32",
-    "@types/node": "^6.0.40",
+    "@types/node": "^14.0.1",
     "gulp": "^3.9.1",
     "gulp-tslint": "^8.0.0",
     "mocha": "^5.0.2",
     "pre-commit": "^1.2.2",
     "tslint": "^5.0.0",
     "typescript": "^2.0.3",
-    "vscode": "^1.0.0"
+    "vscode": "^1.1.37"
   },
   "dependencies": {
     "js-yaml": "^3.13.1",
@@ -269,22 +279,22 @@
   ],
   "ibm": {
     "cli": {
-      "command": "bx",
-      "version": "0.5.6",
-      "url": "https://console.ng.bluemix.net/docs/cli/reference/bluemix_cli/index.html#getting-started"
+      "command": "ibmcloud",
+      "version": "2.5.0",
+      "url": "https://cloud.ibm.com/docs/cli"
     },
     "plugins": [
       {
         "displayName": "dev",
         "command": "dev",
-        "version": "1.1.0",
-        "url": "https://console.ng.bluemix.net/docs/cloudnative/dev_cli.html"
+        "version": "2.10.0",
+        "url": "https://cloud.ibm.com/docs/cli?topic=cli-idt-cli"
       },
       {
-        "displayName": "container-service",
-        "command": "cs",
-        "version": "0.1.259",
-        "url": "https://console.ng.bluemix.net/docs/containers/cs_cli_devtools.html"
+        "displayName": "container-service[kubernetes-service]",
+        "command": "ks",
+        "version": "1.0.353",
+        "url": "https://cloud.ibm.com/docs/containers?topic=containers-kubernetes-service-cli"
       }
     ]
   }

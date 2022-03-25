@@ -1,5 +1,5 @@
 /**
- * Copyright IBM Corporation 2016, 2017
+ * Copyright IBM Corporation 2016, 2022
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ const semver = require('semver');
 const packageJson = require('../../package.json');
 
 
-const outputChannel = window.createOutputChannel('Bluemix');
+const outputChannel = window.createOutputChannel('IBMCloud');
 let checkedVersions = false;
 let unsupportedDevVersion = false;
 
@@ -36,60 +36,61 @@ let unsupportedDevVersion = false;
  */
 export function activate(context: ExtensionContext) {
 
-    console.log('Congratulations, your extension "com-ibm-bluemix" is now active!');
+    console.log('Congratulations, your extension "com-ibm-cloud" is now active!');
 
-    LoginManager.registerCommand(context, 'extension.bx.login');
-    LoginManager.registerCommand(context, 'extension.bx.login.sso');
-    registerCommand(context, 'extension.bx.logout', {cmd: 'bx', args: ['logout']}, outputChannel);
-    registerCommand(context, 'extension.bx.cli-update', {cmd: 'bx', args: ['plugin', 'update', '-r', 'Bluemix']}, outputChannel);
-
-
-    // BX DEV commands *************************************
-    registerCommand(context, 'extension.bx.dev.list', {cmd: 'bx', args: ['dev', 'list', '--caller-vscode']}, outputChannel, true);
-    registerCommand(context, 'extension.bx.dev.build', {cmd: 'bx', args: ['dev', 'build', '--caller-vscode', '--debug']}, outputChannel, true);
-    registerCommand(context, 'extension.bx.dev.build.release', {cmd: 'bx', args: ['dev', 'build', '--caller-vscode']}, outputChannel, true);
-    registerCommand(context, 'extension.bx.dev.debug', {cmd: 'bx', args: ['dev', 'debug', '--caller-vscode']}, outputChannel);
-    registerCommand(context, 'extension.bx.dev.deploy', {cmd: 'bx', args: ['dev', 'deploy', '--caller-vscode', '--trace']}, outputChannel, false, DeployCommand);
-    registerCommand(context, 'extension.bx.dev.run', {cmd: 'bx', args: ['dev', 'run', '--caller-vscode']}, outputChannel);
-    registerCommand(context, 'extension.bx.dev.status', {cmd: 'bx', args: ['dev', 'status', '--caller-vscode']}, outputChannel);
-    registerCommand(context, 'extension.bx.dev.stop', {cmd: 'bx', args: ['dev', 'stop', '--caller-vscode']}, outputChannel);
-    registerCommand(context, 'extension.bx.dev.test', {cmd: 'bx', args: ['dev', 'test', '--caller-vscode']}, outputChannel);
-    registerCommand(context, 'extension.bx.dev.console', {cmd: 'bx', args: ['dev', 'console', '--caller-vscode']}, outputChannel);
-    registerPromptingCommand(context, 'extension.bx.dev.console.app', {cmd: 'bx', args: ['dev', 'console', '--caller-vscode']}, outputChannel, [new PromptInput('Specify a project name')]);
-    registerCommand(context, 'extension.bx.dev.shell', {cmd: 'bx', args: ['dev', 'shell', '--caller-vscode']}, outputChannel, false, SystemCommand, true);
-    registerCommand(context, 'extension.bx.dev.shell.run', {cmd: 'bx', args: ['dev', 'shell', 'run', '--caller-vscode']}, outputChannel, false, SystemCommand, true);
-    registerCommand(context, 'extension.bx.dev.shell.tools', {cmd: 'bx', args: ['dev', 'shell', 'tools', '--caller-vscode']}, outputChannel, false, SystemCommand, true);
+    LoginManager.registerCommand(context, 'extension.ibmcloud.login');
+    LoginManager.registerCommand(context, 'extension.ibmcloud.login.sso');
+    registerCommand(context, 'extension.ibmcloud.logout', {cmd: 'ibmcloud', args: ['logout']}, outputChannel);
+    registerCommand(context, 'extension.ibmcloud.cli-update', {cmd: 'ibmcloud', args: ['plugin', 'update', '--all', '-r', 'IBM Cloud']}, outputChannel);
 
 
-    // bx CF commands *************************************
-    registerCommand(context, 'extension.bx.cf.apps', {cmd: 'bx', args: ['cf', 'apps']}, outputChannel);
-    registerPromptingCommand(context, 'extension.bx.cf.app', {cmd: 'bx', args: ['cf', 'app']}, outputChannel, [new PromptInput('Specify an app name')]);
-    registerPromptingCommand(context, 'extension.bx.cf.create-app-manifest', {cmd: 'bx', args: ['cf', 'create-app-manifest']}, outputChannel, [new PromptInput('Specify an app name')]);
-    registerCommand(context, 'extension.bx.cf.push', {cmd: 'bx', args: ['cf', 'push']}, outputChannel);
-    registerPromptingCommand(context, 'extension.bx.cf.push-appname', {cmd: 'bx', args: ['cf', 'push']}, outputChannel, [new PromptInput('Specify an app name')]);
-    registerPromptingCommand(context, 'extension.bx.cf.start', {cmd: 'bx', args: ['cf', 'start']}, outputChannel, [new PromptInput('Specify an app name')]);
-    registerPromptingCommand(context, 'extension.bx.cf.stop', {cmd: 'bx', args: ['cf', 'stop']}, outputChannel, [new PromptInput('Specify an app name')]);
-    registerPromptingCommand(context, 'extension.bx.cf.restart', {cmd: 'bx', args: ['cf', 'restart']}, outputChannel, [new PromptInput('Specify an app name')]);
-    registerPromptingCommand(context, 'extension.bx.cf.restage', {cmd: 'bx', args: ['cf', 'restage']}, outputChannel, [new PromptInput('Specify an app name')]);
-    registerPromptingCommand(context, 'extension.bx.cf.events', {cmd: 'bx', args: ['cf', 'events']}, outputChannel, [new PromptInput('Specify an app name')]);
-    registerPromptingCommand(context, 'extension.bx.cf.env', {cmd: 'bx', args: ['cf', 'env']}, outputChannel, [new PromptInput('Specify an app name')]);
-    LogsCommandManager.registerCommand(context, 'extension.bx.cf.logs');
-    LogsCommandManager.registerCommand(context, 'extension.bx.cf.logs-stop');
+    // IBM Cloud DEV commands *************************************
+    registerCommand(context, 'extension.ibmcloud.dev.list', {cmd: 'ibmcloud', args: ['dev', 'list', '--caller-vscode']}, outputChannel, true);
+    registerCommand(context, 'extension.ibmcloud.dev.build', {cmd: 'ibmcloud', args: ['dev', 'build', '--caller-vscode', '--debug']}, outputChannel, true);
+    registerCommand(context, 'extension.ibmcloud.dev.build.release', {cmd: 'ibmcloud', args: ['dev', 'build', '--caller-vscode']}, outputChannel, true);
+    registerCommand(context, 'extension.ibmcloud.dev.debug', {cmd: 'ibmcloud', args: ['dev', 'debug', '--caller-vscode']}, outputChannel);
+    registerCommand(context, 'extension.ibmcloud.dev.deploy', {cmd: 'ibmcloud', args: ['dev', 'deploy', '--caller-vscode', '--trace']}, outputChannel, false, DeployCommand);
+    registerCommand(context, 'extension.ibmcloud.dev.diag', {cmd: 'ibmcloud', args: ['dev', 'diag', '--caller-vscode', '--trace']}, outputChannel, true);
+    registerCommand(context, 'extension.ibmcloud.dev.run', {cmd: 'ibmcloud', args: ['dev', 'run', '--caller-vscode']}, outputChannel);
+    registerCommand(context, 'extension.ibmcloud.dev.status', {cmd: 'ibmcloud', args: ['dev', 'status', '--caller-vscode']}, outputChannel);
+    registerCommand(context, 'extension.ibmcloud.dev.stop', {cmd: 'ibmcloud', args: ['dev', 'stop', '--caller-vscode']}, outputChannel);
+    registerCommand(context, 'extension.ibmcloud.dev.test', {cmd: 'ibmcloud', args: ['dev', 'test', '--caller-vscode']}, outputChannel);
+    registerCommand(context, 'extension.ibmcloud.dev.console', {cmd: 'ibmcloud', args: ['dev', 'console', '--caller-vscode']}, outputChannel);
+    registerCommand(context, 'extension.ibmcloud.dev.view', {cmd: 'ibmcloud', args: ['dev', 'view', '--caller-vscode']}, outputChannel, true, SystemCommand, true);
+    registerPromptingCommand(context, 'extension.ibmcloud.dev.console.app', {cmd: 'ibmcloud', args: ['dev', 'console', '--caller-vscode']}, outputChannel, [new PromptInput('Specify a project name')]);
+    registerCommand(context, 'extension.ibmcloud.dev.shell', {cmd: 'ibmcloud', args: ['dev', 'shell', '--caller-vscode']}, outputChannel, false, SystemCommand, true);
+    registerCommand(context, 'extension.ibmcloud.dev.shell.run', {cmd: 'ibmcloud', args: ['dev', 'shell', 'run', '--caller-vscode']}, outputChannel, false, SystemCommand, true);
+    registerCommand(context, 'extension.ibmcloud.dev.shell.tools', {cmd: 'ibmcloud', args: ['dev', 'shell', 'tools', '--caller-vscode']}, outputChannel, false, SystemCommand, true);
+
+
+    // IBM Cloud CF commands *************************************
+    registerCommand(context, 'extension.ibmcloud.cf.apps', {cmd: 'ibmcloud', args: ['cf', 'apps']}, outputChannel);
+    registerPromptingCommand(context, 'extension.ibmcloud.cf.app', {cmd: 'ibmcloud', args: ['cf', 'app']}, outputChannel, [new PromptInput('Specify an app name')]);
+    registerPromptingCommand(context, 'extension.ibmcloud.cf.create-app-manifest', {cmd: 'ibmcloud', args: ['cf', 'create-app-manifest']}, outputChannel, [new PromptInput('Specify an app name')]);
+    registerCommand(context, 'extension.ibmcloud.cf.push', {cmd: 'ibmcloud', args: ['cf', 'push']}, outputChannel);
+    registerPromptingCommand(context, 'extension.ibmcloud.cf.push-appname', {cmd: 'ibmcloud', args: ['cf', 'push']}, outputChannel, [new PromptInput('Specify an app name')]);
+    registerPromptingCommand(context, 'extension.ibmcloud.cf.start', {cmd: 'ibmcloud', args: ['cf', 'start']}, outputChannel, [new PromptInput('Specify an app name')]);
+    registerPromptingCommand(context, 'extension.ibmcloud.cf.stop', {cmd: 'ibmcloud', args: ['cf', 'stop']}, outputChannel, [new PromptInput('Specify an app name')]);
+    registerPromptingCommand(context, 'extension.ibmcloud.cf.restart', {cmd: 'ibmcloud', args: ['cf', 'restart']}, outputChannel, [new PromptInput('Specify an app name')]);
+    registerPromptingCommand(context, 'extension.ibmcloud.cf.restage', {cmd: 'ibmcloud', args: ['cf', 'restage']}, outputChannel, [new PromptInput('Specify an app name')]);
+    registerPromptingCommand(context, 'extension.ibmcloud.cf.events', {cmd: 'ibmcloud', args: ['cf', 'events']}, outputChannel, [new PromptInput('Specify an app name')]);
+    registerPromptingCommand(context, 'extension.ibmcloud.cf.env', {cmd: 'ibmcloud', args: ['cf', 'env']}, outputChannel, [new PromptInput('Specify an app name')]);
+    LogsCommandManager.registerCommand(context, 'extension.ibmcloud.cf.logs');
+    LogsCommandManager.registerCommand(context, 'extension.ibmcloud.cf.logs-stop');
 
 
 
-    // BX CS commands *************************************
-    registerPromptingCommand(context, 'extension.bx.cs.cluster-create', {cmd: 'bx', args: ['cs', 'cluster-create']}, outputChannel, [new PromptInput('Specify a cluster name', '--name')]);
-    registerPromptingCommand(context, 'extension.bx.cs.cluster-get', {cmd: 'bx', args: ['cs', 'cluster-get']}, outputChannel, [new PromptInput('Specify a cluster name or id')]);
-    registerPromptingCommand(context, 'extension.bx.cs.cluster-rm', {cmd: 'bx', args: ['cs', 'cluster-rm']}, outputChannel, [new PromptInput('Specify a cluster name or id')], ['-f']);
-    registerCommand(context, 'extension.bx.cs.clusters', {cmd: 'bx', args: ['cs', 'clusters']}, outputChannel);
-    registerCommand(context, 'extension.bx.cs.init', {cmd: 'bx', args: ['cs', 'init']}, outputChannel);
-    registerPromptingCommand(context, 'extension.bx.cs.worker-get', {cmd: 'bx', args: ['cs', 'worker-get']}, outputChannel, [new PromptInput('Specify worker id')] );
-    registerPromptingCommand(context, 'extension.bx.cs.worker-add', {cmd: 'bx', args: ['cs', 'worker-add']}, outputChannel, [new PromptInput('Specify cluster name or id')], ['1'] );
-    registerPromptingCommand(context, 'extension.bx.cs.worker-reboot', {cmd: 'bx', args: ['cs', 'worker-reboot']}, outputChannel, [new PromptInput('Specify a cluster name or id'), new PromptInput('Specify a worker id')], ['-f'] );
-    registerPromptingCommand(context, 'extension.bx.cs.worker-reload', {cmd: 'bx', args: ['cs', 'worker-reload']}, outputChannel, [new PromptInput('Specify a cluster name or id'), new PromptInput('Specify a worker id')], ['-f'] );
-    registerPromptingCommand(context, 'extension.bx.cs.worker-rm', {cmd: 'bx', args: ['cs', 'worker-rm']}, outputChannel, [new PromptInput('Specify a cluster name or id'), new PromptInput('Specify a worker id')], ['-f'] );
-    registerPromptingCommand(context, 'extension.bx.cs.workers', {cmd: 'bx', args: ['cs', 'workers']}, outputChannel, [new PromptInput('Specify a cluster name or id')] );
+    // IBM Cloud CS commands *************************************
+    registerPromptingCommand(context, 'extension.ibmcloud.ks.cluster.get', {cmd: 'ibmcloud', args: ['ks', 'cluster', 'get']}, outputChannel, [new PromptInput('Specify a cluster name or id', '--cluster')]);
+    registerPromptingCommand(context, 'extension.ibmcloud.ks.cluster.rm', {cmd: 'ibmcloud', args: ['ks', 'cluster', 'rm']}, outputChannel, [new PromptInput('Specify a cluster name or id')], ['-f']);
+    registerCommand(context, 'extension.ibmcloud.ks.clusters', {cmd: 'ibmcloud', args: ['ks', 'clusters']}, outputChannel);
+    registerCommand(context, 'extension.ibmcloud.ks.init', {cmd: 'ibmcloud', args: ['ks', 'init']}, outputChannel);
+    registerPromptingCommand(context, 'extension.ibmcloud.ks.worker.get',  {cmd: 'ibmcloud', args: ['ks', 'worker', 'get']}, outputChannel, [new PromptInput('Specify cluster name or id', '--cluster'), new PromptInput('Specify worker id', '--worker')]);
+    registerPromptingCommand(context, 'extension.ibmcloud.ks.worker.add', {cmd: 'ibmcloud', args: ['ks', 'worker' ,'add']}, outputChannel, [new PromptInput('Specify cluster name or id', '--cluster')], ['1'] );
+    registerPromptingCommand(context, 'extension.ibmcloud.ks.worker.reboot', {cmd: 'ibmcloud', args: ['ks', 'worker', 'reboot']}, outputChannel, [new PromptInput('Specify a cluster name or id', '--cluster'), new PromptInput('Specify a worker id', '--worker')], ['-f'] );
+    registerPromptingCommand(context, 'extension.ibmcloud.ks.worker.reload', {cmd: 'ibmcloud', args: ['ks', 'worker', 'reload']}, outputChannel, [new PromptInput('Specify a cluster name or id', '--cluster'), new PromptInput('Specify a worker id', '--worker')], ['-f'] );
+    registerPromptingCommand(context, 'extension.ibmcloud.ks.worker.rm', {cmd: 'ibmcloud', args: ['ks', 'worker', 'rm']}, outputChannel, [new PromptInput('Specify a cluster name or id', '--cluster'), new PromptInput('Specify a worker id')], ['-f'] );
+    registerPromptingCommand(context, 'extension.ibmcloud.ks.workers', {cmd: 'ibmcloud', args: ['ks', 'workers']}, outputChannel, [new PromptInput('Specify a cluster name or id', '--cluster')] );
 }
 
 
@@ -136,7 +137,7 @@ function executeCommand(command: SystemCommand) {
 
 
 /*
- *  Checks the version of the Bluemix CLI and notifies the user if cli or recommended plugins are out of date
+ *  Checks the version of the IBM Cloud CLI and notifies the user if cli or recommended plugins are out of date
  */
 function checkVersions(): Promise<any> {
 
@@ -147,18 +148,18 @@ function checkVersions(): Promise<any> {
             checkedVersions = true;
 
             // first check the main cli version
-            const command = new SystemCommand('bx', ['--version']);
+            const command = new SystemCommand('ibmcloud', ['--version']);
             command.execute()
             .then(function() {
                 if (command.stdout !== undefined) {
 
-                    // parse version from bx --version command output
+                    // parse version from ibmcloud --version command output
                     const split = command.stdout.split('+');
                     const detail = split[0].split('version');
                     const version = semver.clean(detail[detail.length - 1]);
 
                     if (semver.gt(packageJson.ibm.cli.version, version)) {
-                        const message = `\n\nThe recommended minimum Bluemix CLI version is ${packageJson.ibm.cli.version}.\nYour system is currently running ${version}.\nA newer version of the IBM Bluemix CLI is available for download at: ${packageJson.ibm.cli.url}`;
+                        const message = `\n\nThe recommended minimum IBM Cloud CLI version is ${packageJson.ibm.cli.version}.\nYour system is currently running ${version}.\nA newer version of the IBM Cloud CLI is available for download at: ${packageJson.ibm.cli.url}`;
                         outputChannel.append(message);
                     }
                 }
@@ -166,8 +167,8 @@ function checkVersions(): Promise<any> {
             .then(function() {
 
                 // next check the plugin versions
-                // list all plugins with version using `bx plugin list command`
-                const pluginsListCommand = new SystemCommand('bx', ['plugin', 'list']);
+                // list all plugins with version using `ibmcloud plugin list command`
+                const pluginsListCommand = new SystemCommand('ibmcloud', ['plugin', 'list']);
                 pluginsListCommand.execute()
                 .then(function() {
                     if (pluginsListCommand.stdout !== undefined) {
@@ -189,7 +190,7 @@ function checkVersions(): Promise<any> {
                                             if (displayName.search(plugin.displayName) >= 0) {
                                                 if (semver.gt(plugin.version, cleanVersion)) {
                                                     const devPlugin = plugin.command === 'dev';
-                                                    const message = `\n\nThe recommended minimum version for the Bluemix '${plugin.displayName}' CLI plugin is ${plugin.version}.\nYour system is currently running ${cleanVersion}.\nYou ${ devPlugin ? 'must' : 'can' } update using the 'bx plugin update' command or visit ${plugin.url}`;
+                                                    const message = `\n\nThe recommended minimum version for the IBM Cloud '${plugin.displayName}' CLI plugin is ${plugin.version}.\nYour system is currently running ${cleanVersion}.\nYou ${ devPlugin ? 'must' : 'can' } update using the 'ibmcloud plugin update' command or visit ${plugin.url}`;
                                                     outputChannel.append(message);
 
                                                     if (devPlugin) {

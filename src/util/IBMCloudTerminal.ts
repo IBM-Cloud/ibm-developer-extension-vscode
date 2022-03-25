@@ -1,5 +1,5 @@
 /**
- * Copyright IBM Corporation 2016, 2017
+ * Copyright IBM Corporation 2016, 2022
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,11 +22,11 @@ import {window, Disposable, Terminal} from 'vscode';
  * Singleton instance of Terinal wth Bluemix identifier
  * for use globally within this extension
  */
-export class BluemixTerminal {
+export class IBMCloudTerminal {
 
     private static _terminal: Terminal;
     private static windowListener: Disposable;
-    private static TERMINAL_NAME = 'Bluemix';
+    private static TERMINAL_NAME = 'IBMCloud';
 
     /*
      * @returns {Terminal} instance
@@ -34,7 +34,7 @@ export class BluemixTerminal {
     public static get instance(): Terminal {
 
         if (this._terminal === undefined) {
-            this._terminal = window.createTerminal(BluemixTerminal.TERMINAL_NAME, '', []);
+            this._terminal = window.createTerminal(IBMCloudTerminal.TERMINAL_NAME, '', []);
             this.initWindowListener();
         }
         this._terminal.show();
@@ -48,7 +48,7 @@ export class BluemixTerminal {
     static initWindowListener() {
         if (this.windowListener === undefined) {
             this.windowListener = window.onDidCloseTerminal((e: Terminal) => {
-                if (e.name === BluemixTerminal.TERMINAL_NAME) {
+                if (e.name === IBMCloudTerminal.TERMINAL_NAME) {
                     this._terminal = undefined;
                 }
             });

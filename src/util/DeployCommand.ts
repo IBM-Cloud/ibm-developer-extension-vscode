@@ -1,5 +1,5 @@
 /**
- * Copyright IBM Corporation 2016, 2017
+ * Copyright IBM Corporation 2016, 2022
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,7 +50,7 @@ export class DeployCommand extends SystemCommand {
                     this.displayError('Please specify \'deploy-image-target\' in cli-config.yml for Kubernetes deployment.');
                 });
             } else {
-                const regex = new RegExp(/registry.*.bluemix.net/);
+                const regex = new RegExp(/.*icr.io/);
                 if (regex.test(deployImageTarget)) {
                     const cluster = yml['ibm-cluster'];
                     if (cluster === undefined || cluster === '') {

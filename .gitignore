@@ -100,3 +100,4 @@ internal/
 yarn.lock
 out/*
 **/.vscode-test
+*.vsix
