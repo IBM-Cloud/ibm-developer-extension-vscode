@@ -10,9 +10,9 @@ This extension provides capabilities for the [IBM Cloud CLI](https://cloud.ibm.c
 
 ## Changelog
 - *v0.0.15*
-- Updated to IBM Cloud 2.5.0
-- Rebranded extension to IBM Cloud CLI
-- Fixed user input box not showing after first usage
+  - Updated to IBM Cloud 2.5.0
+  - Rebranded extension to IBM Cloud CLI
+  - Fixed user input box not showing after first usage
 - *v0.0.14*
   - Added `bx dev console` command
   - Added check for hostname and domain in cli-config.yml for CF deployment (no longer required when project is created)
