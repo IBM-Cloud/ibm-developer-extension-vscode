@@ -18,13 +18,11 @@ before_install:
     fi
 
 script:
-  - npm test --silent
+  - npm test --silent 
 
-after_script:
-- |
-  echo ">>> Publish"
-  npm run vscode:publish
-
-stages:
-- name: after_script
-  if: env(TRAVIS_TAG) =~ ^v
+deploy:
+  provider: script
+  script: "npm run vscode:publish"
+  skip_cleanup: true
+  on:
+    tags: true
