@@ -61,7 +61,7 @@ export class SystemCommand {
         this.outputChannel = _outputChannel;
         this.sanitizeOutput = sanitizeOutput;
 
-        if (this.outputChannel !== undefined) {
+        if (this.outputChannel) {
             // NOTE: Do not perserve focus (`preserveFocus`) when showing output channel to allow 
             // other UI components a chance to be in focus such as window.showInputBox and window.showQuickPick
             this.outputChannel.show(true);
@@ -73,7 +73,7 @@ export class SystemCommand {
      * @returns {boolean} Returns active status
      */
     isActive() {
-        return (this.command !== undefined);
+        return !!this.command;
     }
 
     /*
@@ -132,13 +132,10 @@ export class SystemCommand {
 
             const opt:any = {
                 cwd: workspace.rootPath,
+                env: {
+                    ...process.env, IBMCLOUD_COLOR: false
+                }
             };
-
-            // NOTE: Currently there is an issue where the ANIS escape color sequences are not rendered correctly on Macs
-            // Until a solution is found color will be disabled on output for users running on Darwin
-            if (process.platform === 'darwin') {
-              opt.env = { ...process.env, IBMCLOUD_COLOR: false };
-            }
 
             this.invocation = spawn(this.command, this.args, opt);
 
@@ -281,7 +278,7 @@ export class SystemCommand {
      * Display output in targeted output channel
      */
     output(data: any) {
-        if (this.outputChannel !== undefined) {
+        if (this.outputChannel) {
             this.outputChannel.append(data);
         }
     }
@@ -290,7 +287,7 @@ export class SystemCommand {
      * Kill the process (spawned process only)
      */
     kill() {
-        if (this.invocation !== undefined) {
+        if (this.invocation) {
             const self = this;
             const  signal = 'SIGKILL';
             psTree(self.invocation.pid, function (err, children) {
@@ -309,7 +306,7 @@ export class SystemCommand {
                 });
             });
 
-            if (this.outputChannel !== undefined) {
+            if (this.outputChannel) {
                 this.outputChannel.show();
             }
         }

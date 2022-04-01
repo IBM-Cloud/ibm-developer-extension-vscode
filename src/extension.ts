@@ -46,8 +46,8 @@ export function activate(context: ExtensionContext) {
 
     // IBM Cloud DEV commands *************************************
     registerCommand(context, 'extension.ibmcloud.dev.list', {cmd: 'ibmcloud', args: ['dev', 'list', '--caller-vscode']}, outputChannel, true);
-    registerCommand(context, 'extension.ibmcloud.dev.build', {cmd: 'ibmcloud', args: ['dev', 'build', '--caller-vscode', '--debug']}, outputChannel, true);
-    registerCommand(context, 'extension.ibmcloud.dev.build.release', {cmd: 'ibmcloud', args: ['dev', 'build', '--caller-vscode']}, outputChannel, true);
+    registerCommand(context, 'extension.ibmcloud.dev.build', {cmd: 'ibmcloud', args: ['dev', 'build', '--caller-vscode', '--debug']}, outputChannel, false);
+    registerCommand(context, 'extension.ibmcloud.dev.build.release', {cmd: 'ibmcloud', args: ['dev', 'build', '--caller-vscode']}, outputChannel, false);
     registerCommand(context, 'extension.ibmcloud.dev.debug', {cmd: 'ibmcloud', args: ['dev', 'debug', '--caller-vscode']}, outputChannel);
     registerCommand(context, 'extension.ibmcloud.dev.deploy', {cmd: 'ibmcloud', args: ['dev', 'deploy', '--caller-vscode', '--trace']}, outputChannel, false, DeployCommand);
     registerCommand(context, 'extension.ibmcloud.dev.diag', {cmd: 'ibmcloud', args: ['dev', 'diag', '--caller-vscode', '--trace']}, outputChannel, true);
@@ -141,7 +141,7 @@ function executeCommand(command: SystemCommand) {
  */
 function checkVersions(): Promise<any> {
 
-    return new Promise<any>((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
 
         // only run this once per session of vscode
         if (checkedVersions !== true) {
