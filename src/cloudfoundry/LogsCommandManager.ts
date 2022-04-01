@@ -31,7 +31,7 @@ export class LogsCommandManager {
     private activeLogs: Object = {};
 
     /*
-     * Register teh log start/stop commands
+     * Register the log start/stop commands
      * @param {ExtensionContext} the extension's context
      * @param {key} the event/key for the command
      */
@@ -42,9 +42,9 @@ export class LogsCommandManager {
         }
 
         const disposable = commands.registerCommand(key, () => {
-            if (key === 'extension.bx.cf.logs') {
+            if (key === 'extension.ibmcloud.cf.logs') {
                 LogsCommandManager.instance.startLogs();
-            } else if (key === 'extension.bx.cf.logs-stop') {
+            } else if (key === 'extension.ibmcloud.cf.logs-stop') {
                 LogsCommandManager.instance.stopLogs();
             }
         });
@@ -58,7 +58,7 @@ export class LogsCommandManager {
      */
     getOutputChannel(key): OutputChannel {
         if (this.outputChannels[key] === undefined) {
-            this.outputChannels[key] = window.createOutputChannel(`Bluemix: CloudFoundry: ${key}`);
+            this.outputChannels[key] = window.createOutputChannel(`IBMCloud: CloudFoundry: ${key}`);
         }
         return this.outputChannels[key];
     }
@@ -73,7 +73,7 @@ export class LogsCommandManager {
             const outputChannel = self.getOutputChannel(val);
 
             // todo: check if already active
-            const command = new SystemCommand('bx', ['cf', 'logs', val], outputChannel);
+            const command = new SystemCommand('ibmcloud', ['cf', 'logs', val], outputChannel);
             command.executeWithOutputChannel();
 
             self.activeLogs[val] = command;

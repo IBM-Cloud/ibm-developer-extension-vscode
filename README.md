@@ -11,6 +11,7 @@ This extension provides capabilities for the [IBM Cloud CLI](https://cloud.ibm.c
 ## Changelog
 - v0.0.16
   - Improved performance when displaying CLI logs in Output Channel
+  - Used correct command ext identifier when calling cf logs commands
 - *v0.0.15*
   - Updated to IBM Cloud 2.6.0
   - Rebranded extension to IBM Cloud CLI
