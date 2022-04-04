@@ -1,11 +1,18 @@
 sudo: false
 
+services:
+  - docker
+
 language: node_js
 
 node_js: node
 
 os:
   - linux
+
+script:
+  docker build -t vscode-linux-build-agent -f ci/Dockerfile .;
+  docker run vscode-linux-build-agent /bin/sh -c 'xvfb-run -a -l --server-args=":99 -screen 0 1024x786x24" npm test';
 
 deploy:
   provider: script
