@@ -1,4 +1,7 @@
 #!/bin/bash
-export DBUS_SESSION_BUS_ADDRESS=$(dbus-daemon --config-file=/usr/share/dbus-1/system.conf --print-address)
+if [[ ! -f /var/run/dbus/system_bus_socket ]]; then
+  export DISPLAY=:99.0
+  dbus-daemon --config-file /etc/dbus-1/system.d/dbus-policy.conf &
+fi
 
 exec "$@"

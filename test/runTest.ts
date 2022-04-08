@@ -29,7 +29,6 @@ async function go() {
             extensionTestsPath,
             launchArgs: [
                 // This disables hardware acceleration that may cause problems in build
-                '--no-sandbox',
                 '--disable-gpu',
                 // This disables all extensions except the one being testing
                 '--disable-extensions',
