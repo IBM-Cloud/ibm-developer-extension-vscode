@@ -1,5 +1,8 @@
 sudo: false
 
+services:
+  - docker
+
 language: node_js
 
 node_js: node
@@ -7,18 +10,9 @@ node_js: node
 os:
   - linux
 
-before_install:
-  - if [ $TRAVIS_OS_NAME == "linux" ]; then
-      sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y;
-      sudo apt-get update -q;
-      sudo apt-get install libstdc++-4.9-dev -y;
-      export CXX="g++-4.9" CC="gcc-4.9" DISPLAY=:99.0;
-      sh -e /etc/init.d/xvfb start;
-      sleep 3;
-    fi
-
 script:
-  - npm test --silent 
+  docker build -t vscode-build -f ci/Dockerfile .;
+  docker run vscode-build /bin/sh -c 'xvfb-run -a -l --server-args=":99 -screen 0 1024x786x24" npm test';
 
 deploy:
   provider: script
