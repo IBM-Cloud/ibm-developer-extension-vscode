@@ -27,8 +27,8 @@ import {SystemCommand} from '../util/SystemCommand';
 export class LogsCommandManager {
 
     private static instance: LogsCommandManager = undefined;
-    private outputChannels: Object = {};
-    private activeLogs: Object = {};
+    private outputChannels = {};
+    private activeLogs = {};
 
     /*
      * Register the log start/stop commands

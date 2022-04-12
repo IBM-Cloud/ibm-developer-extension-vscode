@@ -24,7 +24,7 @@ import {SystemCommand} from './SystemCommand';
  */
 export class PromptInput {
 
-    prompt: string = '';
+    prompt = '';
     prefixArgument = undefined;
     pickerOptions: string[] = undefined;
 
@@ -41,7 +41,7 @@ export class PromptInput {
 export class PromptingCommand extends SystemCommand {
 
     inputs: PromptInput[] = [];
-    index: number = 0;
+    index = 0;
     originalArgs: any[] = [];
     additionalArgs: any[] = [];
 
@@ -53,7 +53,7 @@ export class PromptingCommand extends SystemCommand {
      * @param {PromptInput[]} array of input definitions for vscode prompts
      * @param {string[]} additional arguments to append at the end of system call
      */
-    constructor(public command: string, public args: string[], public _outputChannel: OutputChannel, inputs: PromptInput[], additionalArgs: string[] = [], sanitizeOutput: boolean = false) {
+    constructor(public command: string, public args: string[], public _outputChannel: OutputChannel, inputs: PromptInput[], additionalArgs: string[] = [], sanitizeOutput = false) {
         super(command, args, _outputChannel, sanitizeOutput);
         this.originalArgs = args.slice(0);
 
