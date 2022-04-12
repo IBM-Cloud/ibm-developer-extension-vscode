@@ -7,5 +7,6 @@ src/**
 **/*.map
 .gitignore
 tsconfig.json
+.eslintrc.js
 vsc-extension-quickstart.md
 cla/**

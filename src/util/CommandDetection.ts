@@ -25,10 +25,10 @@ import {window} from 'vscode';
  */
 export class CommandDetection {
 
-    static ERR_NONE: number = 0;
-    static ERR_UNKNOWN: number = 1;
-    static ERR_COMMAND_NOT_FOUND: number = 2;
-    static ERR_PLUGIN_NOT_FOUND: number = 3;
+    static ERR_NONE = 0;
+    static ERR_UNKNOWN = 1;
+    static ERR_COMMAND_NOT_FOUND = 2;
+    static ERR_PLUGIN_NOT_FOUND = 3;
 
     /*
      * Determine error condition from SystemCommand

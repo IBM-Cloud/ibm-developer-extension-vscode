@@ -32,9 +32,9 @@ export class SystemCommand {
     args: string[];
     invocation: any;
     outputChannel: OutputChannel;
-    sanitizeOutput: boolean = false;
-    stdout: string = '';
-    stderr: string = '';
+    sanitizeOutput = false;
+    stdout = '';
+    stderr = '';
 
 
     // TECH DEBT: Two methods exist for invoking system commands
@@ -55,7 +55,7 @@ export class SystemCommand {
      * @param {string[]} array of additional arguments
      * @param {OutputChannel} output channel to display system process output
      */
-    constructor(public _command: string, public _args: string[] = [], public _outputChannel: OutputChannel = undefined, sanitizeOutput: boolean = false) {
+    constructor(public _command: string, public _args: string[] = [], public _outputChannel: OutputChannel = undefined, sanitizeOutput = false) {
         this.command = _command;
         this.args = _args;
         this.outputChannel = _outputChannel;

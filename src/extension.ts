@@ -23,7 +23,7 @@ import {LoginManager} from './util/LoginManager';
 import {PromptingCommand, PromptInput} from './util/PromptingCommand';
 import {SystemCommand} from './util/SystemCommand';
 const semver = require('semver');
-const packageJson = require('../../package.json');
+const packageJson = require('../package.json');
 
 
 const outputChannel = window.createOutputChannel('IBMCloud');
@@ -98,7 +98,7 @@ export function activate(context: ExtensionContext) {
 /*
  *  Helper utility to register system commands
  */
-function registerCommand(context: ExtensionContext, key: string, opt, outputChannel, sanitizeOutput: boolean = false, CommandClass = SystemCommand, useTerminal: boolean = false) {
+function registerCommand(context: ExtensionContext, key: string, opt, outputChannel, sanitizeOutput = false, CommandClass = SystemCommand, useTerminal = false) {
     const disposable = commands.registerCommand(key, () => {
         const command = new CommandClass(opt.cmd, opt.args, outputChannel, sanitizeOutput);
         command.useTerminal = useTerminal;
@@ -113,7 +113,7 @@ function registerCommand(context: ExtensionContext, key: string, opt, outputChan
 /*
  *  Helper utility to register prompting system commands
  */
-function registerPromptingCommand(context: ExtensionContext, key: string, opt, outputChannel, inputs: PromptInput[], additionalArgs: string[] = [], sanitizeOutput: boolean = false) {
+function registerPromptingCommand(context: ExtensionContext, key: string, opt, outputChannel, inputs: PromptInput[], additionalArgs: string[] = [], sanitizeOutput = false) {
     const disposable = commands.registerCommand(key, () => {
         const command = new PromptingCommand(opt.cmd, opt.args, outputChannel, inputs, additionalArgs, sanitizeOutput);
         checkVersions().then(function() {
