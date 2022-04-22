@@ -31,6 +31,9 @@
   ],
   "icon": "assets/icon.png",
   "activationEvents": [
+    "onCommand:extension.ibmcloud.api",
+    "onCommand:extension.ibmcloud.regions",
+    "onCommand:extension.ibmcloud.target",
     "onCommand:extension.ibmcloud.login",
     "onCommand:extension.ibmcloud.login.sso",
     "onCommand:extension.ibmcloud.logout",
@@ -72,11 +75,27 @@
     "onCommand:extension.ibmcloud.ks.worker.reboot",
     "onCommand:extension.ibmcloud.ks.worker.reload",
     "onCommand:extension.ibmcloud.ks.worker.rm",
-    "onCommand:extension.ibmcloud.ks.workers"
+    "onCommand:extension.ibmcloud.ks.workers",
+    "onCommand:extension.ibmcloud.account.list",
+    "onCommand:extension.ibmcloud.account.show",
+    "onCommand:extension.ibmcloud.account.users",
+    "onCommand:extension.ibmcloud.resource.service-instances"
   ],
   "main": "./out/src/extension",
   "contributes": {
     "commands": [
+      {
+        "command": "extension.ibmcloud.api",
+        "title": "ibmcloud api"
+      },
+      {
+        "command": "extension.ibmcloud.regions",
+        "title": "ibmcloud regions"
+      },
+      {
+        "command": "extension.ibmcloud.target",
+        "title": "ibmcloud target"
+      },
       {
         "command": "extension.ibmcloud.login",
         "title": "ibmcloud login"
@@ -244,6 +263,22 @@
       {
         "command": "extension.ibmcloud.ks.workers",
         "title": "ibmcloud ks workers"
+      },
+      {
+        "command": "extension.ibmcloud.account.list",
+        "title": "ibmcloud account list"
+      },
+      {
+        "command": "extension.ibmcloud.account.show",
+        "title": "ibmcloud account show"
+      },
+      {
+        "command": "extension.ibmcloud.account.users",
+        "title": "ibmcloud account users"
+      },
+      {
+        "command": "extension.ibmcloud.resource.service-instances",
+        "title": "ibmcloud resource service-instances"
       }
     ]
   },

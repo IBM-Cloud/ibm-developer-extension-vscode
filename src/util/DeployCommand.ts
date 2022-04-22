@@ -16,70 +16,46 @@
 
 'use strict';
 
-import {window, workspace} from 'vscode';
-import {SystemCommand} from './SystemCommand';
-const fs = require('fs');
-const yaml = require('js-yaml');
+import { window } from 'vscode';
+import { PromptingCommand, PromptInput } from './PromptingCommand';
+import { SystemCommand } from './SystemCommand';
 
 /*
- * Class for invoking system commands with prompt(s) for input
+ * Class for deploying through IBM Cloud IKS
  */
-export class DeployCommand extends SystemCommand {
+export class DeployCommand extends PromptingCommand {
 
     /*
-     * Validate cli-config and then execute the deploy command
+     * Attempt to provide options for user to select for deployment
      */
-    execute(): Promise<any> {
-        const targetFile = workspace.rootPath + '/cli-config.yml';
+    async execute(): Promise<any> {
 
-        if (!fs.existsSync(targetFile)) {
-            return new Promise((resolve, reject) => {
-                this.displayError('Could not find file cli-config.yml in project root.  Aborting deployment.');
-            });
+        const getClustersCmd = new SystemCommand('ibmcloud', ['ks','clusters','--output', 'json']);
+        await getClustersCmd.execute();
+
+        if (getClustersCmd.stderr) {
+            this.displayError(getClustersCmd.stderr);
+            throw new Error(getClustersCmd.stderr);
         }
 
-        const yml = yaml.safeLoad(fs.readFileSync(targetFile, 'utf8'));
+        this.inputs = [
+            new PromptInput('Specify a cluster name', '--ibm-cluster'), 
+            new PromptInput('Specify deploy image target', '--deploy-image-target')
+        ];
+        try {
 
-        // if deploy target is "container", validate the deploy-imate-target and ibm-cluster values
-        const deployTarget = yml['deploy-target'];
-        if (deployTarget === 'container') {
+            // Attempt to get a list a cluster names for the user to pick for deployment
+            // otherwise, let the user enter into input box the cluster name
+            if (getClustersCmd.stdout) {
+                const clusters = JSON.parse(getClustersCmd.stdout);
+                const clusterNames = clusters.map((c:any) => c.name);
+                this.inputs[0].pickerOptions = clusterNames;
+                this.inputs[0].prompt = 'Specify a cluster';
+            } 
+        } catch(e) {
+            console.warn('Could not provide list of clusters for user ', e);
+        }
 
-            const deployImageTarget = yml['deploy-image-target'];
-            if (deployImageTarget === undefined || deployImageTarget === '') {
-                return new Promise((resolve, reject) => {
-                    this.displayError('Please specify \'deploy-image-target\' in cli-config.yml for Kubernetes deployment.');
-                });
-            } else {
-                const regex = new RegExp(/.*icr.io/);
-                if (regex.test(deployImageTarget)) {
-                    const cluster = yml['ibm-cluster'];
-                    if (cluster === undefined || cluster === '') {
-                        return new Promise((resolve, reject) => {
-                            this.displayError('Please specify \'ibm-cluster\' in cli-config.yml for Kubernetes deployment targeting IBM Cloud.');
-                        });
-                    }
-                }
-            }
-        }
-        else if (deployTarget !== 'buildpack' && (deployTarget !== '' && deployTarget !== undefined)) {
-            return new Promise((resolve, reject) => {
-                this.displayError('Invalid \'deploy-target\' value in cli-config.yml.');
-            });
-        } else {
-            const hostname = yml['hostname'];
-            if (hostname === undefined || hostname === '') {
-                return new Promise((resolve, reject) => {
-                    this.displayError('Please specify \'hostname\' in cli-config.yml for Cloud Foundry deployment.');
-                });
-            } else {
-                const domain = yml['domain'];
-                if (domain === undefined || domain === '') {
-                    return new Promise((resolve, reject) => {
-                        this.displayError('Please specify \'domain\' in cli-config.yml for Cloud Foundry deployment.');
-                    });
-                }
-            }
-        }
         return super.execute();
     }
 

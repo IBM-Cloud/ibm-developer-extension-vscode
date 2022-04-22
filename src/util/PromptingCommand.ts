@@ -109,7 +109,7 @@ export class PromptingCommand extends SystemCommand {
 
             let invocation;
             if (input.pickerOptions !== undefined && input.pickerOptions.length > 0) {
-                invocation = window.showQuickPick(input.pickerOptions);
+                invocation = window.showQuickPick(input.pickerOptions, { placeHolder: input.prompt });
             } else {
                 invocation = window.showInputBox({prompt: input.prompt});
             }
