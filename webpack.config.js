@@ -25,7 +25,7 @@ const config = {
   },
   resolve: {
     // support reading TypeScript and JavaScript files, 📖 -> https://github.com/TypeStrong/ts-loader
-    extensions: ['.ts', '.js', '.json'],
+    extensions: ['.ts', '.js'],
     fallback: {
       'buffer': require.resolve('buffer/') ,
       'stream': require.resolve('stream-browserify')
