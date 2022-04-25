@@ -18,7 +18,6 @@
 
 import {commands, window, ExtensionContext} from 'vscode';
 import {LogsCommandManager} from './cloudfoundry/LogsCommandManager';
-import {DeployCommand} from './util/DeployCommand';
 import {LoginManager} from './util/LoginManager';
 import {PromptingCommand, PromptInput} from './util/PromptingCommand';
 import {SystemCommand} from './util/SystemCommand';
@@ -52,7 +51,7 @@ export function activate(context: ExtensionContext) {
     registerCommand(context, 'extension.ibmcloud.dev.build', {cmd: 'ibmcloud', args: ['dev', 'build', '--caller-vscode', '--debug']}, outputChannel, false);
     registerCommand(context, 'extension.ibmcloud.dev.build.release', {cmd: 'ibmcloud', args: ['dev', 'build', '--caller-vscode']}, outputChannel, false);
     registerCommand(context, 'extension.ibmcloud.dev.debug', {cmd: 'ibmcloud', args: ['dev', 'debug', '--caller-vscode']}, outputChannel);
-    registerPromptingCommand(context, 'extension.ibmcloud.dev.deploy', {cmd: 'ibmcloud', args: ['dev', 'deploy', '--target', 'container', '--caller-vscode']}, outputChannel, [], ['--trace'], false, DeployCommand);
+    registerCommand(context, 'extension.ibmcloud.dev.deploy', {cmd: 'ibmcloud', args: ['dev', 'deploy', '--target', 'container', '--caller-vscode']}, outputChannel, false, SystemCommand, true);
     registerCommand(context, 'extension.ibmcloud.dev.diag', {cmd: 'ibmcloud', args: ['dev', 'diag', '--caller-vscode', '--trace']}, outputChannel, true);
     registerCommand(context, 'extension.ibmcloud.dev.run', {cmd: 'ibmcloud', args: ['dev', 'run', '--caller-vscode']}, outputChannel);
     registerCommand(context, 'extension.ibmcloud.dev.status', {cmd: 'ibmcloud', args: ['dev', 'status', '--caller-vscode']}, outputChannel);
@@ -124,9 +123,9 @@ function registerCommand(context: ExtensionContext, key: string, opt, outputChan
 /*
  *  Helper utility to register prompting system commands
  */
-function registerPromptingCommand(context: ExtensionContext, key: string, opt, outputChannel, inputs: PromptInput[], additionalArgs: string[] = [], sanitizeOutput = false, PromptingClass = PromptingCommand) {
+function registerPromptingCommand(context: ExtensionContext, key: string, opt, outputChannel, inputs: PromptInput[], additionalArgs: string[] = [], sanitizeOutput = false) {
     const disposable = commands.registerCommand(key, () => {
-        const command = new PromptingClass(opt.cmd, opt.args, outputChannel, inputs, additionalArgs, sanitizeOutput);
+        const command = new PromptingCommand(opt.cmd, opt.args, outputChannel, inputs, additionalArgs, sanitizeOutput);
         checkVersions().then(function() {
             executeCommand(command);
         });
