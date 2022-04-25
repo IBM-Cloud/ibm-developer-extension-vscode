@@ -89,7 +89,7 @@ Steps to get started:
 - `ibmcloud regions` - View IBM Cloud regions
 - `ibmcloud account` - View IBM Cloud accounts and users
 - `ibmcloud resource service-instances` - View IBM Cloud Service Instances
-- `ibmcloud target` - View targeted IBM Cloud space, account, resource group, org and/or space
+- `ibmcloud target` - View targeted IBM Cloud org, space, account, and resource group
 
 ## Requirements/Dependencies
 
