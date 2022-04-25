@@ -15,7 +15,7 @@ This extension provides capabilities for the [IBM Cloud CLI](https://cloud.ibm.c
   - Added list regions command
   - Added view target command
   - Added view service instances command
-  - Improved UX for deploy command (select cluster from list and enter deploy image target)
+  - Improved UX for deploy command
   - Removed old YouTube tutorials from README
   - Improved development flow instructions in README
 - v0.0.16
