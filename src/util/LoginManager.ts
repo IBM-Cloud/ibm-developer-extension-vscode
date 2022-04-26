@@ -20,7 +20,7 @@ import {commands, window, ExtensionContext} from 'vscode';
 import {IBMCloudTerminal} from './IBMCloudTerminal';
 
 /*
- * Managers interaction with integrated terminal to handle login/logout of bx cli
+ * Managers interaction with integrated terminal to handle login/logout of ibmcloud cli
  */
 export class LoginManager {
 
