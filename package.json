@@ -292,6 +292,7 @@
     "test": "node ./out/test/runTest.js",
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "detect_secrets":"./scripts/detect_secrets.sh",
     "vscode:publish": "vsce publish"
   },
   "devDependencies": {
@@ -322,8 +323,7 @@
     "vsce": "^2.7.0"
   },
   "pre-commit": [
-    "lint",
-    "test"
+    "lint"
   ],
   "ibm": {
     "cli": {
