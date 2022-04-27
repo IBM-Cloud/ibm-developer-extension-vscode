@@ -27,7 +27,7 @@ install:
   - npm install
 
 script:
-  - bin/detect_secrets.sh
+  - npm run detect_secrets
   - npm run lint
 
 deploy:
