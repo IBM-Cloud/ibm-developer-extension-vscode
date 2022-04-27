@@ -1,4 +1,5 @@
 sudo: false
+dist: bionic
 
 addons:
   apt:
@@ -23,10 +24,11 @@ install:
   - sudo chmod o+rwx /usr/lib/python3/dist-packages/
   - python3 -m pip install -U pip
   - pip3 install --upgrade "git+https://github.com/ibm/detect-secrets.git@master#egg=detect-secrets"
+  - npm install
 
 script:
-  bin/detect_secrets.sh
-  npm run lint
+  - bin/detect_secrets.sh
+  - npm run lint
 
 deploy:
   provider: script
