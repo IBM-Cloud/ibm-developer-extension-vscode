@@ -282,8 +282,7 @@
     "vsce": "^2.7.0"
   },
   "pre-commit": [
-    "lint",
-    "test"
+    "lint"
   ],
   "ibm": {
     "cli": {
