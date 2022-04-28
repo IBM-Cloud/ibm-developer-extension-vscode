@@ -5,7 +5,8 @@ services:
 
 language: node_js
 
-node_js: node
+node_js: 
+  - 16
 
 os:
   - linux
