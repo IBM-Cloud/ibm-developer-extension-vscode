@@ -11,8 +11,7 @@ os:
   - linux
 
 script:
-  docker build -t vscode-build -f ci/Dockerfile .;
-  docker run vscode-build /bin/sh -c 'xvfb-run -a -l --server-args=":99 -screen 0 1024x786x24" npm test';
+  npm run lint
 
 deploy:
   provider: script
