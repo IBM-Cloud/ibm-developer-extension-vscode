@@ -101,3 +101,4 @@ yarn.lock
 out/*
 **/.vscode-test
 *.vsix
+test/workspace

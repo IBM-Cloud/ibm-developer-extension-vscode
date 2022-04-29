@@ -34,8 +34,9 @@ let unsupportedDevVersion = false;
  * your extension is activated the very first time the command is executed
  */
 export function activate(context: ExtensionContext) {
-
     console.log('Congratulations, your extension "com-ibm-cloud" is now active!');
+    
+    checkVersions();
 
     LoginManager.registerCommand(context, 'extension.ibmcloud.login');
     LoginManager.registerCommand(context, 'extension.ibmcloud.login.sso');
@@ -112,8 +113,8 @@ function registerCommand(context: ExtensionContext, key: string, opt, outputChan
     const disposable = commands.registerCommand(key, () => {
         const command = new CommandClass(opt.cmd, opt.args, outputChannel, sanitizeOutput);
         command.useTerminal = useTerminal;
-        checkVersions().then(function() {
-            executeCommand(command);
+        return new Promise((resolve) => { 
+            resolve(executeCommand(command));
         });
     });
     context.subscriptions.push(disposable);
@@ -126,15 +127,15 @@ function registerCommand(context: ExtensionContext, key: string, opt, outputChan
 function registerPromptingCommand(context: ExtensionContext, key: string, opt, outputChannel, inputs: PromptInput[], additionalArgs: string[] = [], sanitizeOutput = false) {
     const disposable = commands.registerCommand(key, () => {
         const command = new PromptingCommand(opt.cmd, opt.args, outputChannel, inputs, additionalArgs, sanitizeOutput);
-        checkVersions().then(function() {
-            executeCommand(command);
+        return new Promise((resolve) => {
+            resolve(executeCommand(command));
         });
     });
     context.subscriptions.push(disposable);
 }
 
 
-function executeCommand(command: SystemCommand) {
+function executeCommand(command: SystemCommand): Promise<any> {
 
     const targetPlugin = command.args[0];
     if (targetPlugin === 'dev' && unsupportedDevVersion === true) {
@@ -142,7 +143,7 @@ function executeCommand(command: SystemCommand) {
         outputChannel.append(message);
         return;
     }
-    command.execute();
+    return command.execute();
 }
 
 
@@ -151,7 +152,7 @@ function executeCommand(command: SystemCommand) {
  */
 function checkVersions(): Promise<any> {
 
-    return new Promise<void>((resolve, reject) => {
+    return new Promise<void>((resolve) => {
 
         // only run this once per session of vscode
         if (checkedVersions !== true) {
@@ -225,8 +226,6 @@ function checkVersions(): Promise<any> {
     });
 }
 
-/*
- * this method is called when your extension is deactivated
- */
-export function deactivate() {
-}
+/* this method is called when your extension is deactivated
+*/
+export function deactivate() {} //eslint-disable-line @typescript-eslint/no-empty-function
