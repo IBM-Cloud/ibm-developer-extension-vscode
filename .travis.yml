@@ -30,6 +30,7 @@ script:
   - npm run detect_secrets
   - npm run lint
 
+
 deploy:
   provider: script
   script: "npm run vscode:publish"
