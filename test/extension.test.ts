@@ -26,13 +26,12 @@ import {SystemCommand} from '../src/util/SystemCommand';
 import * as packageJson from '../package.json';
 
 // Defines a Mocha test suite to group tests of similar kind together
-//
 function logStub(cmd:string, outputChannel:sinon.SinonStub) {
-    console.log(`\n======= ${cmd}=========`);
+    console.log(`\n================================(${cmd})================================`);
     outputChannel.args.forEach((arg:any) => {
         if (Array.isArray(arg) && arg.length > 0) console.log(arg[0]);
     });
-    console.log(`\n======= ${cmd}=========`);
+    console.log(`\n================================(${cmd})================================`);
 }
 
 describe('Extension Tests', function () {
@@ -55,7 +54,7 @@ describe('Extension Tests', function () {
 	});
 
     describe('IBM Cloud CLI Commands', function () {
-        this.timeout(10000);
+        this.timeout(15000);
         const extensionName = `${packageJson.publisher}.${packageJson.name}`;
         let extension: any;
         let outputChannel:sinon.SinonStub;
@@ -201,9 +200,6 @@ describe('Extension Tests', function () {
                     logStub('ibmcloud account show', outputChannel);
                     assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/>\s+ibmcloud account show/))).callCount, 1);
                     assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/OK/))).callCount, 1);
-                    // TODO(me): Figure out why the last output log has not displayed before reaching this point
-                   // assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/(^Account Name:\s+(.*)$)|(^Account ID:\s+(.*)$)|(^Account Owner:\s+(.*)$)/))).callCount, 1);
-
                 });
 
                 it('should display the users in account', async function() {
