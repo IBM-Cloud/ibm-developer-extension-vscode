@@ -121,8 +121,8 @@ describe('Extension Tests', function () {
             it('should display current target', async function() {
                 await vscode.commands.executeCommand('extension.ibmcloud.target');
                 logStub('ibmcloud target', outputChannel);
-                assert.isTrue(outputChannel.calledWith(sinon.match(/>\s+ibmcloud target/)));
-                assert.isTrue(outputChannel.calledWith(sinon.match(/\nAPI endpoint:\s+/)));
+                assert.isTrue(outputChannel.calledWith(sinon.match(/ibmcloud target/)));
+                assert.isTrue(outputChannel.calledWith(sinon.match(/API endpoint/)));
             });
 
 			context('ibmcloud dev', async function() {
