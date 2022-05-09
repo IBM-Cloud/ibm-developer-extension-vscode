@@ -126,7 +126,7 @@ describe('Extension Tests', function () {
             });
 
 			context('ibmcloud dev', async function() {
-                this.timeout(30000)
+                this.timeout(30000);
 
                 it('should update all dev plugins/extensions', async function() {
                     await vscode.commands.executeCommand('extension.ibmcloud.cli-update');
