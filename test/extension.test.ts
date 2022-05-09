@@ -29,6 +29,8 @@ import * as packageJson from '../package.json';
 function logStub(cmd:string, outputChannel:sinon.SinonStub) {
     console.log(`\n================================(${cmd})================================`);
     outputChannel.args.forEach((arg:any) => {
+        // TODO(me): Remove later 
+        console.log(arg);
         if (Array.isArray(arg) && arg.length > 0) console.log(arg[0]);
     });
     console.log(`\n================================(${cmd})================================`);
