@@ -126,8 +126,6 @@ describe('Extension Tests', function () {
             });
 
 			context('ibmcloud dev', async function() {
-                this.timeout(30000);
-
                 it('should update all dev plugins/extensions', async function() {
                     await vscode.commands.executeCommand('extension.ibmcloud.cli-update');
                     logStub('ibmcloud update', outputChannel);
@@ -139,6 +137,13 @@ describe('Extension Tests', function () {
                     logStub('ibmcloud dev list', outputChannel);
                     assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/> ibmcloud dev list --caller-vscode/))).callCount, 1);
 				});
+
+                it('should display version info about installed deps in output channel', async function() {
+                    this.timeout(0);
+                    await vscode.commands.executeCommand('extension.ibmcloud.dev.diag');
+                    logStub('ibmcloud dev diag', outputChannel);
+                    assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/> ibmcloud dev diag --caller-vscode/))).callCount, 1);
+                });
 
                 context('when building an application the output channel', function() {
 
@@ -219,11 +224,6 @@ describe('Extension Tests', function () {
                 });
             });
 
-            it('should display version info about installed deps in output channel', async function() {
-                await vscode.commands.executeCommand('extension.ibmcloud.dev.diag');
-                logStub('ibmcloud dev diag', outputChannel);
-                assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/> ibmcloud dev diag --caller-vscode/))).callCount, 1);
-            });
 
         });
     });
