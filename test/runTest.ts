@@ -71,7 +71,10 @@ async function go() {
 
         testWorkspace+= `/${TEST_APP_NAME}`;
 
-        const vscodeExecutablePath = await downloadAndUnzipVSCode();
+        // NOTE: As of now the latest VScode (1.67.0) is modifiying the package.json after test is completed
+        // Until this issue is fixed use 1.66.2 to test against
+        // REF: https://github.com/microsoft/vscode/issues/148975
+        const vscodeExecutablePath = await downloadAndUnzipVSCode('1.66.2');
         await runTests({
             vscodeExecutablePath,
             extensionDevelopmentPath,
