@@ -53,7 +53,7 @@ export function activate(context: ExtensionContext) {
     registerCommand(context, 'extension.ibmcloud.dev.build.release', {cmd: 'ibmcloud', args: ['dev', 'build', '--caller-vscode']}, outputChannel, false);
     registerCommand(context, 'extension.ibmcloud.dev.debug', {cmd: 'ibmcloud', args: ['dev', 'debug', '--caller-vscode']}, outputChannel);
     registerCommand(context, 'extension.ibmcloud.dev.deploy', {cmd: 'ibmcloud', args: ['dev', 'deploy', '--target', 'container', '--caller-vscode']}, outputChannel, false, SystemCommand, true);
-    registerCommand(context, 'extension.ibmcloud.dev.diag', {cmd: 'ibmcloud', args: ['dev', 'diag', '--trace']}, outputChannel, true);
+    registerCommand(context, 'extension.ibmcloud.dev.diag', {cmd: 'ibmcloud', args: ['dev', 'diag', '--caller-vscode']}, outputChannel, true);
     registerCommand(context, 'extension.ibmcloud.dev.run', {cmd: 'ibmcloud', args: ['dev', 'run', '--caller-vscode']}, outputChannel);
     registerCommand(context, 'extension.ibmcloud.dev.status', {cmd: 'ibmcloud', args: ['dev', 'status', '--caller-vscode']}, outputChannel);
     registerCommand(context, 'extension.ibmcloud.dev.stop', {cmd: 'ibmcloud', args: ['dev', 'stop', '--caller-vscode']}, outputChannel);
