@@ -134,12 +134,6 @@ describe('Extension Tests', function () {
                     assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/ibmcloud plugin update/))).callCount, 1);
                 });
 
-                it('should display version info about installed deps in output channel', async function() {
-                    await vscode.commands.executeCommand('extension.ibmcloud.dev.diag');
-                    logStub('ibmcloud dev diag', outputChannel);
-                    assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/> ibmcloud dev diag --caller-vscode/))).callCount, 1);
-                });
-
                 it('should list applications in output channel', async function () {
                     await vscode.commands.executeCommand('extension.ibmcloud.dev.list');
                     logStub('ibmcloud dev list', outputChannel);
@@ -224,6 +218,13 @@ describe('Extension Tests', function () {
                     assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/Retrieving instances with type service_instance in all resource groups in all locations under account (?<account_id>.*)/))).callCount, 1);
                 });
             });
+
+            it('should display version info about installed deps in output channel', async function() {
+                await vscode.commands.executeCommand('extension.ibmcloud.dev.diag');
+                logStub('ibmcloud dev diag', outputChannel);
+                assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/> ibmcloud dev diag --caller-vscode/))).callCount, 1);
+            });
+
         });
     });
 });
