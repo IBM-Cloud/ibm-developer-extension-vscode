@@ -16,6 +16,7 @@ This extension provides capabilities for the [IBM Cloud CLI](https://cloud.ibm.c
   - Added view target command
   - Added view service instances command
   - Improved UX for deploy command
+    - BREAKING CHANGE: `deploy` command only supports IBM Cloud Kubernetes Service
   - Removed old YouTube tutorials from README
   - Improved development flow instructions in README
 - v0.0.16
