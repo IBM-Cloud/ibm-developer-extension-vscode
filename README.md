@@ -19,6 +19,7 @@ This extension provides capabilities for the [IBM Cloud CLI](https://cloud.ibm.c
     - BREAKING CHANGE: `deploy` command only supports IBM Cloud Kubernetes Service
   - Removed old YouTube tutorials from README
   - Improved development flow instructions in README
+  - Removed CloudFoundry workflow from README
 - v0.0.16
   - Improved performance when displaying CLI logs in Output Channel
   - Used correct command ext identifier when calling cf logs commands
@@ -65,20 +66,6 @@ Steps to get started:
 - Use the `ibmcloud dev run` command to run the app in local Docker in release mode
 - Use the `ibmcloud dev deploy` command to deploy the app (in the Docker container) to IBM Cloud
 - Use the `ibmcloud dev view` command to open your deployed project on IBM Cloud in a web browser
-
-### Using CloudFoundry workflow:
-
-Steps to get started:
-- Create a new CloudFoundry application
-    - `ibmcloud dev create` using the IBM Cloud CLI (outside of VS Code)
-    - Select *IBM DevOps, deploy to Cloud Foundry buildpacks* at the prompt for deployment
-- Open the CloudFoundry *project’s folder* in VS Code editor
-    - Press Ctrl-K+Ctrl-O or navigate to File -> Open Folder to select folder
-- Use `ibmcloud cf apps` to list all of your apps
-- Use `ibmcloud cf push` to push a build of your app
-- Use `ibmcloud cf <start/stop/restage/restart>` to change the status of your app
-- Use `ibmcloud cf logs` to view the live log stream for your app
-  - _Use `ibmcloud cf logs` to stop the log stream_
 
 ### Supported CLI/plugins:
 
