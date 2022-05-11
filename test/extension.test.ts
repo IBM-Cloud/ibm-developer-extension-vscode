@@ -21,7 +21,7 @@ import * as sinon from 'sinon';
 // You can import and use all API from the 'vscode' module
 // as well as import your extension to test it
 import * as vscode from 'vscode';
-import { IBMCloudTerminal } from '../src/util/IBMCloudTerminal';
+import {IBMCloudTerminal} from '../src/util/IBMCloudTerminal';
 import {SystemCommand} from '../src/util/SystemCommand';
 import * as packageJson from '../package.json';
 
@@ -29,8 +29,6 @@ import * as packageJson from '../package.json';
 function logStub(cmd:string, outputChannel:sinon.SinonStub) {
     console.log(`\n================================(${cmd})================================`);
     outputChannel.args.forEach((arg:any) => {
-        // TODO(me): Remove later 
-        console.log(arg);
         if (Array.isArray(arg) && arg.length > 0) console.log(arg[0]);
     });
     console.log(`\n================================(${cmd})================================`);
