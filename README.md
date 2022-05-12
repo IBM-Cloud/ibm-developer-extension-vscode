@@ -66,6 +66,7 @@ Steps to get started:
 - Use the `ibmcloud dev run` command to run the app in local Docker in release mode
 - Use the `ibmcloud dev deploy` command to deploy the app (in the Docker container) to IBM Cloud
 - Use the `ibmcloud dev view` command to open your deployed project on IBM Cloud in a web browser
+- Use the `ibmcloud dev console` command to open the IBM Cloud console for your project in a web browser
 
 ### Supported CLI/plugins:
 
