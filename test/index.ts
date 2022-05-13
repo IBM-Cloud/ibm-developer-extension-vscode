@@ -1,5 +1,5 @@
 /**
- * Copyright IBM Corporation 2016, 2022
+ * Copyright IBM Corporation 2022, 2022
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,8 @@ import * as path from 'path';
 export function run(testsRoot: string, cb: (error: any, failures?: number) => void): void {
     // Create the mocha test
     const mocha = new Mocha({
-        ui: 'tdd',
+        ui: 'bdd',
+        bail: true
     });
 
     glob('**/**.test.js', { cwd: testsRoot }, (err, files) => {

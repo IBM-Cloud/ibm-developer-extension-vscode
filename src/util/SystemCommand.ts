@@ -42,7 +42,7 @@ export class SystemCommand {
     //   2: invoke within embedded terminal
     //
     // There are pros and cons to each approach.
-    // Terminal feels really nice, but there are concurrency issues.  EX: if you run bx dev debug,
+    // Terminal feels really nice, but there are concurrency issues.  EX: if you run ibmcloud dev debug,
     // it takes over the terminal, and you can't invoke anything else until that process exits
     //
     // Toggle between the two using this static var
@@ -233,7 +233,7 @@ export class SystemCommand {
 
         // below contains a workaround for 16 bit integers being represented as 8 bit integers
         // from the Node ChildProcess stdio stream, which is causing errors on special unicode characters
-        // as seen in 'bx dev list' - it will probably also happen in other places that
+        // as seen in 'ibmcloud dev list' - it will probably also happen in other places that
         // special characters are also used for cli loading animations
 
         let newLen = 0;

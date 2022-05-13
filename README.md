@@ -9,6 +9,17 @@
 This extension provides capabilities for the [IBM Cloud CLI](https://cloud.ibm.com/docs/cli/index.html) from directly within the VS Code editor. Use the VS Code command palette to quickly access all `ibmcloud dev` commands, without the need to leave the editor's context.
 
 ## Changelog
+- v0.1.0
+  - Added basic account commands (list, show, users)
+  - Added view api endpoint command
+  - Added list regions command
+  - Added view target command
+  - Added view service instances command
+  - Improved UX for deploy command
+    - BREAKING CHANGE: `deploy` command only supports IBM Cloud Kubernetes Service
+  - Removed old YouTube tutorials from README
+  - Improved development flow instructions in README
+  - Removed CloudFoundry workflow from README
 - v0.0.16
   - Improved performance when displaying CLI logs in Output Channel
   - Used correct command ext identifier when calling cf logs commands
@@ -43,14 +54,13 @@ Easily invoke commands from the IBM Cloud CLI from directly inside of the VS Cod
 - Use the `ibmcloud login` command to log in to IBM Cloud (using your IBM Cloud credentials)
 
 ### Using `ibmcloud dev` workflow:
-Video demonstrating `ibmcloud dev` workflow: [IBM Cloud CLI Extension for VS Code
-](https://youtu.be/JmrLaLRRQSk)
 
 Steps to get started:
 - Create a project using one of the two methods below:
     - `ibmcloud dev create` using the IBM Cloud CLI (outside of VS Code)
     - [IBM Cloud CLI Documentation](https://cloud.ibm.com/docs/apps?topic=apps-create-deploy-app-cli)
-- Open the *project’s folder* locally in the VS Code editor
+- Open the *project’s folder* in VS Code
+    - Press Ctrl-K+Ctrl-O or navigate to File -> Open Folder to select folder
 - Use the `ibmcloud dev build` command to build the app into a Docker image
 - Use the `ibmcloud dev debug` command to run the app in local Docker for development
 - Use the `ibmcloud dev run` command to run the app in local Docker in release mode
@@ -58,27 +68,17 @@ Steps to get started:
 - Use the `ibmcloud dev view` command to open your deployed project on IBM Cloud in a web browser
 - Use the `ibmcloud dev console` command to open the IBM Cloud console for your project in a web browser
 
-### Using CloudFoundry workflow:
-Video demonstrating `CloudFoundry` workflow: [IBM Cloud CLI Extension for VS Code for CloudFoundry
-](https://youtu.be/gP_6cpR1JSM)
-
-Steps to get started:
-- Create a new CloudFoundry application
-    - Use the [web console](https://console.ng.bluemix.net/dashboard/cf-apps) and download the starter code
-    - Create a new CloudFoundry app manually
-- Open the *project’s folder* locally in the VS Code editor
-- Use `ibmcloud cf apps` to list all of your apps
-- Use `ibmcloud cf push` to push a build of your app
-- Use `ibmcloud cf <start/stop/restage/restart>` to change the status of your app
-- Use `ibmcloud cf logs` to view the live log stream for your app
-  - _Use `ibmcloud cf logs` to stop the log stream_
-
 ### Supported CLI/plugins:
 
 - `ibmcloud login/logout` - IBM Cloud User Authentication
 - `ibmcloud dev` - IBM Cloud Developer CLI
 - `ibmcloud cf` - IBM Cloud CloudFoundry CLI
 - `ibmcloud ks` - IBM Cloud Kubernetes Service CLI
+- `ibmcloud api` - View IBM Cloud API endpoint
+- `ibmcloud regions` - View IBM Cloud regions
+- `ibmcloud account` - View IBM Cloud accounts and users
+- `ibmcloud resource service-instances` - View IBM Cloud Service Instances
+- `ibmcloud target` - View targeted IBM Cloud org, space, account, and resource group
 
 ## Requirements/Dependencies
 

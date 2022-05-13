@@ -14,21 +14,74 @@
  * limitations under the License.
  **/
 import * as path from 'path';
+import {  spawnSync } from 'child_process';
+import { stat, mkdirSync } from 'fs';
 
 import { downloadAndUnzipVSCode, runTests } from '@vscode/test-electron';
+
+const TEST_APP_NAME = 'vscodepythontest';
+
+async function dirExists(dir:string) {
+    return new Promise((resolve) => {
+        stat(dir, (err, file) => {
+            if (err) {
+                resolve(false);
+                return;
+            }
+            resolve(file.isDirectory());
+        });
+    });
+}
+
+function downloadTestAppCode(workspace:string) {
+    const loginCmd = spawnSync('ibmcloud', ['login', '-r',  'us-south', '-a', 'https://cloud.ibm.com', '-g', 'bdd_test'], {encoding: 'utf-8'});
+    if (loginCmd.status != 0) {
+        throw new Error(`Failed to login to IBMCloud: ${loginCmd.stderr}`); 
+    }
+    const downloadCodeCmd = spawnSync('ibmcloud', ['dev', 'code', TEST_APP_NAME, '--trace'], { cwd: workspace, encoding: 'utf-8' });
+    console.log(downloadCodeCmd.stdout);
+    if (downloadCodeCmd.status != 0) {
+        throw new Error(`Failed to download test app code: ${downloadCodeCmd.stderr}`);
+    }
+}
 
 async function go() {
     try {
         const extensionDevelopmentPath = path.resolve(__dirname, '../..');
         const extensionTestsPath = path.resolve(__dirname, './');
+        let testWorkspace = path.resolve(__dirname, '../../test/workspace');
 
-        const vscodeExecutablePath = await downloadAndUnzipVSCode();
+        // Create workspace if directory does not already exist
+        const workspaceExists = await dirExists(testWorkspace);
+        if (!workspaceExists) {
+            console.log('Could not find workspace. Creating workspace folder...');
+            mkdirSync(testWorkspace);
+            console.log(`Workspace folder ${testWorkspace} was created`);
+        }
+
+        // Check if test project already exists if not download code into workspace
+        const testAppExists = await dirExists(`${testWorkspace}/${TEST_APP_NAME}`);
+        if (!testAppExists) {
+            console.log('Could not find test code. Downloading test app code...');
+            downloadTestAppCode(testWorkspace);
+            console.log('Finished downloading test app code...');
+        } else {
+            console.log('Found existing test app in workspace. Skip downloading code...');
+        }
+
+        testWorkspace+= `/${TEST_APP_NAME}`;
+
+        // NOTE: As of now the latest VScode (1.67.0) is modifiying the package.json after test is completed
+        // Until this issue is fixed use 1.66.2 to test against
+        // REF: https://github.com/microsoft/vscode/issues/148975
+        const vscodeExecutablePath = await downloadAndUnzipVSCode('1.66.2');
         await runTests({
             vscodeExecutablePath,
             extensionDevelopmentPath,
             extensionTestsPath,
             launchArgs: [
-                // This disables hardware acceleration that may cause problems in build
+                testWorkspace,
+                // This disables hardware acceleration that may cause problems in running tests in build process
                 '--disable-gpu',
                 // This disables all extensions except the one being testing
                 '--disable-extensions',

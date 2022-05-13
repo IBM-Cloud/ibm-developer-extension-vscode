@@ -2,7 +2,7 @@
 .vscode-test/**
 out/test/**
 test/**
-ci/**
+scripts/**
 src/**
 **/*.map
 .gitignore

@@ -18,12 +18,11 @@
 
 import {commands, window, ExtensionContext} from 'vscode';
 import {LogsCommandManager} from './cloudfoundry/LogsCommandManager';
-import {DeployCommand} from './util/DeployCommand';
 import {LoginManager} from './util/LoginManager';
 import {PromptingCommand, PromptInput} from './util/PromptingCommand';
 import {SystemCommand} from './util/SystemCommand';
-const semver = require('semver');
-const packageJson = require('../package.json');
+import * as semver from 'semver';
+import * as packageJson from '../package.json';
 
 
 const outputChannel = window.createOutputChannel('IBMCloud');
@@ -35,13 +34,17 @@ let unsupportedDevVersion = false;
  * your extension is activated the very first time the command is executed
  */
 export function activate(context: ExtensionContext) {
-
     console.log('Congratulations, your extension "com-ibm-cloud" is now active!');
+    
+    checkVersions();
 
     LoginManager.registerCommand(context, 'extension.ibmcloud.login');
     LoginManager.registerCommand(context, 'extension.ibmcloud.login.sso');
     registerCommand(context, 'extension.ibmcloud.logout', {cmd: 'ibmcloud', args: ['logout']}, outputChannel);
     registerCommand(context, 'extension.ibmcloud.cli-update', {cmd: 'ibmcloud', args: ['plugin', 'update', '--all', '-r', 'IBM Cloud']}, outputChannel);
+    registerCommand(context, 'extension.ibmcloud.api', {cmd: 'ibmcloud', args: ['api']}, outputChannel);
+    registerCommand(context, 'extension.ibmcloud.regions', {cmd: 'ibmcloud', args: ['regions']}, outputChannel);
+    registerCommand(context, 'extension.ibmcloud.target', {cmd: 'ibmcloud', args: ['target']}, outputChannel);
 
 
     // IBM Cloud DEV commands *************************************
@@ -49,8 +52,8 @@ export function activate(context: ExtensionContext) {
     registerCommand(context, 'extension.ibmcloud.dev.build', {cmd: 'ibmcloud', args: ['dev', 'build', '--caller-vscode', '--debug']}, outputChannel, false);
     registerCommand(context, 'extension.ibmcloud.dev.build.release', {cmd: 'ibmcloud', args: ['dev', 'build', '--caller-vscode']}, outputChannel, false);
     registerCommand(context, 'extension.ibmcloud.dev.debug', {cmd: 'ibmcloud', args: ['dev', 'debug', '--caller-vscode']}, outputChannel);
-    registerCommand(context, 'extension.ibmcloud.dev.deploy', {cmd: 'ibmcloud', args: ['dev', 'deploy', '--caller-vscode', '--trace']}, outputChannel, false, DeployCommand);
-    registerCommand(context, 'extension.ibmcloud.dev.diag', {cmd: 'ibmcloud', args: ['dev', 'diag', '--caller-vscode', '--trace']}, outputChannel, true);
+    registerCommand(context, 'extension.ibmcloud.dev.deploy', {cmd: 'ibmcloud', args: ['dev', 'deploy', '--target', 'container', '--caller-vscode']}, outputChannel, false, SystemCommand, true);
+    registerCommand(context, 'extension.ibmcloud.dev.diag', {cmd: 'ibmcloud', args: ['dev', 'diag', '--caller-vscode']}, outputChannel, true);
     registerCommand(context, 'extension.ibmcloud.dev.run', {cmd: 'ibmcloud', args: ['dev', 'run', '--caller-vscode']}, outputChannel);
     registerCommand(context, 'extension.ibmcloud.dev.status', {cmd: 'ibmcloud', args: ['dev', 'status', '--caller-vscode']}, outputChannel);
     registerCommand(context, 'extension.ibmcloud.dev.stop', {cmd: 'ibmcloud', args: ['dev', 'stop', '--caller-vscode']}, outputChannel);
@@ -90,7 +93,15 @@ export function activate(context: ExtensionContext) {
     registerPromptingCommand(context, 'extension.ibmcloud.ks.worker.reboot', {cmd: 'ibmcloud', args: ['ks', 'worker', 'reboot']}, outputChannel, [new PromptInput('Specify a cluster name or id', '--cluster'), new PromptInput('Specify a worker id', '--worker')], ['-f'] );
     registerPromptingCommand(context, 'extension.ibmcloud.ks.worker.reload', {cmd: 'ibmcloud', args: ['ks', 'worker', 'reload']}, outputChannel, [new PromptInput('Specify a cluster name or id', '--cluster'), new PromptInput('Specify a worker id', '--worker')], ['-f'] );
     registerPromptingCommand(context, 'extension.ibmcloud.ks.worker.rm', {cmd: 'ibmcloud', args: ['ks', 'worker', 'rm']}, outputChannel, [new PromptInput('Specify a cluster name or id', '--cluster'), new PromptInput('Specify a worker id')], ['-f'] );
-    registerPromptingCommand(context, 'extension.ibmcloud.ks.workers', {cmd: 'ibmcloud', args: ['ks', 'workers']}, outputChannel, [new PromptInput('Specify a cluster name or id', '--cluster')] );
+    registerPromptingCommand(context, 'extension.ibmcloud.ks.workers', {cmd: 'ibmcloud', args: ['ks', 'workers']}, outputChannel, [new PromptInput('Specify a cluster name or id', '--cluster')]);
+
+    // IBM Cloud ACCOUNT commands *************************************
+    registerCommand(context, 'extension.ibmcloud.account.list', {cmd: 'ibmcloud', args: ['account', 'list']}, outputChannel, true);
+    registerCommand(context, 'extension.ibmcloud.account.show', {cmd: 'ibmcloud', args: ['account', 'show']}, outputChannel, true);
+    registerCommand(context, 'extension.ibmcloud.account.users', {cmd: 'ibmcloud', args: ['account', 'users']}, outputChannel, true);
+
+    // IBM Cloud RESOURCE commands *************************************
+    registerCommand(context, 'extension.ibmcloud.resource.service-instances', {cmd: 'ibmcloud', args: ['resource', 'service-instances']}, outputChannel);
 }
 
 
@@ -102,8 +113,8 @@ function registerCommand(context: ExtensionContext, key: string, opt, outputChan
     const disposable = commands.registerCommand(key, () => {
         const command = new CommandClass(opt.cmd, opt.args, outputChannel, sanitizeOutput);
         command.useTerminal = useTerminal;
-        checkVersions().then(function() {
-            executeCommand(command);
+        return new Promise((resolve) => { 
+            resolve(executeCommand(command));
         });
     });
     context.subscriptions.push(disposable);
@@ -116,15 +127,15 @@ function registerCommand(context: ExtensionContext, key: string, opt, outputChan
 function registerPromptingCommand(context: ExtensionContext, key: string, opt, outputChannel, inputs: PromptInput[], additionalArgs: string[] = [], sanitizeOutput = false) {
     const disposable = commands.registerCommand(key, () => {
         const command = new PromptingCommand(opt.cmd, opt.args, outputChannel, inputs, additionalArgs, sanitizeOutput);
-        checkVersions().then(function() {
-            executeCommand(command);
+        return new Promise((resolve) => {
+            resolve(executeCommand(command));
         });
     });
     context.subscriptions.push(disposable);
 }
 
 
-function executeCommand(command: SystemCommand) {
+function executeCommand(command: SystemCommand): Promise<any> {
 
     const targetPlugin = command.args[0];
     if (targetPlugin === 'dev' && unsupportedDevVersion === true) {
@@ -132,7 +143,7 @@ function executeCommand(command: SystemCommand) {
         outputChannel.append(message);
         return;
     }
-    command.execute();
+    return command.execute();
 }
 
 
@@ -141,7 +152,7 @@ function executeCommand(command: SystemCommand) {
  */
 function checkVersions(): Promise<any> {
 
-    return new Promise<void>((resolve, reject) => {
+    return new Promise<void>((resolve) => {
 
         // only run this once per session of vscode
         if (checkedVersions !== true) {
@@ -215,8 +226,6 @@ function checkVersions(): Promise<any> {
     });
 }
 
-/*
- * this method is called when your extension is deactivated
- */
-export function deactivate() {
-}
+/* this method is called when your extension is deactivated
+*/
+export function deactivate() {} //eslint-disable-line @typescript-eslint/no-empty-function

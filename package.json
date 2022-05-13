@@ -2,7 +2,7 @@
   "name": "ibm-developer",
   "displayName": "IBM Cloud CLI",
   "description": "Extension for VS Code editor to enable IBM Cloud CLI capabilities from within the editing environment.",
-  "version": "0.0.16",
+  "version": "0.1.0",
   "publisher": "IBM",
   "license": "Apache 2.0 (see LICENSE.txt)",
   "bugs": {
@@ -31,6 +31,9 @@
   ],
   "icon": "assets/icon.png",
   "activationEvents": [
+    "onCommand:extension.ibmcloud.api",
+    "onCommand:extension.ibmcloud.regions",
+    "onCommand:extension.ibmcloud.target",
     "onCommand:extension.ibmcloud.login",
     "onCommand:extension.ibmcloud.login.sso",
     "onCommand:extension.ibmcloud.logout",
@@ -72,11 +75,27 @@
     "onCommand:extension.ibmcloud.ks.worker.reboot",
     "onCommand:extension.ibmcloud.ks.worker.reload",
     "onCommand:extension.ibmcloud.ks.worker.rm",
-    "onCommand:extension.ibmcloud.ks.workers"
+    "onCommand:extension.ibmcloud.ks.workers",
+    "onCommand:extension.ibmcloud.account.list",
+    "onCommand:extension.ibmcloud.account.show",
+    "onCommand:extension.ibmcloud.account.users",
+    "onCommand:extension.ibmcloud.resource.service-instances"
   ],
   "main": "./out/src/extension",
   "contributes": {
     "commands": [
+      {
+        "command": "extension.ibmcloud.api",
+        "title": "ibmcloud api"
+      },
+      {
+        "command": "extension.ibmcloud.regions",
+        "title": "ibmcloud regions"
+      },
+      {
+        "command": "extension.ibmcloud.target",
+        "title": "ibmcloud target"
+      },
       {
         "command": "extension.ibmcloud.login",
         "title": "ibmcloud login"
@@ -244,6 +263,22 @@
       {
         "command": "extension.ibmcloud.ks.workers",
         "title": "ibmcloud ks workers"
+      },
+      {
+        "command": "extension.ibmcloud.account.list",
+        "title": "ibmcloud account list"
+      },
+      {
+        "command": "extension.ibmcloud.account.show",
+        "title": "ibmcloud account show"
+      },
+      {
+        "command": "extension.ibmcloud.account.users",
+        "title": "ibmcloud account users"
+      },
+      {
+        "command": "extension.ibmcloud.resource.service-instances",
+        "title": "ibmcloud resource service-instances"
       }
     ]
   },
@@ -257,18 +292,24 @@
     "test": "node ./out/test/runTest.js",
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "detect_secrets":"./scripts/detect_secrets.sh",
     "vscode:publish": "vsce publish"
   },
   "devDependencies": {
+    "@types/chai": "^4.3.1",
     "@types/mocha": "^9.1.0",
     "@types/node": "^14.0.1",
+    "@types/semver": "^7.3.9",
+    "@types/sinon": "^10.0.11",
     "@types/vscode": "^1.64.0",
     "@typescript-eslint/eslint-plugin": "^5.19.0",
     "@typescript-eslint/parser": "^5.19.0",
     "@vscode/test-electron": "^2.1.3",
+    "chai": "^4.3.6",
     "eslint": "^8.13.0",
     "mocha": "^9.2.2",
     "pre-commit": "^1.2.2",
+    "sinon": "^13.0.1",
     "ts-loader": "^9.2.8",
     "typescript": "^4.5.5",
     "webpack": "^5.72.0",
