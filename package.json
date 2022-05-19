@@ -284,8 +284,9 @@
   },
   "scripts": {
     "vscode:prepublish": "npm run build",
-    "build:dev": "webpack --mode development",
-    "build": "webpack --mode production --devtool hidden-source-map",
+    "build:dev": "npm run clean && webpack --mode development",
+    "build": "npm run clean && webpack --mode production --devtool hidden-source-map",
+    "clean": "rm -rf out",
     "compile": "tsc -p ./",
     "watch": "webpack --mode development --watch",
     "pretest": "npm run compile",
