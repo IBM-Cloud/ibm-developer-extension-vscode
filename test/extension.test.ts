@@ -58,6 +58,7 @@ describe('Extension Tests', function () {
         const extensionName = `${packageJson.publisher}.${packageJson.name}`;
         let extension: any;
         let outputChannel:sinon.SinonStub;
+        let showQuickPick:sinon.SinonStub;
         const sandbox = sinon.createSandbox();
 
         before(async function () {		
@@ -67,7 +68,10 @@ describe('Extension Tests', function () {
             } else {
                 assert.fail('Could not find extension');
             }
+
+            // mock vscode methods
             outputChannel = sandbox.stub(SystemCommand.prototype, 'output');
+            showQuickPick = sandbox.stub(vscode.window, 'showQuickPick');
         });
 
         afterEach(async function() {
@@ -78,17 +82,15 @@ describe('Extension Tests', function () {
             sandbox.restore();
         });
 
-        it('should return the api endpoint', async function() {
-            await vscode.commands.executeCommand('extension.ibmcloud.api');
-            logStub('ibmcloud api', outputChannel);
-            assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/API endpoint: https:\/\/(?<subdomain>.*)*cloud.ibm.com/))).callCount, 1);
-        });
-
         context('when not logged in', function () {
             before(async () => {
-                const logoutCmd = new SystemCommand('ibmcloud', ['logout']); 
-                const statusCode = await logoutCmd.execute();
-                assert.equal(0, statusCode);
+                try { 
+                    const logoutCmd = new SystemCommand('ibmcloud', ['logout']); 
+                    const statusCode = await logoutCmd.execute();
+                    assert.equal(0, statusCode);
+                } catch(e) {
+                    assert.fail(e);
+                }
             });
 
             it('should fail to run a dev command', async function () {
@@ -102,10 +104,21 @@ describe('Extension Tests', function () {
 		context('when already logged in', function() {
 
 			before(async function() {
-                const loginCmd = new SystemCommand('ibmcloud', ['login', '-r',  'us-south', '-a', 'https://cloud.ibm.com']);
-                const statusCode = await loginCmd.execute();
-                logStub('ibmcloud login', outputChannel);
-                assert.equal(0, statusCode);
+                try {
+                    const loginCmd = new SystemCommand('ibmcloud', ['login', '-r',  'us-south', '-a', 'https://cloud.ibm.com']);
+                    const statusCode = await loginCmd.execute();
+                    logStub('ibmcloud login', outputChannel);
+                    assert.equal(0, statusCode);
+                } catch (e) {
+                    assert.fail(e);
+                }
+            });
+
+            it('should return the api endpoint', async function() {
+                await vscode.commands.executeCommand('extension.ibmcloud.api');
+                logStub('ibmcloud api', outputChannel);
+                assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/>\s+ibmcloud api/))).callCount, 1);
+                assert.isAbove(outputChannel.withArgs(sinon.match(new RegExp(/API endpoint: https:\/\/(?<subdomain>.*)*cloud.ibm.com/))).callCount, 0);
             });
 
             it('should print list of regions', async function() {
@@ -223,7 +236,24 @@ describe('Extension Tests', function () {
                 });
             });
 
+            context('ibmcloud plugin', function() {
+                let plugins:Array<string>;
 
+                beforeEach(async function () {
+                    plugins = ['cloudant'];
+                });
+                afterEach(async function () {
+                    plugins = [];
+                });
+
+                it('should be able to install a plugin from official IBM Cloud repo', async function() {
+                    showQuickPick.resolves(plugins);
+                    await vscode.commands.executeCommand('extension.ibmcloud.plugin.install');
+                    logStub('ibmcloud plugin install', outputChannel);
+                    assert.equal(outputChannel.withArgs(sinon.match(new RegExp(`>\\s+ibmcloud plugin install ${plugins[0]}`))).callCount, 1);
+                    assert.equal(outputChannel.withArgs(sinon.match(new RegExp(`Plug-in '${plugins[0]} (.*)' was successfully installed`))).callCount, 1);
+                });
+            });
         });
     });
 });
