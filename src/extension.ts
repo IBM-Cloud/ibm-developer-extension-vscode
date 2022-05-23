@@ -43,6 +43,7 @@ export function activate(context: ExtensionContext) {
     LoginManager.registerCommand(context, 'extension.ibmcloud.login.sso');
     registerCommand(context, 'extension.ibmcloud.logout', {cmd: 'ibmcloud', args: ['logout']}, outputChannel);
     registerCommand(context, 'extension.ibmcloud.cli-update', {cmd: 'ibmcloud', args: ['plugin', 'update', '--all', '-r', 'IBM Cloud']}, outputChannel);
+    registerCommand(context, 'extension.ibmcloud.cli-install', {cmd: 'ibmcloud', args: ['plugin', 'install', '--all', '-r', 'IBM Cloud', '-f']}, outputChannel);
     registerCommand(context, 'extension.ibmcloud.api', {cmd: 'ibmcloud', args: ['api']}, outputChannel);
     registerCommand(context, 'extension.ibmcloud.regions', {cmd: 'ibmcloud', args: ['regions']}, outputChannel);
     registerCommand(context, 'extension.ibmcloud.target', {cmd: 'ibmcloud', args: ['target']}, outputChannel);

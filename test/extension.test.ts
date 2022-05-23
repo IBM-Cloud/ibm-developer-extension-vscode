@@ -254,6 +254,15 @@ describe('Extension Tests', function () {
                     assert.equal(outputChannel.withArgs(sinon.match(new RegExp(`>\\s+ibmcloud plugin install ${plugins[0]}`))).callCount, 1);
                     assert.equal(outputChannel.withArgs(sinon.match(new RegExp(`Plug-in '${plugins[0]} (?<plugin_version>.*)' was successfully installed`))).callCount, 1);
                 });
+                
+                it('should be able to install all plugins from official IBM Cloud repo', async function() {
+                    // NOTE: This is a long running command so we should increase timeout in this test case
+                    this.timeout(75000);
+                    showQuickPick.resolves(plugins);
+                    await vscode.commands.executeCommand('extension.ibmcloud.cli-install');
+                    logStub('ibmcloud plugin install --all -r IBM Cloud -f', outputChannel);
+                    assert.equal(outputChannel.withArgs(sinon.match(new RegExp(`>\\s+ibmcloud plugin install --all -r IBM Cloud -f`))).callCount, 1);
+                });
 
                 context('older version of plugin installed', function() {
                     let oldestPluginVersion: PluginVersion;
