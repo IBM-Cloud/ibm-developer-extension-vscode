@@ -41,10 +41,9 @@ export class PluginUpdateUninstallCommand extends PromptingCommand {
     }
 
     /*
-     * display error message
+     * display warning message
      */
-    displayError(message: string) {
-        this.output(`\nERROR: ${message}`);
-        window.showErrorMessage(message);
+    displayWarning(message: string) {
+        window.showWarningMessage(message);
     }
 }
