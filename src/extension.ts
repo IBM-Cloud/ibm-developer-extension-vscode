@@ -23,7 +23,7 @@ import {PromptingCommand, PromptInput} from './util/PromptingCommand';
 import {SystemCommand} from './util/SystemCommand';
 import * as semver from 'semver';
 import * as packageJson from '../package.json';
-import { PluginInstallCommand } from './commands/plugin/pluginInstall';
+import { PluginInstallCommand, PluginUpdateUninstallCommand } from './commands/plugin';
 
 
 const outputChannel = window.createOutputChannel('IBMCloud');
@@ -106,7 +106,8 @@ export function activate(context: ExtensionContext) {
 
     // IBM Cloud PLUGIN commands *************************************
     registerPromptingCommand(context, 'extension.ibmcloud.plugin.install', {cmd: 'ibmcloud', args: ['plugin', 'install']}, outputChannel, [], [], false, PluginInstallCommand);
-
+    registerPromptingCommand(context, 'extension.ibmcloud.plugin.update', {cmd: 'ibmcloud', args: ['plugin', 'update']}, outputChannel, [new PromptInput('Specify a plugin to update')], [], false, PluginUpdateUninstallCommand);
+    registerPromptingCommand(context, 'extension.ibmcloud.plugin.uninstall', {cmd: 'ibmcloud', args: ['plugin', 'uninstall']}, outputChannel, [new PromptInput('Specify a plugin to uninstall')], [], false, PluginUpdateUninstallCommand);
 }
 
 

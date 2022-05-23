@@ -24,6 +24,7 @@ import * as vscode from 'vscode';
 import {IBMCloudTerminal} from '../src/util/IBMCloudTerminal';
 import {SystemCommand} from '../src/util/SystemCommand';
 import * as packageJson from '../package.json';
+import { getPluginVersions, PluginVersion } from '../src/ibmcloud/plugin';
 
 // Defines a Mocha test suite to group tests of similar kind together
 function logStub(cmd:string, outputChannel:sinon.SinonStub) {
@@ -251,7 +252,48 @@ describe('Extension Tests', function () {
                     await vscode.commands.executeCommand('extension.ibmcloud.plugin.install');
                     logStub('ibmcloud plugin install', outputChannel);
                     assert.equal(outputChannel.withArgs(sinon.match(new RegExp(`>\\s+ibmcloud plugin install ${plugins[0]}`))).callCount, 1);
-                    assert.equal(outputChannel.withArgs(sinon.match(new RegExp(`Plug-in '${plugins[0]} (.*)' was successfully installed`))).callCount, 1);
+                    assert.equal(outputChannel.withArgs(sinon.match(new RegExp(`Plug-in '${plugins[0]} (?<plugin_version>.*)' was successfully installed`))).callCount, 1);
+                });
+
+                context('older version of plugin installed', function() {
+                    let oldestPluginVersion: PluginVersion;
+
+                    before(async function() {
+                        plugins = ['cloudant'];
+                        let pluginVersions: Array<PluginVersion>;
+                        try {
+                            pluginVersions = await getPluginVersions(plugins[0]);
+                        } catch(e) {
+                            assert.fail(e);
+                        }
+
+                        oldestPluginVersion = pluginVersions[pluginVersions.length-1];
+
+                        const pluginInstallCmd = new SystemCommand('ibmcloud', ['plugin', 'install', plugins[0], 
+                            '-v', oldestPluginVersion.version, '-f', '-q']);
+                        const statusCode = await pluginInstallCmd.execute();
+                        assert.equal(statusCode, 0);
+
+                    });
+
+                    it('should be able to update plugin to latest version', async function() {
+                        showQuickPick.resolves(plugins);
+                        await vscode.commands.executeCommand('extension.ibmcloud.plugin.update');
+                        logStub('ibmcloud plugin update', outputChannel);
+                        assert.equal(outputChannel.withArgs(sinon.match(new RegExp(`>\\s+ibmcloud plugin update ${plugins[0]}`))).callCount, 1);
+                        assert.equal(outputChannel.withArgs(sinon.match(new RegExp(`Checking upgrades for plug-in '${plugins[0]}`))).callCount, 1);
+                        assert.equal(outputChannel.withArgs(sinon.match(new RegExp(`Update '${plugins[0]} ${oldestPluginVersion.version}'`))).callCount, 1);
+                        assert.equal(outputChannel.withArgs(sinon.match('The plug-in was successfully upgraded.')).callCount, 1);
+                    });
+                });
+
+                it('should be able to update uninstall plugin', async function() {
+                    showQuickPick.resolves(plugins);
+                    await vscode.commands.executeCommand('extension.ibmcloud.plugin.uninstall');
+                    logStub('ibmcloud plugin uninstall', outputChannel);
+                    assert.equal(outputChannel.withArgs(sinon.match(new RegExp(`>\\s+ibmcloud plugin uninstall ${plugins[0]}`))).callCount, 1);
+                    assert.equal(outputChannel.withArgs(sinon.match(`Uninstalling plug-in '${plugins[0]}'...`)).callCount, 1);
+                    assert.equal(outputChannel.withArgs(sinon.match(`Plug-in '${plugins[0]}' was successfully uninstalled.`)).callCount, 1);
                 });
             });
         });

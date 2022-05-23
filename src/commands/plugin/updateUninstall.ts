@@ -13,23 +13,19 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 **/
-import { window } from 'vscode';
-import { PromptingCommand, PromptInput } from '../../util/PromptingCommand';
-import { getInstalledPlugins, getRepoPlugins } from '../../ibmcloud/plugin';
 
-export class PluginInstallCommand extends PromptingCommand {
+'use strict';
+
+import { window } from 'vscode';
+import { PromptingCommand } from '../../util/PromptingCommand';
+import { getInstalledPlugins } from '../../ibmcloud/plugin';
+
+export class PluginUpdateUninstallCommand extends PromptingCommand {
 
     async execute(): Promise<any> {
 
-        this.inputs = [
-            new PromptInput('Specify a plugin to install')
-        ];
-
         try {
-                const installedPlugins = await getInstalledPlugins();
-                const allPlugins = await getRepoPlugins();
-
-                this.inputs[0].pickerOptions = allPlugins.filter((name:string) => installedPlugins.indexOf(name) == -1);
+            this.inputs[0].pickerOptions = await getInstalledPlugins();
         } catch (e) {
             console.error('Could not provide picker options for plugin list');
             console.error(e);

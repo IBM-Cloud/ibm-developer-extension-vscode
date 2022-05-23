@@ -80,7 +80,9 @@
     "onCommand:extension.ibmcloud.account.show",
     "onCommand:extension.ibmcloud.account.users",
     "onCommand:extension.ibmcloud.resource.service-instances",
-    "onCommand:extension.ibmcloud.plugin.install"
+    "onCommand:extension.ibmcloud.plugin.install",
+    "onCommand:extension.ibmcloud.plugin.uninstall",
+    "onCommand:extension.ibmcloud.plugin.update"
   ],
   "main": "./out/src/extension",
   "contributes": {
@@ -284,6 +286,14 @@
       {
         "command": "extension.ibmcloud.plugin.install",
         "title": "ibmcloud plugin install"
+      },
+      {
+        "command": "extension.ibmcloud.plugin.uninstall",
+        "title": "ibmcloud plugin uninstall"
+      },
+      {
+        "command": "extension.ibmcloud.plugin.update",
+        "title": "ibmcloud plugin update"
       }
     ]
   },
@@ -334,7 +344,7 @@
   "ibm": {
     "cli": {
       "command": "ibmcloud",
-      "version": "2.5.0",
+      "version": "2.7.0",
       "url": "https://cloud.ibm.com/docs/cli"
     },
     "plugins": [

@@ -14,10 +14,16 @@
 * limitations under the License.
 **/
 import { SystemCommand } from '../util/SystemCommand';
+import * as semver from 'semver';
 import { IBMCloud } from '../consts';
+
+export interface PluginVersion {
+    version: string
+}
 
 export interface RepoPlugin {
     readonly name: string
+    readonly versions: Array<PluginVersion>
 }
 
 export interface PluginMetadata {
@@ -25,7 +31,7 @@ export interface PluginMetadata {
 }
 
 // Retrieve all plugins in a given repository
-// @param {string} repoName The repository where the plugins are stored "Default: IBM Cloud" 
+// @param {string} repoName The repository where the plugins are stored (Default: "IBM Cloud")
 export async function getRepoPlugins(repoName: string = IBMCloud): Promise<Array<string>> {
     const allList = new SystemCommand('ibmcloud', ['plugin', 'repo-plugins', '--output', 'json']); 
     await allList.execute();
@@ -46,5 +52,29 @@ export async function getInstalledPlugins(): Promise<Array<string>> {
         throw new Error(installedList.stderr);
     }
     const pluginMetas: Array<PluginMetadata> = JSON.parse(installedList.stdout);
-        return pluginMetas.map((meta:PluginMetadata) => meta.Name);
+
+    return pluginMetas.map((meta:PluginMetadata) => meta.Name);
+}
+
+// Retrieve a list of available versions for a given plugin in a repository. Sorted in descending order
+// @param {string} pluginName The name of the plugin
+// @param {string} repoName The name of the repo (Default: "IBM Cloud")
+export async function getPluginVersions(pluginName:string, repoName:string = IBMCloud): Promise<Array<PluginVersion>> {
+    const repoPluginCmd = new SystemCommand('ibmcloud', ['plugin', 'repo-plugin', pluginName, '-r', repoName, '--output', 'json']);
+    await repoPluginCmd.execute();
+    if (repoPluginCmd.stderr) {
+        throw new Error(repoPluginCmd.stderr);
+    }
+
+    const repoPluginInfo: RepoPlugin = JSON.parse(repoPluginCmd.stdout); 
+    try { 
+        repoPluginInfo.versions.sort((a:PluginVersion, b:PluginVersion) => {
+            return semver.lt(semver.clean(a.version), semver.clean(b.version)) ? 1 : 0;
+        });
+    } catch (e) {
+        console.log(`Failed to parse repo-plugin metadata for plugin ${pluginName}`);
+        throw new Error(e);
+    }
+
+    return repoPluginInfo.versions;
 }
