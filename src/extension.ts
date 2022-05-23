@@ -23,6 +23,7 @@ import {PromptingCommand, PromptInput} from './util/PromptingCommand';
 import {SystemCommand} from './util/SystemCommand';
 import * as semver from 'semver';
 import * as packageJson from '../package.json';
+import { PluginInstallCommand } from './commands/plugin/pluginInstall';
 
 
 const outputChannel = window.createOutputChannel('IBMCloud');
@@ -102,8 +103,11 @@ export function activate(context: ExtensionContext) {
 
     // IBM Cloud RESOURCE commands *************************************
     registerCommand(context, 'extension.ibmcloud.resource.service-instances', {cmd: 'ibmcloud', args: ['resource', 'service-instances']}, outputChannel);
-}
 
+    // IBM Cloud PLUGIN commands *************************************
+    registerPromptingCommand(context, 'extension.ibmcloud.plugin.install', {cmd: 'ibmcloud', args: ['plugin', 'install']}, outputChannel, [], [], false, PluginInstallCommand);
+
+}
 
 
 /*
@@ -124,9 +128,9 @@ function registerCommand(context: ExtensionContext, key: string, opt, outputChan
 /*
  *  Helper utility to register prompting system commands
  */
-function registerPromptingCommand(context: ExtensionContext, key: string, opt, outputChannel, inputs: PromptInput[], additionalArgs: string[] = [], sanitizeOutput = false) {
+function registerPromptingCommand(context: ExtensionContext, key: string, opt, outputChannel, inputs: PromptInput[], additionalArgs: string[] = [], sanitizeOutput = false, PromptingClass = PromptingCommand) {
     const disposable = commands.registerCommand(key, () => {
-        const command = new PromptingCommand(opt.cmd, opt.args, outputChannel, inputs, additionalArgs, sanitizeOutput);
+        const command = new PromptingClass(opt.cmd, opt.args, outputChannel, inputs, additionalArgs, sanitizeOutput);
         return new Promise((resolve) => {
             resolve(executeCommand(command));
         });

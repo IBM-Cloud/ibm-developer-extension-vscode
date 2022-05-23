@@ -79,7 +79,8 @@
     "onCommand:extension.ibmcloud.account.list",
     "onCommand:extension.ibmcloud.account.show",
     "onCommand:extension.ibmcloud.account.users",
-    "onCommand:extension.ibmcloud.resource.service-instances"
+    "onCommand:extension.ibmcloud.resource.service-instances",
+    "onCommand:extension.ibmcloud.plugin.install"
   ],
   "main": "./out/src/extension",
   "contributes": {
@@ -279,6 +280,10 @@
       {
         "command": "extension.ibmcloud.resource.service-instances",
         "title": "ibmcloud resource service-instances"
+      },
+      {
+        "command": "extension.ibmcloud.plugin.install",
+        "title": "ibmcloud plugin install"
       }
     ]
   },
