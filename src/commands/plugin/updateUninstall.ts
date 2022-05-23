@@ -25,7 +25,13 @@ export class PluginUpdateUninstallCommand extends PromptingCommand {
     async execute(): Promise<any> {
 
         try {
-            this.inputs[0].pickerOptions = await getInstalledPlugins();
+            const installedPlugins = await getInstalledPlugins();
+            if (installedPlugins.length === 0) {
+                this.displayWarning('No plugins are installed. Please install a plugin before trying again.');
+                return;
+            }
+
+            this.inputs[0].pickerOptions = installedPlugins;
         } catch (e) {
             console.error('Could not provide picker options for plugin list');
             console.error(e);
