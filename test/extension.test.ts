@@ -25,6 +25,7 @@ import {IBMCloudTerminal} from '../src/util/IBMCloudTerminal';
 import {SystemCommand} from '../src/util/SystemCommand';
 import * as packageJson from '../package.json';
 import { getPluginVersions, PluginVersion } from '../src/ibmcloud/plugin';
+import { getServiceIds } from '../src/ibmcloud/iam';
 
 // Defines a Mocha test suite to group tests of similar kind together
 function logStub(cmd:string, outputChannel:sinon.SinonStub) {
@@ -303,6 +304,42 @@ describe('Extension Tests', function () {
                     assert.equal(outputChannel.withArgs(sinon.match(new RegExp(`>\\s+ibmcloud plugin uninstall ${plugins[0]}`))).callCount, 1);
                     assert.equal(outputChannel.withArgs(sinon.match(`Uninstalling plug-in '${plugins[0]}'...`)).callCount, 1);
                     assert.equal(outputChannel.withArgs(sinon.match(`Plug-in '${plugins[0]}' was successfully uninstalled.`)).callCount, 1);
+                });
+            });
+
+            context('ibmcloud iam', function() {
+                let serviceIdName: string;
+                before(async function() {
+                    try {
+                        const serviceIds = await getServiceIds();
+                        serviceIdName = serviceIds[0].name;
+                    } catch (e) {
+                        assert.fail(e);
+                    }
+
+                });
+
+                it('should return oauth-tokens', async function() {
+                    await vscode.commands.executeCommand('extension.ibmcloud.iam.oauth-tokens');
+                    logStub('ibmcloud iam oauth-tokens', outputChannel);
+                    assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/>\s+ibmcloud iam oauth-tokens/))).callCount, 1);
+                    assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/IAM token:\s+Bearer (?<token>.*)/))).callCount, 1);
+                });
+
+                it('should return details for a list of service ids', async function() {
+                    await vscode.commands.executeCommand('extension.ibmcloud.iam.service-ids');
+                    logStub('ibmcloud iam service-ids', outputChannel);
+                    assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/>\s+ibmcloud iam service-ids/))).callCount, 1);
+                    assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/Getting all services IDs bound to current account as (?<user>.*).../))).callCount, 1);
+                    assert.equal(outputChannel.withArgs(sinon.match('OK')).callCount, 1);
+                });
+
+                it('should return details for a service id', async function() {
+                    showQuickPick.resolves([serviceIdName]);
+                    await vscode.commands.executeCommand('extension.ibmcloud.iam.service-id');
+                    logStub('ibmcloud iam service-id', outputChannel);
+                    assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/>\s+ibmcloud iam service-id (?<service_id_name>.*)/))).callCount, 1);
+                    assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/Getting service ID (?<service_id_name>.*) as (?<user>.*).../))).callCount, 1);
                 });
             });
         });
