@@ -24,6 +24,7 @@ import {SystemCommand} from './util/SystemCommand';
 import * as semver from 'semver';
 import * as packageJson from '../package.json';
 import { PluginInstallCommand, PluginUpdateUninstallCommand } from './commands/plugin';
+import { ServiceIdCommand } from './commands/iam';
 
 
 const outputChannel = window.createOutputChannel('IBMCloud');
@@ -105,11 +106,18 @@ export function activate(context: ExtensionContext) {
     // IBM Cloud RESOURCE commands *************************************
     registerCommand(context, 'extension.ibmcloud.resource.service-instances', {cmd: 'ibmcloud', args: ['resource', 'service-instances']}, outputChannel);
 
+    // IBM Cloud IAM commands *************************************
+    registerCommand(context, 'extension.ibmcloud.iam.oauth-tokens', {cmd: 'ibmcloud', args: ['iam', 'oauth-tokens']}, outputChannel);
+    registerCommand(context, 'extension.ibmcloud.iam.service-ids', {cmd: 'ibmcloud', args: ['iam', 'service-ids']}, outputChannel);
+    registerPromptingCommand(context, 'extension.ibmcloud.iam.service-id', {cmd: 'ibmcloud', args: ['iam', 'service-id']}, outputChannel, [new PromptInput('Specify a service ID')], [], false, ServiceIdCommand);
+
+
     // IBM Cloud PLUGIN commands *************************************
     registerPromptingCommand(context, 'extension.ibmcloud.plugin.install', {cmd: 'ibmcloud', args: ['plugin', 'install']}, outputChannel, [], [], false, PluginInstallCommand);
     registerPromptingCommand(context, 'extension.ibmcloud.plugin.update', {cmd: 'ibmcloud', args: ['plugin', 'update']}, outputChannel, [new PromptInput('Specify a plugin to update')], [], false, PluginUpdateUninstallCommand);
     registerPromptingCommand(context, 'extension.ibmcloud.plugin.uninstall', {cmd: 'ibmcloud', args: ['plugin', 'uninstall']}, outputChannel, [new PromptInput('Specify a plugin to uninstall')], [], false, PluginUpdateUninstallCommand);
 }
+
 
 
 /*
