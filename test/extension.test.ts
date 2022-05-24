@@ -296,7 +296,7 @@ describe('Extension Tests', function () {
                     });
                 });
 
-                it('should be able to update uninstall plugin', async function() {
+                it('should be able to uninstall plugin', async function() {
                     showQuickPick.resolves(plugins);
                     await vscode.commands.executeCommand('extension.ibmcloud.plugin.uninstall');
                     logStub('ibmcloud plugin uninstall', outputChannel);
