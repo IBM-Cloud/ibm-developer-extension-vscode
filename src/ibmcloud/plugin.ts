@@ -33,8 +33,12 @@ export interface PluginMetadata {
     readonly Name: string
 }
 
-// Retrieve all plugins in a given repository
-// @param {string} repoName The repository where the plugins are stored (Default: "IBM Cloud")
+
+/**
+ * Retrieve all plugins in a given repository description
+ * @param {string} repoName The repository where the plugins are stored (Default: "IBM Cloud")
+ * @returns {Promise<Array><string>>}
+ */
 export async function getRepoPlugins(repoName: string = IBMCloud): Promise<Array<string>> {
     const allList = new SystemCommand('ibmcloud', ['plugin', 'repo-plugins', '--output', 'json']); 
     await allList.execute();
@@ -47,7 +51,10 @@ export async function getRepoPlugins(repoName: string = IBMCloud): Promise<Array
     return repoPlugins.map((plugin:RepoPlugin) => plugin.name);
 }
 
-// Retrieve all installed plugins
+/**
+* Retrieve all installed plugins
+* @returns {Promise<Array><string>>}
+*/
 export async function getInstalledPlugins(): Promise<Array<string>> {
     const installedList = new SystemCommand('ibmcloud', ['plugin', 'list', '--output', 'json']);
     await installedList.execute();
@@ -59,9 +66,12 @@ export async function getInstalledPlugins(): Promise<Array<string>> {
     return pluginMetas.map((meta:PluginMetadata) => meta.Name);
 }
 
-// Retrieve a list of available versions for a given plugin in a repository. Sorted in descending order
-// @param {string} pluginName The name of the plugin
-// @param {string} repoName The name of the repo (Default: "IBM Cloud")
+/**
+ * Retrieve a list of available versions for a given plugin in a repository. Sorted in descending order
+ * @param {string} pluginName The name of the plugin
+ * @param {string} repoName The name of the repo (Default: "IBM Cloud")
+ * @returns {Promise<Array<PluginVersion>>}
+ */ 
 export async function getPluginVersions(pluginName:string, repoName:string = IBMCloud): Promise<Array<PluginVersion>> {
     const repoPluginCmd = new SystemCommand('ibmcloud', ['plugin', 'repo-plugin', pluginName, '-r', repoName, '--output', 'json']);
     await repoPluginCmd.execute();
