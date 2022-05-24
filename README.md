@@ -81,6 +81,7 @@ Steps to get started:
 - `ibmcloud account` - View IBM Cloud accounts and users
 - `ibmcloud resource service-instances` - View IBM Cloud Service Instances
 - `ibmcloud target` - View targeted IBM Cloud org, space, account, and resource group
+- `ibmcloud plugin` - Install, uninstall, and update IBM Cloud CLI plugins
 
 ## Requirements/Dependencies
 
