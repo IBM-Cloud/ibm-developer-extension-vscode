@@ -16,7 +16,6 @@
 
 'use strict';
 
-import { window } from 'vscode';
 import { PromptingCommand, PromptInput } from '../../util/PromptingCommand';
 import { getInstalledPlugins, getRepoPlugins } from '../../ibmcloud/plugin';
 
@@ -40,13 +39,5 @@ export class PluginInstallCommand extends PromptingCommand {
         }
 
         return super.execute();
-    }
-
-    /*
-     * display error message
-     */
-    displayError(message: string) {
-        this.output(`\nERROR: ${message}`);
-        window.showErrorMessage(message);
     }
 }
