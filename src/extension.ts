@@ -119,7 +119,6 @@ export function activate(context: ExtensionContext) {
 }
 
 
-
 /*
  *  Helper utility to register system commands
  */
