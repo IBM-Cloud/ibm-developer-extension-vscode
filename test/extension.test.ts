@@ -24,6 +24,7 @@ import * as vscode from 'vscode';
 import {IBMCloudTerminal} from '../src/util/IBMCloudTerminal';
 import {SystemCommand} from '../src/util/SystemCommand';
 import * as packageJson from '../package.json';
+import { getPluginVersions, PluginVersion } from '../src/ibmcloud/plugin';
 
 // Defines a Mocha test suite to group tests of similar kind together
 function logStub(cmd:string, outputChannel:sinon.SinonStub) {
@@ -58,6 +59,7 @@ describe('Extension Tests', function () {
         const extensionName = `${packageJson.publisher}.${packageJson.name}`;
         let extension: any;
         let outputChannel:sinon.SinonStub;
+        let showQuickPick:sinon.SinonStub;
         const sandbox = sinon.createSandbox();
 
         before(async function () {		
@@ -67,7 +69,10 @@ describe('Extension Tests', function () {
             } else {
                 assert.fail('Could not find extension');
             }
+
+            // mock vscode methods
             outputChannel = sandbox.stub(SystemCommand.prototype, 'output');
+            showQuickPick = sandbox.stub(vscode.window, 'showQuickPick');
         });
 
         afterEach(async function() {
@@ -78,17 +83,15 @@ describe('Extension Tests', function () {
             sandbox.restore();
         });
 
-        it('should return the api endpoint', async function() {
-            await vscode.commands.executeCommand('extension.ibmcloud.api');
-            logStub('ibmcloud api', outputChannel);
-            assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/API endpoint: https:\/\/(?<subdomain>.*)*cloud.ibm.com/))).callCount, 1);
-        });
-
         context('when not logged in', function () {
             before(async () => {
-                const logoutCmd = new SystemCommand('ibmcloud', ['logout']); 
-                const statusCode = await logoutCmd.execute();
-                assert.equal(0, statusCode);
+                try { 
+                    const logoutCmd = new SystemCommand('ibmcloud', ['logout']); 
+                    const statusCode = await logoutCmd.execute();
+                    assert.equal(0, statusCode);
+                } catch(e) {
+                    assert.fail(e);
+                }
             });
 
             it('should fail to run a dev command', async function () {
@@ -102,10 +105,21 @@ describe('Extension Tests', function () {
 		context('when already logged in', function() {
 
 			before(async function() {
-                const loginCmd = new SystemCommand('ibmcloud', ['login', '-r',  'us-south', '-a', 'https://cloud.ibm.com']);
-                const statusCode = await loginCmd.execute();
-                logStub('ibmcloud login', outputChannel);
-                assert.equal(0, statusCode);
+                try {
+                    const loginCmd = new SystemCommand('ibmcloud', ['login', '-r',  'us-south', '-a', 'https://cloud.ibm.com']);
+                    const statusCode = await loginCmd.execute();
+                    logStub('ibmcloud login', outputChannel);
+                    assert.equal(0, statusCode);
+                } catch (e) {
+                    assert.fail(e);
+                }
+            });
+
+            it('should return the api endpoint', async function() {
+                await vscode.commands.executeCommand('extension.ibmcloud.api');
+                logStub('ibmcloud api', outputChannel);
+                assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/>\s+ibmcloud api/))).callCount, 1);
+                assert.isAbove(outputChannel.withArgs(sinon.match(new RegExp(/API endpoint: https:\/\/(?<subdomain>.*)*cloud.ibm.com/))).callCount, 0);
             });
 
             it('should print list of regions', async function() {
@@ -223,7 +237,74 @@ describe('Extension Tests', function () {
                 });
             });
 
+            context('ibmcloud plugin', function() {
+                let plugins:Array<string>;
 
+                beforeEach(async function () {
+                    plugins = ['cloudant'];
+                });
+                afterEach(async function () {
+                    plugins = [];
+                });
+
+                it('should be able to install a plugin from official IBM Cloud repo', async function() {
+                    showQuickPick.resolves(plugins);
+                    await vscode.commands.executeCommand('extension.ibmcloud.plugin.install');
+                    logStub('ibmcloud plugin install', outputChannel);
+                    assert.equal(outputChannel.withArgs(sinon.match(new RegExp(`>\\s+ibmcloud plugin install ${plugins[0]}`))).callCount, 1);
+                    assert.equal(outputChannel.withArgs(sinon.match(new RegExp(`Plug-in '${plugins[0]} (?<plugin_version>.*)' was successfully installed`))).callCount, 1);
+                });
+                
+                it('should be able to install all plugins from official IBM Cloud repo', async function() {
+                    // NOTE: This is a long running command so we should increase timeout in this test case
+                    this.timeout(75000);
+                    showQuickPick.resolves(plugins);
+                    await vscode.commands.executeCommand('extension.ibmcloud.cli-install');
+                    logStub('ibmcloud plugin install --all -r IBM Cloud -f', outputChannel);
+                    assert.equal(outputChannel.withArgs(sinon.match(new RegExp(`>\\s+ibmcloud plugin install --all -r IBM Cloud -f`))).callCount, 1);
+                });
+
+                context('older version of plugin installed', function() {
+                    let oldestPluginVersion: PluginVersion;
+
+                    before(async function() {
+                        plugins = ['cloudant'];
+                        let pluginVersions: Array<PluginVersion>;
+                        try {
+                            pluginVersions = await getPluginVersions(plugins[0]);
+                        } catch(e) {
+                            assert.fail(e);
+                        }
+
+                        oldestPluginVersion = pluginVersions[pluginVersions.length-1];
+
+                        const pluginInstallCmd = new SystemCommand('ibmcloud', ['plugin', 'install', plugins[0], 
+                            '-v', oldestPluginVersion.version, '-f', '-q']);
+                        const statusCode = await pluginInstallCmd.execute();
+                        assert.equal(statusCode, 0);
+
+                    });
+
+                    it('should be able to update plugin to latest version', async function() {
+                        showQuickPick.resolves(plugins);
+                        await vscode.commands.executeCommand('extension.ibmcloud.plugin.update');
+                        logStub('ibmcloud plugin update', outputChannel);
+                        assert.equal(outputChannel.withArgs(sinon.match(new RegExp(`>\\s+ibmcloud plugin update ${plugins[0]}`))).callCount, 1);
+                        assert.equal(outputChannel.withArgs(sinon.match(new RegExp(`Checking upgrades for plug-in '${plugins[0]}`))).callCount, 1);
+                        assert.equal(outputChannel.withArgs(sinon.match(new RegExp(`Update '${plugins[0]} ${oldestPluginVersion.version}'`))).callCount, 1);
+                        assert.equal(outputChannel.withArgs(sinon.match('The plug-in was successfully upgraded.')).callCount, 1);
+                    });
+                });
+
+                it('should be able to uninstall plugin', async function() {
+                    showQuickPick.resolves(plugins);
+                    await vscode.commands.executeCommand('extension.ibmcloud.plugin.uninstall');
+                    logStub('ibmcloud plugin uninstall', outputChannel);
+                    assert.equal(outputChannel.withArgs(sinon.match(new RegExp(`>\\s+ibmcloud plugin uninstall ${plugins[0]}`))).callCount, 1);
+                    assert.equal(outputChannel.withArgs(sinon.match(`Uninstalling plug-in '${plugins[0]}'...`)).callCount, 1);
+                    assert.equal(outputChannel.withArgs(sinon.match(`Plug-in '${plugins[0]}' was successfully uninstalled.`)).callCount, 1);
+                });
+            });
         });
     });
 });

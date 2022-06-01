@@ -15,7 +15,7 @@
  **/
 import * as path from 'path';
 import {  spawnSync } from 'child_process';
-import { stat, mkdirSync } from 'fs';
+import { stat, mkdirSync, rmdirSync } from 'fs';
 
 import { downloadAndUnzipVSCode, runTests } from '@vscode/test-electron';
 
@@ -49,7 +49,7 @@ async function go() {
     try {
         const extensionDevelopmentPath = path.resolve(__dirname, '../..');
         const extensionTestsPath = path.resolve(__dirname, './');
-        let testWorkspace = path.resolve(__dirname, '../../test/workspace');
+        const testWorkspace = path.resolve(__dirname, '../../test/workspace');
 
         // Create workspace if directory does not already exist
         const workspaceExists = await dirExists(testWorkspace);
@@ -57,10 +57,20 @@ async function go() {
             console.log('Could not find workspace. Creating workspace folder...');
             mkdirSync(testWorkspace);
             console.log(`Workspace folder ${testWorkspace} was created`);
+
+        }
+        const bluemixHomeDir = `${testWorkspace}/.bluemix`;
+        const homeDirExists = await dirExists(bluemixHomeDir);
+
+        // Delete IBMCLOUD_HOME directory on each test run
+        if (homeDirExists) {
+            console.log(`Clearing IBMCLOUD_HOME directory: ${bluemixHomeDir}`);
+            rmdirSync(bluemixHomeDir, { recursive: true });
         }
 
         // Check if test project already exists if not download code into workspace
-        const testAppExists = await dirExists(`${testWorkspace}/${TEST_APP_NAME}`);
+        const testAppWorkspace = `${testWorkspace}/${TEST_APP_NAME}`;
+        const testAppExists = await dirExists(testAppWorkspace);
         if (!testAppExists) {
             console.log('Could not find test code. Downloading test app code...');
             downloadTestAppCode(testWorkspace);
@@ -69,9 +79,8 @@ async function go() {
             console.log('Found existing test app in workspace. Skip downloading code...');
         }
 
-        testWorkspace+= `/${TEST_APP_NAME}`;
 
-        // NOTE: As of now the latest VScode (1.67.0) is modifiying the package.json after test is completed
+        // NOTE: As of now the latest VSCode (1.67.0) is modifiying the package.json after test is completed
         // Until this issue is fixed use 1.66.2 to test against
         // REF: https://github.com/microsoft/vscode/issues/148975
         const vscodeExecutablePath = await downloadAndUnzipVSCode('1.66.2');
@@ -79,8 +88,12 @@ async function go() {
             vscodeExecutablePath,
             extensionDevelopmentPath,
             extensionTestsPath,
+            extensionTestsEnv: {
+            extensionTestsPath,
+                IBMCLOUD_HOME: testWorkspace
+            },
             launchArgs: [
-                testWorkspace,
+                testAppWorkspace,
                 // This disables hardware acceleration that may cause problems in running tests in build process
                 '--disable-gpu',
                 // This disables all extensions except the one being testing
