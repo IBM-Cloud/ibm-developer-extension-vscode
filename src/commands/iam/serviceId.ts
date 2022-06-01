@@ -33,5 +33,4 @@ export class ServiceIdCommand extends PromptingCommand {
 
         return super.execute();
     }
-    
 }
