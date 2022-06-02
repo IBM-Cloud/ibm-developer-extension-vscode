@@ -11,6 +11,7 @@ This extension provides capabilities for the [IBM Cloud CLI](https://cloud.ibm.c
 ## Changelog
 - v0.2.0
   - Added plugin commands (install, uninstall, update)
+  - Added iam commands (oauth-tokens, service-id, service-ids)
 - v0.1.0
   - Added basic account commands (list, show, users)
   - Added view api endpoint command
@@ -82,6 +83,7 @@ Steps to get started:
 - `ibmcloud resource service-instances` - View IBM Cloud Service Instances
 - `ibmcloud target` - View targeted IBM Cloud org, space, account, and resource group
 - `ibmcloud plugin` - Install, uninstall, and update IBM Cloud CLI plugins
+- `ibmcloud iam` - Display Oauth tokens and IBM Cloud Service IDs
 
 ## Requirements/Dependencies
 

@@ -83,7 +83,10 @@
     "onCommand:extension.ibmcloud.resource.service-instances",
     "onCommand:extension.ibmcloud.plugin.install",
     "onCommand:extension.ibmcloud.plugin.uninstall",
-    "onCommand:extension.ibmcloud.plugin.update"
+    "onCommand:extension.ibmcloud.plugin.update",
+    "onCommand:extension.ibmcloud.iam.oauth-tokens",
+    "onCommand:extension.ibmcloud.iam.service-id",
+    "onCommand:extension.ibmcloud.iam.service-ids"
   ],
   "main": "./out/src/extension",
   "contributes": {
@@ -299,6 +302,18 @@
       {
         "command": "extension.ibmcloud.plugin.update",
         "title": "ibmcloud plugin update"
+      },
+      {
+        "command": "extension.ibmcloud.iam.oauth-tokens",
+        "title": "ibmcloud iam oauth-tokens"
+      },
+      {
+        "command": "extension.ibmcloud.iam.service-id",
+        "title": "ibmcloud iam service-id"
+      },
+      {
+        "command": "extension.ibmcloud.iam.service-ids",
+        "title": "ibmcloud iam service-ids"
       }
     ]
   },
