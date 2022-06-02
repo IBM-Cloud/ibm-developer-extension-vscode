@@ -16,6 +16,6 @@
 
 'use strict';
 
-export const IBMCloud = 'IBM Cloud';
-export const CONFIRM_YES = 'Yes';
-export const CONFIRM_NO = 'No';
+import { ServiceAliasCommand } from "./serviceAlias";
+
+export { ServiceAliasCommand };

@@ -86,7 +86,11 @@
     "onCommand:extension.ibmcloud.plugin.update",
     "onCommand:extension.ibmcloud.iam.oauth-tokens",
     "onCommand:extension.ibmcloud.iam.service-id",
-    "onCommand:extension.ibmcloud.iam.service-ids"
+    "onCommand:extension.ibmcloud.iam.service-ids",
+    "onCommand:extension.ibmcloud.resource.service-binding.get",
+    "onCommand:extension.ibmcloud.resource.service-binding.list",
+    "onCommand:extension.ibmcloud.resource.service-alias.get",
+    "onCommand:extension.ibmcloud.resource.service-alias.list"
   ],
   "main": "./out/src/extension",
   "contributes": {
@@ -314,6 +318,22 @@
       {
         "command": "extension.ibmcloud.iam.service-ids",
         "title": "ibmcloud iam service-ids"
+      }, 
+      {
+        "command": "extension.ibmcloud.resource.service-binding.get",
+        "title": "ibmcloud resource service-binding"
+      },
+      {
+        "command": "extension.ibmcloud.resource.service-binding.list",
+        "title": "ibmcloud resource service-bindings"
+      },
+      {
+        "command": "extension.ibmcloud.resource.service-alias.get",
+        "title": "ibmcloud resource service-alias"
+      },
+      {
+        "command": "extension.ibmcloud.resource.service-alias.list",
+        "title": "ibmcloud resource service-aliases"
       }
     ]
   },

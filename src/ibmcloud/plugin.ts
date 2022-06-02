@@ -18,7 +18,9 @@
 
 import { SystemCommand } from '../util/SystemCommand';
 import * as semver from 'semver';
+import * as packageJson from '../../package.json';
 import { IBMCloud } from '../consts';
+import { OutputChannel } from 'vscode';
 
 export interface PluginVersion {
     version: string
@@ -90,4 +92,66 @@ export async function getPluginVersions(pluginName:string, repoName:string = IBM
     }
 
     return repoPluginInfo.versions;
+}
+
+/**
+ * Attempt to install a plugin when running a plugin command fails to run because of missing plugin.
+ * installPlugin will determine the plugin to install by finding matching plugin name/alias with the command that was executed
+ *
+ * @example <caption>Install missing container-service plugin when running ibmcloud ks clusters</caption>
+ * // await installPlugin(ks)
+ * @param {string} pluginCmd the excuted command
+ * @param {OutputChannel} [outputChannel] - the optional outputChannel to write stdout to during installation
+ */
+export async function installPlugin(pluginCmd:string, outputChannel:OutputChannel = undefined): Promise<number> {
+    const namesAndAliases: Array<string> = [];
+    const meta = packageJson.ibm.plugins.find((plugin:any) => plugin.command == pluginCmd);
+    if (meta) {
+        namesAndAliases.push(meta.displayName);
+    }
+
+    // check to see if plugin is available to install
+    const repoPlugins = await getRepoPlugins();
+    const pluginName = repoPlugins.find((p:string) => namesAndAliases.indexOf(p) > -1);
+
+    // attempt to install the plugin if we have determined the installation name 
+    if (pluginName) {
+        const cmd = new SystemCommand('ibmcloud', ['plugin', 'install', pluginName], outputChannel);
+        const status = await cmd.execute();
+        if (cmd.stderr) {
+            throw new Error(cmd.stderr);
+        }
+        return status;
+    } 
+
+    throw new Error(`Could not determine plugin to install from command ${pluginCmd}`);
+}
+
+/**
+ * Uninstall a given plugin
+ * @param {string} pluginName The name of the plugin
+ * @returns {Promise<number>}
+ */
+export async function uninstallPlugin(pluginName:string): Promise<number> {
+    if (! await isPluginInstalled(pluginName)) {
+        throw new Error(`${pluginName} is not installed`);
+    }
+
+    const cmd = new SystemCommand('ibmcloud', ['plugin', 'uninstall', pluginName]);
+    const status = await cmd.execute();
+
+    return status;
+}
+
+/**
+ * True if given plugin is installed
+ * @param {string} pluginName The name of the plugin
+ * @returns {Promise<boolean>}
+ */
+export async function isPluginInstalled(pluginName:string): Promise<boolean> {
+
+    const plugins = await getInstalledPlugins();
+    const found = plugins.find((name:string) => pluginName == name);
+
+    return !!found;
 }
