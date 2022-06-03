@@ -23,8 +23,9 @@ import {PromptingCommand, PromptInput} from './util/PromptingCommand';
 import {SystemCommand} from './util/SystemCommand';
 import * as semver from 'semver';
 import * as packageJson from '../package.json';
-import { PluginInstallCommand, PluginUpdateUninstallCommand } from './commands/plugin';
-import { ServiceIdCommand } from './commands/iam';
+import {PluginInstallCommand, PluginUpdateUninstallCommand} from './commands/plugin';
+import {ServiceIdCommand} from './commands/iam';
+import {ServiceAliasCommand} from './commands/resource';
 
 
 const outputChannel = window.createOutputChannel('IBMCloud');
@@ -105,6 +106,10 @@ export function activate(context: ExtensionContext) {
 
     // IBM Cloud RESOURCE commands *************************************
     registerCommand(context, 'extension.ibmcloud.resource.service-instances', {cmd: 'ibmcloud', args: ['resource', 'service-instances']}, outputChannel);
+    registerPromptingCommand(context, 'extension.ibmcloud.resource.service-binding.list', {cmd: 'ibmcloud', args: ['resource', 'service-bindings']}, outputChannel, [new PromptInput('Specify service alias')], [], false, ServiceAliasCommand);
+    registerPromptingCommand(context, 'extension.ibmcloud.resource.service-binding.get', {cmd: 'ibmcloud', args: ['resource', 'service-binding']}, outputChannel, [new PromptInput('Specify service alias'), new PromptInput('Specify Cloud Foundry app name')], [], false, ServiceAliasCommand);
+    registerCommand(context, 'extension.ibmcloud.resource.service-alias.list', {cmd: 'ibmcloud', args: ['resource', 'service-aliases']}, outputChannel);
+    registerPromptingCommand(context, 'extension.ibmcloud.resource.service-alias.get', {cmd: 'ibmcloud', args: ['resource', 'service-alias']}, outputChannel, [new PromptInput('Specify service alias')], [], false, ServiceAliasCommand);
 
     // IBM Cloud IAM commands *************************************
     registerCommand(context, 'extension.ibmcloud.iam.oauth-tokens', {cmd: 'ibmcloud', args: ['iam', 'oauth-tokens']}, outputChannel);

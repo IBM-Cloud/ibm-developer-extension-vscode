@@ -16,9 +16,11 @@
 
 'use strict';
 
-import {window, workspace, OutputChannel, Terminal} from 'vscode';
+import {window, workspace, OutputChannel} from 'vscode';
 import {IBMCloudTerminal} from './IBMCloudTerminal';
 import {CommandDetection} from './CommandDetection';
+import { installPlugin } from '../ibmcloud/plugin';
+import { CONFIRM_NO, CONFIRM_YES } from '../consts';
 
 const spawn = require('child_process').spawn;
 const psTree = require('ps-tree');
@@ -101,11 +103,11 @@ export class SystemCommand {
     /*
      * Execution implementation with VS Code's embedded terminal
      */
-    executeWithTerminal(): Promise<any> {
+    executeWithTerminal(preserveFocus?:boolean): Promise<any> {
         return new Promise<any>((resolve, reject) => {
             const terminal = IBMCloudTerminal.instance;
             terminal.sendText(`${this.command} ${this.args.join(' ')}\n`);
-            terminal.show();
+            terminal.show(preserveFocus);
             resolve('OK: sent to terminal');
         });
     }
@@ -114,6 +116,7 @@ export class SystemCommand {
      * Execution implementation with spawned process & output channels
      */
     executeWithOutputChannel(): Promise<any> {
+        const self = this;
         const promise = new Promise<any>((resolve, reject) => {
 
             // only check if we're in a folder if not running a unit test
@@ -184,31 +187,55 @@ export class SystemCommand {
                     buffer = undefined;
                 }
 
-                const condition = CommandDetection.determineErrorCondition(code, this.stdout, this.stderr);
+                const condition = CommandDetection.determineErrorCondition(code, this.stderr);
 
                 if (condition === CommandDetection.ERR_COMMAND_NOT_FOUND || condition === CommandDetection.ERR_PLUGIN_NOT_FOUND) {
                     let errorDetail = '';
+                    const pluginCmd = this.args[0];
+                    const output = this.outputChannel;
+
+                    // NOTE: Since we are using callback promises we need to use `bind` method to ensure that 
+                    // we are using the original `this` context (via `self`) that called executeOuputChannel
+                    const rerunCmd = this.executeWithOutputChannel.bind(self);
+
                     switch (condition) {
                         case CommandDetection.ERR_COMMAND_NOT_FOUND:
                             errorDetail = `Unable to locate '${this.command}' command.`;
                             break;
                         case CommandDetection.ERR_PLUGIN_NOT_FOUND:
-                            errorDetail = `Unable to locate '${this.command}' '${this.args[0]}' plugin.`;
+                            errorDetail = `Unable to locate '${this.command}' '${this.args[0]}' plugin. Would you like to install '${this.args[0]}' and rerun the previous command?`;
+                            // ask user if we should install the missing plugin and rerun the previous command
+                            window.showQuickPick([CONFIRM_YES, CONFIRM_NO], { title: errorDetail })
+                                .then((res:string) => {
+                                    if (res === CONFIRM_YES) {
+                                        installPlugin(pluginCmd, output)
+                                            .then((status:number) => {
+                                                if (status === 0) {
+                                                    resolve(rerunCmd());
+                                                }
+                                                resolve(status);
+                                            });
+                                    }
+                                });
+
                             break;
                     }
-                    window.showErrorMessage(errorDetail);
 
-                    errorDetail += '\nFor additional detail, please see https://cloud.ibm.com/docs/cli';
-                    this.output(errorDetail);
+                    // Only print addition error messages for non plugin errors
+                    if (condition != CommandDetection.ERR_PLUGIN_NOT_FOUND) {
+                        errorDetail += '\nFor additional detail, please see https://cloud.ibm.com/docs/cli';
+                        window.showErrorMessage(errorDetail);
+                        this.output(errorDetail);
+
+                        // add this at the end of the promise chain, so it gets called last, for certain.
+                        // this allows us to fulfill other steps in the promise chain, and clean everything up last
+                        promise.finally(function() {
+                            self.destroy();
+                        });
+                    }
                 }
                 resolve(code);
 
-                // add this at the end of the promise chain, so it gets called last, for certain.
-                // this allos us to fulfill other steps in the promise chain, and clean everything up last
-                const self = this;
-                promise.then(function() {
-                    self.destroy();
-                });
             });
 
             this.invocation.on('error', (error) => {

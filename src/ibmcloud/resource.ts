@@ -16,6 +16,21 @@
 
 'use strict';
 
-export const IBMCloud = 'IBM Cloud';
-export const CONFIRM_YES = 'Yes';
-export const CONFIRM_NO = 'No';
+import { SystemCommand } from "../util/SystemCommand";
+
+export interface Resource {
+    readonly guid: string
+    readonly name: string
+}
+
+export async function getServiceAliases(): Promise<Array<Resource>> {
+    const cmd = new SystemCommand('ibmcloud', ['resource', 'service-aliases', '--output', 'json']); 
+    await cmd.execute();
+    if (cmd.stderr) {
+        throw new Error(cmd.stderr);
+    }
+
+    const resources: Array<Resource> = JSON.parse(cmd.stdout);
+
+    return resources;
+}

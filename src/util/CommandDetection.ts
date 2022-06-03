@@ -18,7 +18,6 @@
 
 import {window} from 'vscode';
 
-
 /*
  * Used to determine whether a command or plugin is installed
  * Only should be called by SystemCommand error handler
@@ -33,15 +32,15 @@ export class CommandDetection {
     /*
      * Determine error condition from SystemCommand
      * @param {number} the exit code of the ChildProcess instance
-     * @param {string} stdout from the ChildProcess
      * @param {string} stderr from the ChildProcess
      */
-    public static determineErrorCondition(code: number, stdout: string, stderr: string): number {
+    public static determineErrorCondition(code: number, stderr: string): number {
         if (code < 0) {
             return CommandDetection.ERR_COMMAND_NOT_FOUND;
-        } else if (stdout.search('not a registered command') >= 0) {
+        } else if (stderr.search('not a registered command') >= 0) {
             return CommandDetection.ERR_PLUGIN_NOT_FOUND;
         }
         return CommandDetection.ERR_NONE;
     }
+
 }

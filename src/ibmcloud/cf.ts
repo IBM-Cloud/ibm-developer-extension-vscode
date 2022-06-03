@@ -16,6 +16,9 @@
 
 'use strict';
 
-export const IBMCloud = 'IBM Cloud';
-export const CONFIRM_YES = 'Yes';
-export const CONFIRM_NO = 'No';
+import { Resource } from "./resource";
+
+export interface CF {
+    readonly org: Resource
+    readonly space: Resource
+}
