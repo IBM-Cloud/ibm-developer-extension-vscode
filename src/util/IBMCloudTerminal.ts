@@ -19,7 +19,7 @@
 import {window, Disposable, Terminal} from 'vscode';
 
 /*
- * Singleton instance of Terinal wth Bluemix identifier
+ * Singleton instance of Terinal wth IBMCloud identifier
  * for use globally within this extension
  */
 export class IBMCloudTerminal {

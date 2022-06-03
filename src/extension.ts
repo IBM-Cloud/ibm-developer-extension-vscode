@@ -23,6 +23,9 @@ import {PromptingCommand, PromptInput} from './util/PromptingCommand';
 import {SystemCommand} from './util/SystemCommand';
 import * as semver from 'semver';
 import * as packageJson from '../package.json';
+import {PluginInstallCommand, PluginUpdateUninstallCommand} from './commands/plugin';
+import {ServiceIdCommand} from './commands/iam';
+import {ServiceAliasCommand} from './commands/resource';
 
 
 const outputChannel = window.createOutputChannel('IBMCloud');
@@ -42,6 +45,7 @@ export function activate(context: ExtensionContext) {
     LoginManager.registerCommand(context, 'extension.ibmcloud.login.sso');
     registerCommand(context, 'extension.ibmcloud.logout', {cmd: 'ibmcloud', args: ['logout']}, outputChannel);
     registerCommand(context, 'extension.ibmcloud.cli-update', {cmd: 'ibmcloud', args: ['plugin', 'update', '--all', '-r', 'IBM Cloud']}, outputChannel);
+    registerCommand(context, 'extension.ibmcloud.cli-install', {cmd: 'ibmcloud', args: ['plugin', 'install', '--all', '-r', 'IBM Cloud', '-f']}, outputChannel);
     registerCommand(context, 'extension.ibmcloud.api', {cmd: 'ibmcloud', args: ['api']}, outputChannel);
     registerCommand(context, 'extension.ibmcloud.regions', {cmd: 'ibmcloud', args: ['regions']}, outputChannel);
     registerCommand(context, 'extension.ibmcloud.target', {cmd: 'ibmcloud', args: ['target']}, outputChannel);
@@ -102,8 +106,22 @@ export function activate(context: ExtensionContext) {
 
     // IBM Cloud RESOURCE commands *************************************
     registerCommand(context, 'extension.ibmcloud.resource.service-instances', {cmd: 'ibmcloud', args: ['resource', 'service-instances']}, outputChannel);
-}
+    registerPromptingCommand(context, 'extension.ibmcloud.resource.service-binding.list', {cmd: 'ibmcloud', args: ['resource', 'service-bindings']}, outputChannel, [new PromptInput('Specify service alias')], [], false, ServiceAliasCommand);
+    registerPromptingCommand(context, 'extension.ibmcloud.resource.service-binding.get', {cmd: 'ibmcloud', args: ['resource', 'service-binding']}, outputChannel, [new PromptInput('Specify service alias'), new PromptInput('Specify Cloud Foundry app name')], [], false, ServiceAliasCommand);
+    registerCommand(context, 'extension.ibmcloud.resource.service-alias.list', {cmd: 'ibmcloud', args: ['resource', 'service-aliases']}, outputChannel);
+    registerPromptingCommand(context, 'extension.ibmcloud.resource.service-alias.get', {cmd: 'ibmcloud', args: ['resource', 'service-alias']}, outputChannel, [new PromptInput('Specify service alias')], [], false, ServiceAliasCommand);
 
+    // IBM Cloud IAM commands *************************************
+    registerCommand(context, 'extension.ibmcloud.iam.oauth-tokens', {cmd: 'ibmcloud', args: ['iam', 'oauth-tokens']}, outputChannel);
+    registerCommand(context, 'extension.ibmcloud.iam.service-ids', {cmd: 'ibmcloud', args: ['iam', 'service-ids']}, outputChannel);
+    registerPromptingCommand(context, 'extension.ibmcloud.iam.service-id', {cmd: 'ibmcloud', args: ['iam', 'service-id']}, outputChannel, [new PromptInput('Specify a service ID')], [], false, ServiceIdCommand);
+
+
+    // IBM Cloud PLUGIN commands *************************************
+    registerPromptingCommand(context, 'extension.ibmcloud.plugin.install', {cmd: 'ibmcloud', args: ['plugin', 'install']}, outputChannel, [], [], false, PluginInstallCommand);
+    registerPromptingCommand(context, 'extension.ibmcloud.plugin.update', {cmd: 'ibmcloud', args: ['plugin', 'update']}, outputChannel, [new PromptInput('Specify a plugin to update')], [], false, PluginUpdateUninstallCommand);
+    registerPromptingCommand(context, 'extension.ibmcloud.plugin.uninstall', {cmd: 'ibmcloud', args: ['plugin', 'uninstall']}, outputChannel, [new PromptInput('Specify a plugin to uninstall')], [], false, PluginUpdateUninstallCommand);
+}
 
 
 /*
@@ -124,9 +142,9 @@ function registerCommand(context: ExtensionContext, key: string, opt, outputChan
 /*
  *  Helper utility to register prompting system commands
  */
-function registerPromptingCommand(context: ExtensionContext, key: string, opt, outputChannel, inputs: PromptInput[], additionalArgs: string[] = [], sanitizeOutput = false) {
+function registerPromptingCommand(context: ExtensionContext, key: string, opt, outputChannel, inputs: PromptInput[], additionalArgs: string[] = [], sanitizeOutput = false, PromptingClass = PromptingCommand) {
     const disposable = commands.registerCommand(key, () => {
-        const command = new PromptingCommand(opt.cmd, opt.args, outputChannel, inputs, additionalArgs, sanitizeOutput);
+        const command = new PromptingClass(opt.cmd, opt.args, outputChannel, inputs, additionalArgs, sanitizeOutput);
         return new Promise((resolve) => {
             resolve(executeCommand(command));
         });
