@@ -13,7 +13,8 @@ This extension provides capabilities for the [IBM Cloud CLI](https://cloud.ibm.c
   - Added plugin commands (install, uninstall, update)
   - Added iam commands (oauth-tokens, service-id, service-ids)
   - Added additional resource commands (service-binding, service-bindings, service-alias, service-aliases)
-  - Autodetect and install missing CLI plugins when requested
+  - Fixed autodetect missing cli/plugin binaries
+  - Added user option to install missing plugin and rerun previous failed command
 - v0.1.0
   - Added basic account commands (list, show, users)
   - Added view api endpoint command
