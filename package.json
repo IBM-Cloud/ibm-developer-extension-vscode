@@ -318,7 +318,7 @@
       {
         "command": "extension.ibmcloud.iam.service-ids",
         "title": "ibmcloud iam service-ids"
-      }, 
+      },
       {
         "command": "extension.ibmcloud.resource.service-binding.get",
         "title": "ibmcloud resource service-binding"
@@ -348,8 +348,8 @@
     "test": "node ./out/test/runTest.js",
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
-    "detect_secrets":"./scripts/detect_secrets.sh",
-    "vscode:publish": "vsce publish"
+    "detect_secrets": "./scripts/detect_secrets",
+    "vscode:publish": "./scripts/publish"
   },
   "devDependencies": {
     "@types/chai": "^4.3.1",
@@ -375,8 +375,7 @@
     "js-yaml": "^3.13.1",
     "ps-tree": "^1.1.0",
     "semver": "^5.3.0",
-    "stream-browserify": "^3.0.0",
-    "vsce": "^2.7.0"
+    "stream-browserify": "^3.0.0"
   },
   "pre-commit": [
     "lint"
