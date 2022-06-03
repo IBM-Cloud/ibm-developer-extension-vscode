@@ -205,11 +205,6 @@ describe('Extension Tests', function () {
             });
 
 			context('ibmcloud dev', async function() {
-                it('should update all dev plugins/extensions', async function() {
-                    await vscode.commands.executeCommand('extension.ibmcloud.cli-update');
-                    logStub('ibmcloud update', outputChannel);
-                    assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/ibmcloud plugin update/))).callCount, 1);
-                });
 
                 it('should list applications in output channel', async function () {
                     await vscode.commands.executeCommand('extension.ibmcloud.dev.list');
@@ -306,6 +301,12 @@ describe('Extension Tests', function () {
                     logStub('ibmcloud plugin install', outputChannel);
                     assert.equal(outputChannel.withArgs(sinon.match(new RegExp(`>\\s+ibmcloud plugin install ${plugins[0]}`))).callCount, 1);
                     assert.equal(outputChannel.withArgs(sinon.match(new RegExp(`Plug-in '${plugins[0]} (?<plugin_version>.*)' was successfully installed`))).callCount, 1);
+                });
+
+                it('should update all dev plugins/extensions', async function() {
+                    await vscode.commands.executeCommand('extension.ibmcloud.cli-update');
+                    logStub('ibmcloud update', outputChannel);
+                    assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/ibmcloud plugin update/))).callCount, 1);
                 });
                 
                 it('should be able to install all plugins from official IBM Cloud repo', async function() {
