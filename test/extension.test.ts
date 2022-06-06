@@ -311,7 +311,7 @@ describe('Extension Tests', function () {
                 
                 it('should be able to install all plugins from official IBM Cloud repo', async function() {
                     // NOTE: This is a long running command so we should increase timeout in this test case
-                    this.timeout(0);
+                    this.timeout(120000);
                     showQuickPick.resolves(plugins);
                     await vscode.commands.executeCommand('extension.ibmcloud.cli-install');
                     logStub('ibmcloud plugin install --all -r IBM Cloud -f', outputChannel);
