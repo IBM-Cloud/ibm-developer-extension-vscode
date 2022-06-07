@@ -27,7 +27,7 @@ const config = {
     // support reading TypeScript and JavaScript files, 📖 -> https://github.com/TypeStrong/ts-loader
     extensions: ['.ts', '.js'],
     fallback: {
-      'buffer': require.resolve('buffer/') ,
+      'buffer': require.resolve('buffer') ,
       'stream': require.resolve('stream-browserify')
       // Webpack 5 no longer polyfills Node.js core modules automatically.
       // see https://webpack.js.org/configuration/resolve/#resolvefallback
