@@ -89,7 +89,6 @@ async function go() {
             extensionDevelopmentPath,
             extensionTestsPath,
             extensionTestsEnv: {
-            extensionTestsPath,
                 IBMCLOUD_HOME: testWorkspace
             },
             launchArgs: [

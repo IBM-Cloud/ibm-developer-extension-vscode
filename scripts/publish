@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -e
+
+# Install vsce if not in PATH
+if [[ -z $(command -v vsce) ]];
+  npm install -g
+fi
+
+vsce publish
