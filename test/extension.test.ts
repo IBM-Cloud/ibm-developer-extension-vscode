@@ -58,7 +58,7 @@ describe('Extension Tests', function () {
 	});
 
     describe('IBM Cloud CLI Commands', function () {
-        this.timeout(15000);
+        this.timeout(30000);
         const extensionName = `${packageJson.publisher}.${packageJson.name}`;
         let extension: any;
         let outputChannel:sinon.SinonStub;
