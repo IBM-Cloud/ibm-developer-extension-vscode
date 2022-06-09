@@ -216,6 +216,7 @@ describe('Extension Tests', function () {
 
                 it('should display version info about installed deps in output channel', async function() {
                     // NOTE: command takes longer than usual to run than the others so increase timeout to 2min
+                    this.timeout(120000);
                     await vscode.commands.executeCommand('extension.ibmcloud.dev.diag');
                     logStub('ibmcloud dev diag', outputChannel);
                     assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/> ibmcloud dev diag --caller-vscode/))).callCount, 1);
