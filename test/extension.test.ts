@@ -138,7 +138,9 @@ describe('Extension Tests', function () {
                 assert.isAbove(outputChannel.withArgs(sinon.match(new RegExp(/API endpoint: https:\/\/(?<subdomain>.*)*cloud.ibm.com/))).callCount, 0);
             });
 
-            context('missing plugin', function() {
+            // NOTE: install/updating through tests are unstable. 
+            // Disabling until a better solution can be found
+            context.skip('missing plugin', function() {
                 let pluginName:string;
                 let installPlugin:sinon.SinonStub;
                 let executeWithOutputChannel:sinon.SinonSpy;
@@ -285,7 +287,9 @@ describe('Extension Tests', function () {
                     assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/Retrieving instances with type service_instance in all resource groups in all locations under account (?<account_id>.*)/))).callCount, 1);
                 });
 
-            context('ibmcloud plugin', function() {
+            // NOTE: install/updating through tests are unstable. 
+            // Disabling until a better solution can be found
+            context.skip('ibmcloud plugin', function() {
                 let plugins:Array<string>;
 
                 beforeEach(async function () {
