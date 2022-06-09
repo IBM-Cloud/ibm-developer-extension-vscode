@@ -58,7 +58,7 @@ describe('Extension Tests', function () {
 	});
 
     describe('IBM Cloud CLI Commands', function () {
-        this.timeout(15000);
+        this.timeout(30000);
         const extensionName = `${packageJson.publisher}.${packageJson.name}`;
         let extension: any;
         let outputChannel:sinon.SinonStub;
@@ -138,7 +138,9 @@ describe('Extension Tests', function () {
                 assert.isAbove(outputChannel.withArgs(sinon.match(new RegExp(/API endpoint: https:\/\/(?<subdomain>.*)*cloud.ibm.com/))).callCount, 0);
             });
 
-            context('missing plugin', function() {
+            // NOTE: install/updating through tests are unstable. 
+            // Disabling until a better solution can be found
+            context.skip('missing plugin', function() {
                 let pluginName:string;
                 let installPlugin:sinon.SinonStub;
                 let executeWithOutputChannel:sinon.SinonSpy;
@@ -214,6 +216,7 @@ describe('Extension Tests', function () {
 
                 it('should display version info about installed deps in output channel', async function() {
                     // NOTE: command takes longer than usual to run than the others so increase timeout to 2min
+                    this.timeout(120000);
                     await vscode.commands.executeCommand('extension.ibmcloud.dev.diag');
                     logStub('ibmcloud dev diag', outputChannel);
                     assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/> ibmcloud dev diag --caller-vscode/))).callCount, 1);
@@ -285,7 +288,9 @@ describe('Extension Tests', function () {
                     assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/Retrieving instances with type service_instance in all resource groups in all locations under account (?<account_id>.*)/))).callCount, 1);
                 });
 
-            context('ibmcloud plugin', function() {
+            // NOTE: install/updating through tests are unstable. 
+            // Disabling until a better solution can be found
+            context.skip('ibmcloud plugin', function() {
                 let plugins:Array<string>;
 
                 beforeEach(async function () {
