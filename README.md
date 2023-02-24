@@ -9,6 +9,8 @@
 This extension provides capabilities for the [IBM Cloud CLI](https://cloud.ibm.com/docs/cli/index.html) from directly within the VS Code editor. Use the VS Code command palette to quickly access all `ibmcloud dev` commands, without the need to leave the editor's context.
 
 ## Changelog
+- v1.2.0
+  - BREAKING CHANGE: Removed dev commands (list, build, deploy, debug, diag, shell, status, run, stop, console, view, test)
 - v0.2.0
   - Added plugin commands (install, uninstall, update)
   - Added iam commands (oauth-tokens, service-id, service-ids)
@@ -62,22 +64,19 @@ Easily invoke commands from the IBM Cloud CLI from directly inside of the VS Cod
 ### Using `ibmcloud dev` workflow:
 
 Steps to get started:
-- Create a project using one of the two methods below:
-    - `ibmcloud dev create` using the IBM Cloud CLI (outside of VS Code)
-    - [IBM Cloud CLI Documentation](https://cloud.ibm.com/docs/apps?topic=apps-create-deploy-app-cli)
+- Create a project or open an existing project. Examples on how to create a project are listed below:
+    - [Create and deploy a Node.js Express app by using IBM Cloud Schematics](https://cloud.ibm.com/docs/apps?topic=apps-tutorial-node-webapp)
+    - [Create and deploy a Java Spring app by using IBM Cloud Schematics](https://cloud.ibm.com/docs/apps?topic=apps-tutorial-spring-webapp)
+    - [Create and deploy a Java Liberty app by using IBM Cloud Schematics](https://cloud.ibm.com/docs/apps?topic=apps-tutorial-liberty-webapp)
+    - [Create and deploy an app using Code Engine](https://cloud.ibm.com/docs/apps?topic=apps-tutorial-cd-code-engine)
+    - [Create and deploy a secure app with Devops](https://cloud.ibm.com/docs/apps?topic=apps-tutorial-cd-devsecops)
+    - [Develop a Kubernetes app with Helm](https://www.ibm.com/cloud/architecture/tutorials/use-develop-kubernetes-app-with-helm-toolchain)
 - Open the *project’s folder* in VS Code
     - Press Ctrl-K+Ctrl-O or navigate to File -> Open Folder to select folder
-- Use the `ibmcloud dev build` command to build the app into a Docker image
-- Use the `ibmcloud dev debug` command to run the app in local Docker for development
-- Use the `ibmcloud dev run` command to run the app in local Docker in release mode
-- Use the `ibmcloud dev deploy` command to deploy the app (in the Docker container) to IBM Cloud
-- Use the `ibmcloud dev view` command to open your deployed project on IBM Cloud in a web browser
-- Use the `ibmcloud dev console` command to open the IBM Cloud console for your project in a web browser
 
 ### Supported CLI/plugins:
 
 - `ibmcloud login/logout` - IBM Cloud User Authentication
-- `ibmcloud dev` - IBM Cloud Developer CLI
 - `ibmcloud cf` - IBM Cloud CloudFoundry CLI
 - `ibmcloud ks` - IBM Cloud Kubernetes Service CLI
 - `ibmcloud api` - View IBM Cloud API endpoint

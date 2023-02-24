@@ -39,21 +39,6 @@
     "onCommand:extension.ibmcloud.logout",
     "onCommand:extension.ibmcloud.cli-update",
     "onCommand:extension.ibmcloud.cli-install",
-    "onCommand:extension.ibmcloud.dev.list",
-    "onCommand:extension.ibmcloud.dev.build.release",
-    "onCommand:extension.ibmcloud.dev.build",
-    "onCommand:extension.ibmcloud.dev.debug",
-    "onCommand:extension.ibmcloud.dev.deploy",
-    "onCommand:extension.ibmcloud.dev.diag",
-    "onCommand:extension.ibmcloud.dev.run",
-    "onCommand:extension.ibmcloud.dev.shell.run",
-    "onCommand:extension.ibmcloud.dev.shell.tools",
-    "onCommand:extension.ibmcloud.dev.status",
-    "onCommand:extension.ibmcloud.dev.stop",
-    "onCommand:extension.ibmcloud.dev.test",
-    "onCommand:extension.ibmcloud.dev.console",
-    "onCommand:extension.ibmcloud.dev.view",
-    "onCommand:extension.ibmcloud.dev.console.app",
     "onCommand:extension.ibmcloud.cf.apps",
     "onCommand:extension.ibmcloud.cf.app",
     "onCommand:extension.ibmcloud.cf.create-app-manifest",
@@ -126,66 +111,6 @@
       {
         "command": "extension.ibmcloud.cli-install",
         "title": "ibmcloud plugin install --all -r 'IBM Cloud' -f (install cli extensions)"
-      },
-      {
-        "command": "extension.ibmcloud.dev.list",
-        "title": "ibmcloud dev list"
-      },
-      {
-        "command": "extension.ibmcloud.dev.debug",
-        "title": "ibmcloud dev debug"
-      },
-      {
-        "command": "extension.ibmcloud.dev.deploy",
-        "title": "ibmcloud dev deploy"
-      },
-      {
-        "command": "extension.ibmcloud.dev.diag",
-        "title": "ibmcloud dev diag"
-      },
-      {
-        "command": "extension.ibmcloud.dev.build",
-        "title": "ibmcloud dev build (debug)"
-      },
-      {
-        "command": "extension.ibmcloud.dev.build.release",
-        "title": "ibmcloud dev build (release)"
-      },
-      {
-        "command": "extension.ibmcloud.dev.run",
-        "title": "ibmcloud dev run"
-      },
-      {
-        "command": "extension.ibmcloud.dev.status",
-        "title": "ibmcloud dev status"
-      },
-      {
-        "command": "extension.ibmcloud.dev.shell.run",
-        "title": "ibmcloud dev shell (run container)"
-      },
-      {
-        "command": "extension.ibmcloud.dev.shell.tools",
-        "title": "ibmcloud dev shell (tools container)"
-      },
-      {
-        "command": "extension.ibmcloud.dev.stop",
-        "title": "ibmcloud dev stop"
-      },
-      {
-        "command": "extension.ibmcloud.dev.test",
-        "title": "ibmcloud dev test"
-      },
-      {
-        "command": "extension.ibmcloud.dev.console",
-        "title": "ibmcloud dev console"
-      },
-      {
-        "command": "extension.ibmcloud.dev.console.app",
-        "title": "ibmcloud dev console <project name>"
-      },
-      {
-        "command": "extension.ibmcloud.dev.view",
-        "title": "ibmcloud dev view"
       },
       {
         "command": "extension.ibmcloud.cf.apps",
@@ -387,12 +312,6 @@
       "url": "https://cloud.ibm.com/docs/cli"
     },
     "plugins": [
-      {
-        "displayName": "dev",
-        "command": "dev",
-        "version": "2.10.0",
-        "url": "https://cloud.ibm.com/docs/cli?topic=cli-idt-cli"
-      },
       {
         "displayName": "container-service[kubernetes-service]",
         "command": "ks",

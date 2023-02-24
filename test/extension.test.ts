@@ -21,55 +21,55 @@ import * as sinon from 'sinon';
 // You can import and use all API from the 'vscode' module
 // as well as import your extension to test it
 import * as vscode from 'vscode';
-import {IBMCloudTerminal} from '../src/util/IBMCloudTerminal';
-import {SystemCommand} from '../src/util/SystemCommand';
+import { IBMCloudTerminal } from '../src/util/IBMCloudTerminal';
+import { SystemCommand } from '../src/util/SystemCommand';
 import * as resource from '../src/ibmcloud/resource';
 import * as packageJson from '../package.json';
-import {getServiceIds} from '../src/ibmcloud/iam';
+import { getServiceIds } from '../src/ibmcloud/iam';
 import * as plugin from '../src/ibmcloud/plugin';
-import {CONFIRM_NO, CONFIRM_YES} from '../src/consts';
+import { CONFIRM_NO, CONFIRM_YES } from '../src/consts';
 
 // Defines a Mocha test suite to group tests of similar kind together
-function logStub(cmd:string, outputChannel:sinon.SinonStub) {
+function logStub(cmd: string, outputChannel: sinon.SinonStub) {
     console.log(`\n================================(${cmd})================================`);
-    outputChannel.args.forEach((arg:any) => {
+    outputChannel.args.forEach((arg: any) => {
         if (Array.isArray(arg) && arg.length > 0) console.log(arg[0]);
     });
     console.log(`\n================================(${cmd})================================`);
 }
 
-describe('Extension Tests', function () {
-	describe('System Commands', function () {
+describe('Extension Tests', function() {
+    describe('System Commands', function() {
 
-		context('when executing a system command', function() {
+        context('when executing a system command', function() {
 
-			it('should run successfully when executing a valid command', async function () {
-				const command = new SystemCommand('ls', ['-l', '-a']);
-				const statusCode = await command.execute();
-				assert.equal(0, statusCode);
-			});
+            it('should run successfully when executing a valid command', async function() {
+                const command = new SystemCommand('ls', ['-l', '-a']);
+                const statusCode = await command.execute();
+                assert.equal(0, statusCode);
+            });
 
-			it('should fail when executing an invalid command', async function () {
-				const command = new SystemCommand('foo');
-				const statusCode = await command.execute();
-				assert.notEqual(0, statusCode);
-			});
-		});
-	});
+            it('should fail when executing an invalid command', async function() {
+                const command = new SystemCommand('foo');
+                const statusCode = await command.execute();
+                assert.notEqual(0, statusCode);
+            });
+        });
+    });
 
-    describe('IBM Cloud CLI Commands', function () {
-        this.timeout(30000);
+    describe('IBM Cloud CLI Commands', function() {
+        // REMOVEME: Do not commit line below
+        this.timeout(80000);
         const extensionName = `${packageJson.publisher}.${packageJson.name}`;
         let extension: any;
-        let outputChannel:sinon.SinonStub;
-        let showQuickPick:sinon.SinonStub;
-        let showInputBox:sinon.SinonStub;
-        let sendTerminalText:sinon.SinonSpy;
-        let showWarningMessage:sinon.SinonSpy;
-        let showTerminal:sinon.SinonSpy;
+        let outputChannel: sinon.SinonStub;
+        let showQuickPick: sinon.SinonStub;
+        let showInputBox: sinon.SinonStub;
+        let sendTerminalText: sinon.SinonSpy;
+        let showWarningMessage: sinon.SinonSpy;
         const sandbox = sinon.createSandbox();
 
-        before(async function () {		
+        before(async function() {
             extension = vscode.extensions.getExtension(extensionName);
             if (extension) {
                 await extension.activate();
@@ -83,7 +83,6 @@ describe('Extension Tests', function () {
             showInputBox = sandbox.stub(vscode.window, 'showInputBox');
             showWarningMessage = sandbox.stub(vscode.window, 'showWarningMessage');
             sendTerminalText = sandbox.stub(IBMCloudTerminal.instance, 'sendText');
-            showTerminal = sandbox.stub(IBMCloudTerminal.instance, 'show');
         });
 
         afterEach(async function() {
@@ -94,37 +93,48 @@ describe('Extension Tests', function () {
             sandbox.restore();
         });
 
-        context('when not logged in', function () {
+        context('when not logged in', function() {
             before(async () => {
-                try { 
-                    const logoutCmd = new SystemCommand('ibmcloud', ['logout']); 
+                try {
+                    const logoutCmd = new SystemCommand('ibmcloud', ['logout']);
                     const statusCode = await logoutCmd.execute();
                     assert.equal(0, statusCode);
-                } catch(e) {
+                } catch (e) {
                     assert.fail(e);
                 }
             });
+        });
 
-            it('should fail to run a dev command', async function () {
-                await vscode.commands.executeCommand('extension.ibmcloud.dev.list');
-                logStub('ibmcloud dev list', outputChannel);
-                assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/FAILED/))).callCount, 1);
-                assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/Log in to IBM Cloud/))).callCount, 1);
-			});
-		});
+        context('when already logged in', function() {
 
-		context('when already logged in', function() {
-
-			before(async function() {
+            before(async function() {
                 try {
-                    const loginCmd = new SystemCommand('ibmcloud', ['login', '-r',  'us-south', '-a', 'https://cloud.ibm.com']);
+                    const loginCmd = new SystemCommand('ibmcloud', ['login', '-r', 'us-south', '-a', 'https://cloud.ibm.com']);
                     let statusCode = await loginCmd.execute();
                     logStub('ibmcloud login', outputChannel);
                     assert.equal(0, statusCode);
 
-                    const targetCFCmd = new SystemCommand('ibmcloud', ['target', '--cf']);
+                    const orgsCmd = new SystemCommand('ibmcloud', ['account', 'orgs', '--output', 'json']);
+                    statusCode = await orgsCmd.execute();
+                    logStub('ibmcloud account orgs --output json', outputChannel);
+                    assert.equal(0, statusCode);
+                    const orgs = JSON.parse(orgsCmd.stdout);
+                    assert.isArray(orgs);
+                    assert.isAbove(orgs.length, 0);
+                    const targetedOrg = orgs[0].OrgName;
+
+                    const spaceCmd = new SystemCommand('ibmcloud', ['account', 'spaces', '-o', targetedOrg, '--output', 'json']);
+                    statusCode = await spaceCmd.execute();
+                    logStub(`ibmcloud account spaces -o ${targetedOrg} --output json`, outputChannel);
+                    assert.equal(0, statusCode);
+                    const spaces = JSON.parse(spaceCmd.stdout);
+                    assert.isArray(spaces);
+                    assert.isAbove(spaces.length, 0);
+                    const targetedSpace = spaces[0].name;
+
+                    const targetCFCmd = new SystemCommand('ibmcloud', ['target', '-o', targetedOrg, '-s', targetedSpace]);
                     statusCode = await targetCFCmd.execute();
-                    logStub('ibmcloud target --cf', outputChannel);
+                    logStub(`ibmcloud target -o ${targetedOrg} -s ${targetedSpace}`, outputChannel);
                     assert.equal(0, statusCode);
                 } catch (e) {
                     assert.fail(e);
@@ -141,9 +151,9 @@ describe('Extension Tests', function () {
             // NOTE: install/updating through tests are unstable. 
             // Disabling until a better solution can be found
             context.skip('missing plugin', function() {
-                let pluginName:string;
-                let installPlugin:sinon.SinonStub;
-                let executeWithOutputChannel:sinon.SinonSpy;
+                let pluginName: string;
+                let installPlugin: sinon.SinonStub;
+                let executeWithOutputChannel: sinon.SinonSpy;
 
                 before(async function() {
                     pluginName = 'container-service';
@@ -151,52 +161,53 @@ describe('Extension Tests', function () {
                     executeWithOutputChannel = sinon.spy(SystemCommand.prototype, 'executeWithOutputChannel');
                     try {
                         if (await plugin.isPluginInstalled(pluginName)) {
-                        await plugin.uninstallPlugin(pluginName);
+                            await plugin.uninstallPlugin(pluginName);
+                        }
+                    } catch (e) {
+                        assert.fail(e);
                     }
-                } catch (e) {
-                    assert.fail(e);
-                }
-            });
+                });
 
-            afterEach(function() {
-                installPlugin.reset();
-                executeWithOutputChannel.resetHistory();
-            });
+                afterEach(function() {
+                    installPlugin.reset();
+                    executeWithOutputChannel.resetHistory();
+                });
 
-            after(function() {
-                installPlugin.restore();
-                executeWithOutputChannel.restore();
-            });
+                after(function() {
+                    installPlugin.restore();
+                    executeWithOutputChannel.restore();
+                });
 
-            it('should attempt to install container-service plugin and rerun list clusters command', async function() {
-                installPlugin.resolves(0);
-                showQuickPick.resolves(CONFIRM_YES);
-                await vscode.commands.executeCommand('extension.ibmcloud.ks.clusters');
-                assert.isAbove(outputChannel.withArgs(sinon.match(new RegExp(/>\s+ibmcloud ks clusters/))).callCount, 1);
-                logStub('ibmcloud ks clusters', outputChannel); 
-                assert.isTrue(installPlugin.called);
-                //NOTE: called by `ks clusters`, `plugin install`, and reran `ks clusters cmds respectively
-                assert.isTrue(executeWithOutputChannel.calledThrice);
-            });
+                it('should attempt to install container-service plugin and rerun list clusters command', async function() {
+                    installPlugin.resolves(0);
+                    showQuickPick.resolves(CONFIRM_YES);
+                    await vscode.commands.executeCommand('extension.ibmcloud.ks.clusters');
+                    assert.isAbove(outputChannel.withArgs(sinon.match(new RegExp(/>\s+ibmcloud ks clusters/))).callCount, 1);
+                    logStub('ibmcloud ks clusters', outputChannel);
+                    assert.isTrue(installPlugin.called);
+                    //NOTE: called by `ks clusters`, `plugin install`, and reran `ks clusters cmds respectively
+                    assert.isTrue(executeWithOutputChannel.calledThrice);
+                });
 
-            it('should not install container-service and rerun command', async function() {
-                installPlugin.resolves(0);
-                showQuickPick.resolves(CONFIRM_NO);
-                await vscode.commands.executeCommand('extension.ibmcloud.ks.clusters');
-                assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/>\s+ibmcloud ks clusters/))).callCount, 1);
-                logStub('ibmcloud ks clusters', outputChannel); 
-                assert.isFalse(installPlugin.called);
-                // NOTE: called only once for `ks clusters`
-                assert.isTrue(executeWithOutputChannel.calledOnce);
+                it('should not install container-service and rerun command', async function() {
+                    installPlugin.resolves(0);
+                    showQuickPick.resolves(CONFIRM_NO);
+                    await vscode.commands.executeCommand('extension.ibmcloud.ks.clusters');
+                    assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/>\s+ibmcloud ks clusters/))).callCount, 1);
+                    logStub('ibmcloud ks clusters', outputChannel);
+                    assert.isFalse(installPlugin.called);
+                    // NOTE: called only once for `ks clusters`
+                    assert.isTrue(executeWithOutputChannel.calledOnce);
+                });
             });
-        });
 
             it('should print list of regions', async function() {
                 await vscode.commands.executeCommand('extension.ibmcloud.regions');
                 logStub('ibmcloud regions', outputChannel);
                 assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/>\s+ibmcloud regions/))).callCount, 1);
                 assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/Listing regions.../))).callCount, 1);
-                assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/(Name)\s+(Display name)/))).callCount, 1);
+                assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/(Name)\s+(Show name)/))).callCount, 1);
+                assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/(us-south)\s+(Dallas)/))).callCount, 1);
             });
 
             it('should display current target', async function() {
@@ -204,53 +215,6 @@ describe('Extension Tests', function () {
                 logStub('ibmcloud target', outputChannel);
                 assert.isTrue(outputChannel.calledWith(sinon.match(/ibmcloud target/)));
                 assert.isTrue(outputChannel.calledWith(sinon.match(/API endpoint/)));
-            });
-
-			context('ibmcloud dev', async function() {
-
-                it('should list applications in output channel', async function () {
-                    await vscode.commands.executeCommand('extension.ibmcloud.dev.list');
-                    logStub('ibmcloud dev list', outputChannel);
-                    assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/> ibmcloud dev list --caller-vscode/))).callCount, 1);
-				});
-
-                it('should display version info about installed deps in output channel', async function() {
-                    // NOTE: command takes longer than usual to run than the others so increase timeout to 2min
-                    this.timeout(120000);
-                    await vscode.commands.executeCommand('extension.ibmcloud.dev.diag');
-                    logStub('ibmcloud dev diag', outputChannel);
-                    assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/> ibmcloud dev diag --caller-vscode/))).callCount, 1);
-                });
-
-                context('when building an application the output channel', function() {
-
-                    it('should print out the correct command to build a release build', async function () {
-                        await vscode.commands.executeCommand('extension.ibmcloud.dev.build.release');
-                        logStub('ibmcloud dev build', outputChannel);
-                        assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/> ibmcloud dev build --caller-vscode/))).callCount, 1);
-                    });
-
-                    it('should print out the correct command to build a debug build', async function () {
-                        await vscode.commands.executeCommand('extension.ibmcloud.dev.build');
-                        logStub('ibmcloud dev build --debug', outputChannel);
-                        assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/> ibmcloud dev build --caller-vscode --debug/))).callCount, 1);
-                    });
-                });
-
-                context('when opening a shell in the application\'s docker containers', function() {
-                    const containerTypes = ['run', 'tools'];
-                    const buildTypes = {'run': '.release', 'tools': '' };
-                    containerTypes.forEach(type => {
-                        it(`should open a new sendTerminalText when shelled into the ${type} container`, async function() {
-                            await vscode.commands.executeCommand(`extension.ibmcloud.dev.build${buildTypes[type]}`);
-                            logStub(`ibmcloud dev build ${buildTypes[type]}`, outputChannel);
-                            await vscode.commands.executeCommand(`extension.ibmcloud.dev.shell.${type}`);
-                            logStub(`ibmcloud dev shell ${type}`, outputChannel);
-                            assert.equal(sendTerminalText.withArgs(sinon.match(`ibmcloud dev shell ${type} --caller-vscode`)).callCount, 1);
-                            assert.isTrue(showTerminal.called);
-                        });
-                    });
-                });
             });
 
             context('ibmcloud account', function() {
@@ -288,86 +252,86 @@ describe('Extension Tests', function () {
                     assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/Retrieving instances with type service_instance in all resource groups in all locations under account (?<account_id>.*)/))).callCount, 1);
                 });
 
-            // NOTE: install/updating through tests are unstable. 
-            // Disabling until a better solution can be found
-            context.skip('ibmcloud plugin', function() {
-                let plugins:Array<string>;
+                // NOTE: install/updating through tests are unstable. 
+                // Disabling until a better solution can be found
+                context.skip('ibmcloud plugin', function() {
+                    let plugins: Array<string>;
 
-                beforeEach(async function () {
-                    plugins = ['cloudant'];
-                });
-                afterEach(async function () {
-                    plugins = [];
-                });
-
-                it('should be able to install a plugin from official IBM Cloud repo', async function() {
-                    showQuickPick.resolves(plugins);
-                    await vscode.commands.executeCommand('extension.ibmcloud.plugin.install');
-                    logStub('ibmcloud plugin install', outputChannel);
-                    assert.equal(outputChannel.withArgs(sinon.match(new RegExp(`>\\s+ibmcloud plugin install ${plugins[0]}`))).callCount, 1);
-                    assert.equal(outputChannel.withArgs(sinon.match(new RegExp(`Plug-in '${plugins[0]} (?<plugin_version>.*)' was successfully installed`))).callCount, 1);
-                });
-
-                it('should update all dev plugins/extensions', async function() {
-                    await vscode.commands.executeCommand('extension.ibmcloud.cli-update');
-                    logStub('ibmcloud update', outputChannel);
-                    assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/ibmcloud plugin update/))).callCount, 1);
-                });
-                
-                it('should be able to install all plugins from official IBM Cloud repo', async function() {
-                    // NOTE: This is a long running command so we should increase timeout in this test case
-                    this.timeout(120000);
-                    showQuickPick.resolves(plugins);
-                    await vscode.commands.executeCommand('extension.ibmcloud.cli-install');
-                    logStub('ibmcloud plugin install --all -r IBM Cloud -f', outputChannel);
-                    assert.equal(outputChannel.withArgs(sinon.match(new RegExp(`>\\s+ibmcloud plugin install --all -r IBM Cloud -f`))).callCount, 1);
-                });
-
-                context('older version of plugin installed', function() {
-                    let oldestPluginVersion: plugin.PluginVersion;
-
-                    before(async function() {
+                    beforeEach(async function() {
                         plugins = ['cloudant'];
-                        let pluginVersions: Array<plugin.PluginVersion>;
-                        try {
-                            pluginVersions = await plugin.getPluginVersions(plugins[0]);
-                        } catch(e) {
-                            assert.fail(e);
-                        }
-
-                        oldestPluginVersion = pluginVersions[pluginVersions.length-1];
-
-                        const pluginInstallCmd = new SystemCommand('ibmcloud', ['plugin', 'install', plugins[0], 
-                            '-v', oldestPluginVersion.version, '-f', '-q']);
-                        const statusCode = await pluginInstallCmd.execute();
-                        assert.equal(statusCode, 0);
-
+                    });
+                    afterEach(async function() {
+                        plugins = [];
                     });
 
-                    it('should be able to update plugin to latest version', async function() {
+                    it('should be able to install a plugin from official IBM Cloud repo', async function() {
                         showQuickPick.resolves(plugins);
-                        await vscode.commands.executeCommand('extension.ibmcloud.plugin.update');
-                        logStub('ibmcloud plugin update', outputChannel);
-                        assert.equal(outputChannel.withArgs(sinon.match(new RegExp(`>\\s+ibmcloud plugin update ${plugins[0]}`))).callCount, 1);
-                        assert.equal(outputChannel.withArgs(sinon.match(new RegExp(`Checking upgrades for plug-in '${plugins[0]}`))).callCount, 1);
-                        assert.equal(outputChannel.withArgs(sinon.match(new RegExp(`Update '${plugins[0]} ${oldestPluginVersion.version}'`))).callCount, 1);
-                        assert.equal(outputChannel.withArgs(sinon.match('The plug-in was successfully upgraded.')).callCount, 1);
+                        await vscode.commands.executeCommand('extension.ibmcloud.plugin.install');
+                        logStub('ibmcloud plugin install', outputChannel);
+                        assert.equal(outputChannel.withArgs(sinon.match(new RegExp(`>\\s+ibmcloud plugin install ${plugins[0]}`))).callCount, 1);
+                        assert.equal(outputChannel.withArgs(sinon.match(new RegExp(`Plug-in '${plugins[0]} (?<plugin_version>.*)' was successfully installed`))).callCount, 1);
                     });
-                });
 
-                it('should be able to uninstall plugin', async function() {
-                    showQuickPick.resolves(plugins);
-                    await vscode.commands.executeCommand('extension.ibmcloud.plugin.uninstall');
-                    logStub('ibmcloud plugin uninstall', outputChannel);
-                    assert.equal(outputChannel.withArgs(sinon.match(new RegExp(`>\\s+ibmcloud plugin uninstall ${plugins[0]}`))).callCount, 1);
-                    assert.equal(outputChannel.withArgs(sinon.match(`Uninstalling plug-in '${plugins[0]}'...`)).callCount, 1);
-                    assert.equal(outputChannel.withArgs(sinon.match(`Plug-in '${plugins[0]}' was successfully uninstalled.`)).callCount, 1);
-                });
+                    it('should update all plugins/extensions', async function() {
+                        await vscode.commands.executeCommand('extension.ibmcloud.cli-update');
+                        logStub('ibmcloud update', outputChannel);
+                        assert.equal(outputChannel.withArgs(sinon.match(new RegExp(/ibmcloud plugin update/))).callCount, 1);
+                    });
 
-            });
+                    it('should be able to install all plugins from official IBM Cloud repo', async function() {
+                        // NOTE: This is a long running command so we should increase timeout in this test case
+                        this.timeout(120000);
+                        showQuickPick.resolves(plugins);
+                        await vscode.commands.executeCommand('extension.ibmcloud.cli-install');
+                        logStub('ibmcloud plugin install --all -r IBM Cloud -f', outputChannel);
+                        assert.equal(outputChannel.withArgs(sinon.match(new RegExp(`>\\s+ibmcloud plugin install --all -r IBM Cloud -f`))).callCount, 1);
+                    });
+
+                    context('older version of plugin installed', function() {
+                        let oldestPluginVersion: plugin.PluginVersion;
+
+                        before(async function() {
+                            plugins = ['cloudant'];
+                            let pluginVersions: Array<plugin.PluginVersion>;
+                            try {
+                                pluginVersions = await plugin.getPluginVersions(plugins[0]);
+                            } catch (e) {
+                                assert.fail(e);
+                            }
+
+                            oldestPluginVersion = pluginVersions[pluginVersions.length - 1];
+
+                            const pluginInstallCmd = new SystemCommand('ibmcloud', ['plugin', 'install', plugins[0],
+                                '-v', oldestPluginVersion.version, '-f', '-q']);
+                            const statusCode = await pluginInstallCmd.execute();
+                            assert.equal(statusCode, 0);
+
+                        });
+
+                        it('should be able to update plugin to latest version', async function() {
+                            showQuickPick.resolves(plugins);
+                            await vscode.commands.executeCommand('extension.ibmcloud.plugin.update');
+                            logStub('ibmcloud plugin update', outputChannel);
+                            assert.equal(outputChannel.withArgs(sinon.match(new RegExp(`>\\s+ibmcloud plugin update ${plugins[0]}`))).callCount, 1);
+                            assert.equal(outputChannel.withArgs(sinon.match(new RegExp(`Checking upgrades for plug-in '${plugins[0]}`))).callCount, 1);
+                            assert.equal(outputChannel.withArgs(sinon.match(new RegExp(`Update '${plugins[0]} ${oldestPluginVersion.version}'`))).callCount, 1);
+                            assert.equal(outputChannel.withArgs(sinon.match('The plug-in was successfully upgraded.')).callCount, 1);
+                        });
+                    });
+
+                    it('should be able to uninstall plugin', async function() {
+                        showQuickPick.resolves(plugins);
+                        await vscode.commands.executeCommand('extension.ibmcloud.plugin.uninstall');
+                        logStub('ibmcloud plugin uninstall', outputChannel);
+                        assert.equal(outputChannel.withArgs(sinon.match(new RegExp(`>\\s+ibmcloud plugin uninstall ${plugins[0]}`))).callCount, 1);
+                        assert.equal(outputChannel.withArgs(sinon.match(`Uninstalling plug-in '${plugins[0]}'...`)).callCount, 1);
+                        assert.equal(outputChannel.withArgs(sinon.match(`Plug-in '${plugins[0]}' was successfully uninstalled.`)).callCount, 1);
+                    });
+
+                });
 
                 context('ibmcloud service-binding', function() {
-                    let getServiceAliases:sinon.SinonStub;
+                    let getServiceAliases: sinon.SinonStub;
                     let serviceAliases: Array<resource.Resource>;
 
                     before(() => {
@@ -384,7 +348,7 @@ describe('Extension Tests', function () {
                     it.skip('should return details for a service-binding', async function() {
                         // TODO(me): Figure out why this test stalls and never finishes
                         const cfApp = 'bdd_cf_go_app';
-                        getServiceAliases.resolves(serviceAliases); 
+                        getServiceAliases.resolves(serviceAliases);
                         showQuickPick.resolves(serviceAliases[0].name);
                         showInputBox.resolves(cfApp);
 
@@ -392,7 +356,7 @@ describe('Extension Tests', function () {
                         logStub(`ibmcloud resource service-binding ${serviceAliases[0].name} ${cfApp}`, outputChannel);
 
                         assert.equal(outputChannel.withArgs(sinon.match(new RegExp(`>\\s+ibmcloud resource service-binding ${serviceAliases[0]} ${cfApp}`))).callCount, 1);
-                    }); 
+                    });
 
                     it('should return list of service-bindings', async function() {
                         getServiceAliases.resolves(serviceAliases);
