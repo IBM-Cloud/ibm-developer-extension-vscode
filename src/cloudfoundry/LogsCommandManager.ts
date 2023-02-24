@@ -1,5 +1,5 @@
 /**
- * Copyright IBM Corporation 2016, 2022
+ * Copyright IBM Corporation 2016, 2023
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +16,8 @@
 
 'use strict';
 
-import {commands, window, ExtensionContext, OutputChannel} from 'vscode';
-import {PromptingCommand, PromptInput} from '../util/PromptingCommand';
-import {SystemCommand} from '../util/SystemCommand';
+import { commands, window, ExtensionContext, OutputChannel } from 'vscode';
+import { SystemCommand } from '../util/SystemCommand';
 
 /*
  * Class to manage log streams from 'cf logs'.
@@ -68,16 +67,16 @@ export class LogsCommandManager {
      */
     startLogs() {
         const self = this;
-        window.showInputBox({prompt: 'Please specify an app name'})
-        .then((val) => {
-            const outputChannel = self.getOutputChannel(val);
+        window.showInputBox({ prompt: 'Please specify an app name' })
+            .then((val) => {
+                const outputChannel = self.getOutputChannel(val);
 
-            // todo: check if already active
-            const command = new SystemCommand('ibmcloud', ['cf', 'logs', val], outputChannel);
-            command.executeWithOutputChannel();
+                // todo: check if already active
+                const command = new SystemCommand('ibmcloud', ['cf', 'logs', val], outputChannel);
+                command.executeWithOutputChannel();
 
-            self.activeLogs[val] = command;
-        });
+                self.activeLogs[val] = command;
+            });
     }
 
     /*
@@ -93,15 +92,15 @@ export class LogsCommandManager {
         }
 
         window.showQuickPick(logs)
-        .then((val) => {
-            if (val !== undefined && val !== '') {
-                const command = this.activeLogs[val];
-                if (command !== undefined) {
-                    command.kill();
+            .then((val) => {
+                if (val !== undefined && val !== '') {
+                    const command = this.activeLogs[val];
+                    if (command !== undefined) {
+                        command.kill();
+                    }
+                    this.activeLogs[val] = undefined;
                 }
-                this.activeLogs[val] = undefined;
-            }
-        });
+            });
     }
 
 

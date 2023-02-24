@@ -1,5 +1,5 @@
 /**
- * Copyright IBM Corporation 2016, 2022
+ * Copyright IBM Corporation 2016, 2023
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 'use strict';
 
-import {window, Disposable, Terminal} from 'vscode';
+import { window, Disposable, Terminal } from 'vscode';
 
 /*
  * Singleton instance of Terinal wth IBMCloud identifier

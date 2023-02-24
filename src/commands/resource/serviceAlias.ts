@@ -1,5 +1,5 @@
 /**
- * Copyright IBM Corporation 2016, 2022
+ * Copyright IBM Corporation 2016, 2023
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ import { PromptingCommand } from '../../util/PromptingCommand';
 export class ServiceAliasCommand extends PromptingCommand {
 
     async execute(): Promise<any> {
-        try { 
+        try {
             if (!await isCF()) {
                 await targetCF();
             }
@@ -38,9 +38,9 @@ export class ServiceAliasCommand extends PromptingCommand {
             // NOTE: Currently we only provide picker options for service-aliases 
             // since we can't get a consumable format from CLI to get cf apps
             // so user must enter the app name manually
-            this.inputs[0].pickerOptions = serviceAliases.map((serviceAlias:Resource) => serviceAlias.name);
+            this.inputs[0].pickerOptions = serviceAliases.map((serviceAlias: Resource) => serviceAlias.name);
 
-        } catch(e) {
+        } catch (e) {
             console.error('Could not picker options for service aliases list');
             console.error(e);
         }

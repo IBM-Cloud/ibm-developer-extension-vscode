@@ -1,5 +1,5 @@
 /**
-* Copyright IBM Corporation 2016, 2022
+* Copyright IBM Corporation 2016, 2023
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -28,11 +28,11 @@ export class PluginInstallCommand extends PromptingCommand {
         ];
 
         try {
-                const installedPlugins = await getInstalledPlugins();
-                const allPlugins = await getRepoPlugins();
+            const installedPlugins = await getInstalledPlugins();
+            const allPlugins = await getRepoPlugins();
 
-                // Provide only the plugins that have NOT been installed to user to select from
-                this.inputs[0].pickerOptions = allPlugins.filter((name:string) => installedPlugins.indexOf(name) == -1);
+            // Provide only the plugins that have NOT been installed to user to select from
+            this.inputs[0].pickerOptions = allPlugins.filter((name: string) => installedPlugins.indexOf(name) == -1);
         } catch (e) {
             console.error('Could not provide picker options for plugin list');
             console.error(e);

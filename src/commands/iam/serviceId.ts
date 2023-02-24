@@ -1,5 +1,5 @@
 /**
-* Copyright IBM Corporation 2016, 2022
+* Copyright IBM Corporation 2016, 2023
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -25,8 +25,8 @@ export class ServiceIdCommand extends PromptingCommand {
 
         try {
             const serviceIds = await getServiceIds();
-            this.inputs[0].pickerOptions = serviceIds.map((serviceId:ServiceId) => serviceId.name);
-        } catch(e) {
+            this.inputs[0].pickerOptions = serviceIds.map((serviceId: ServiceId) => serviceId.name);
+        } catch (e) {
             console.error('Could not provide picker options for service id list');
             console.error(e);
         }
