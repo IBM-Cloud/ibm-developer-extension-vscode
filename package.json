@@ -2,7 +2,7 @@
   "name": "ibm-developer",
   "displayName": "IBM Cloud CLI",
   "description": "Extension for VS Code editor to enable IBM Cloud CLI capabilities from within the editing environment.",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "publisher": "IBM",
   "license": "Apache 2.0 (see LICENSE.txt)",
   "bugs": {
@@ -54,19 +54,6 @@
     "onCommand:extension.ibmcloud.dev.console",
     "onCommand:extension.ibmcloud.dev.view",
     "onCommand:extension.ibmcloud.dev.console.app",
-    "onCommand:extension.ibmcloud.cf.apps",
-    "onCommand:extension.ibmcloud.cf.app",
-    "onCommand:extension.ibmcloud.cf.create-app-manifest",
-    "onCommand:extension.ibmcloud.cf.push",
-    "onCommand:extension.ibmcloud.cf.push-appname",
-    "onCommand:extension.ibmcloud.cf.start",
-    "onCommand:extension.ibmcloud.cf.stop",
-    "onCommand:extension.ibmcloud.cf.restart",
-    "onCommand:extension.ibmcloud.cf.restage",
-    "onCommand:extension.ibmcloud.cf.events",
-    "onCommand:extension.ibmcloud.cf.logs",
-    "onCommand:extension.ibmcloud.cf.logs-stop",
-    "onCommand:extension.ibmcloud.cf.env",
     "onCommand:extension.ibmcloud.ks.cluster.get",
     "onCommand:extension.ibmcloud.ks.cluster.rm",
     "onCommand:extension.ibmcloud.ks.clusters",
@@ -186,58 +173,6 @@
       {
         "command": "extension.ibmcloud.dev.view",
         "title": "ibmcloud dev view"
-      },
-      {
-        "command": "extension.ibmcloud.cf.apps",
-        "title": "ibmcloud cf apps"
-      },
-      {
-        "command": "extension.ibmcloud.cf.app",
-        "title": "ibmcloud cf app"
-      },
-      {
-        "command": "extension.ibmcloud.cf.create-app-manifest",
-        "title": "ibmcloud cf create-app-manifest"
-      },
-      {
-        "command": "extension.ibmcloud.cf.push",
-        "title": "ibmcloud cf push (working directory)"
-      },
-      {
-        "command": "extension.ibmcloud.cf.push-appname",
-        "title": "ibmcloud cf push <app name>"
-      },
-      {
-        "command": "extension.ibmcloud.cf.start",
-        "title": "ibmcloud cf start"
-      },
-      {
-        "command": "extension.ibmcloud.cf.stop",
-        "title": "ibmcloud cf stop"
-      },
-      {
-        "command": "extension.ibmcloud.cf.restart",
-        "title": "ibmcloud cf restart"
-      },
-      {
-        "command": "extension.ibmcloud.cf.restage",
-        "title": "ibmcloud cf restage"
-      },
-      {
-        "command": "extension.ibmcloud.cf.events",
-        "title": "ibmcloud cf events"
-      },
-      {
-        "command": "extension.ibmcloud.cf.logs",
-        "title": "ibmcloud cf logs"
-      },
-      {
-        "command": "extension.ibmcloud.cf.logs-stop",
-        "title": "ibmcloud cf logs (stop)"
-      },
-      {
-        "command": "extension.ibmcloud.cf.env",
-        "title": "ibmcloud cf env"
       },
       {
         "command": "extension.ibmcloud.ks.cluster.get",
