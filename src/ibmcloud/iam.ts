@@ -1,5 +1,5 @@
 /**
-* Copyright IBM Corporation 2016, 2022
+* Copyright IBM Corporation 2016, 2023
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
 **/
 
 'use strict';
- 
+
 import { SystemCommand } from '../util/SystemCommand';
 
 export interface ServiceId {
@@ -28,7 +28,7 @@ export interface ServiceId {
  * @returns {Promise<Array<ServiceId>}
  */
 export async function getServiceIds(): Promise<Array<ServiceId>> {
-    const getIds = new SystemCommand('ibmcloud', ['iam', 'service-ids', '--output', 'json']); 
+    const getIds = new SystemCommand('ibmcloud', ['iam', 'service-ids', '--output', 'json']);
     await getIds.execute();
 
     if (getIds.stderr) {

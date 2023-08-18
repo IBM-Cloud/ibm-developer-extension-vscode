@@ -1,5 +1,5 @@
 /**
- * Copyright IBM Corporation 2016, 2022
+ * Copyright IBM Corporation 2016, 2023
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ export interface Resource {
 }
 
 export async function getServiceAliases(): Promise<Array<Resource>> {
-    const cmd = new SystemCommand('ibmcloud', ['resource', 'service-aliases', '--output', 'json']); 
+    const cmd = new SystemCommand('ibmcloud', ['resource', 'service-aliases', '--output', 'json']);
     await cmd.execute();
     if (cmd.stderr) {
         throw new Error(cmd.stderr);

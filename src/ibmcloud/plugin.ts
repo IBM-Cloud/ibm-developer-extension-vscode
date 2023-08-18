@@ -1,5 +1,5 @@
 /**
-* Copyright IBM Corporation 2016, 2022
+* Copyright IBM Corporation 2016, 2023
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 * limitations under the License.
 **/
 
-'use strict'; 
+'use strict';
 
 import { SystemCommand } from '../util/SystemCommand';
 import * as semver from 'semver';
@@ -42,7 +42,7 @@ export interface PluginMetadata {
  * @returns {Promise<Array><string>>}
  */
 export async function getRepoPlugins(repoName: string = IBMCloud): Promise<Array<string>> {
-    const allList = new SystemCommand('ibmcloud', ['plugin', 'repo-plugins', '--output', 'json']); 
+    const allList = new SystemCommand('ibmcloud', ['plugin', 'repo-plugins', '--output', 'json']);
     await allList.execute();
 
     if (allList.stderr) {
@@ -50,7 +50,7 @@ export async function getRepoPlugins(repoName: string = IBMCloud): Promise<Array
     }
 
     const repoPlugins: Array<RepoPlugin> = JSON.parse(allList.stdout)[repoName];
-    return repoPlugins.map((plugin:RepoPlugin) => plugin.name);
+    return repoPlugins.map((plugin: RepoPlugin) => plugin.name);
 }
 
 /**
@@ -65,7 +65,7 @@ export async function getInstalledPlugins(): Promise<Array<string>> {
     }
     const pluginMetas: Array<PluginMetadata> = JSON.parse(installedList.stdout);
 
-    return pluginMetas.map((meta:PluginMetadata) => meta.Name);
+    return pluginMetas.map((meta: PluginMetadata) => meta.Name);
 }
 
 /**
@@ -73,17 +73,17 @@ export async function getInstalledPlugins(): Promise<Array<string>> {
  * @param {string} pluginName The name of the plugin
  * @param {string} repoName The name of the repo (Default: "IBM Cloud")
  * @returns {Promise<Array<PluginVersion>>}
- */ 
-export async function getPluginVersions(pluginName:string, repoName:string = IBMCloud): Promise<Array<PluginVersion>> {
+ */
+export async function getPluginVersions(pluginName: string, repoName: string = IBMCloud): Promise<Array<PluginVersion>> {
     const repoPluginCmd = new SystemCommand('ibmcloud', ['plugin', 'repo-plugin', pluginName, '-r', repoName, '--output', 'json']);
     await repoPluginCmd.execute();
     if (repoPluginCmd.stderr) {
         throw new Error(repoPluginCmd.stderr);
     }
 
-    const repoPluginInfo: RepoPlugin = JSON.parse(repoPluginCmd.stdout); 
-    try { 
-        repoPluginInfo.versions.sort((a:PluginVersion, b:PluginVersion) => {
+    const repoPluginInfo: RepoPlugin = JSON.parse(repoPluginCmd.stdout);
+    try {
+        repoPluginInfo.versions.sort((a: PluginVersion, b: PluginVersion) => {
             return semver.lt(semver.clean(a.version), semver.clean(b.version)) ? 1 : 0;
         });
     } catch (e) {
@@ -103,16 +103,16 @@ export async function getPluginVersions(pluginName:string, repoName:string = IBM
  * @param {string} pluginCmd the excuted command
  * @param {OutputChannel} [outputChannel] - the optional outputChannel to write stdout to during installation
  */
-export async function installPlugin(pluginCmd:string, outputChannel:OutputChannel = undefined): Promise<number> {
+export async function installPlugin(pluginCmd: string, outputChannel: OutputChannel = undefined): Promise<number> {
     const namesAndAliases: Array<string> = [];
-    const meta = packageJson.ibm.plugins.find((plugin:any) => plugin.command == pluginCmd);
+    const meta = packageJson.ibm.plugins.find((plugin: any) => plugin.command == pluginCmd);
     if (meta) {
         namesAndAliases.push(meta.displayName);
     }
 
     // check to see if plugin is available to install
     const repoPlugins = await getRepoPlugins();
-    const pluginName = repoPlugins.find((p:string) => namesAndAliases.indexOf(p) > -1);
+    const pluginName = repoPlugins.find((p: string) => namesAndAliases.indexOf(p) > -1);
 
     // attempt to install the plugin if we have determined the installation name 
     if (pluginName) {
@@ -122,7 +122,7 @@ export async function installPlugin(pluginCmd:string, outputChannel:OutputChanne
             throw new Error(cmd.stderr);
         }
         return status;
-    } 
+    }
 
     throw new Error(`Could not determine plugin to install from command ${pluginCmd}`);
 }
@@ -132,7 +132,7 @@ export async function installPlugin(pluginCmd:string, outputChannel:OutputChanne
  * @param {string} pluginName The name of the plugin
  * @returns {Promise<number>}
  */
-export async function uninstallPlugin(pluginName:string): Promise<number> {
+export async function uninstallPlugin(pluginName: string): Promise<number> {
     if (! await isPluginInstalled(pluginName)) {
         throw new Error(`${pluginName} is not installed`);
     }
@@ -148,10 +148,10 @@ export async function uninstallPlugin(pluginName:string): Promise<number> {
  * @param {string} pluginName The name of the plugin
  * @returns {Promise<boolean>}
  */
-export async function isPluginInstalled(pluginName:string): Promise<boolean> {
+export async function isPluginInstalled(pluginName: string): Promise<boolean> {
 
     const plugins = await getInstalledPlugins();
-    const found = plugins.find((name:string) => pluginName == name);
+    const found = plugins.find((name: string) => pluginName == name);
 
     return !!found;
 }

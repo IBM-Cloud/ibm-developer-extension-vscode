@@ -1,5 +1,5 @@
 /**
- * Copyright IBM Corporation 2016, 2022
+ * Copyright IBM Corporation 2016, 2023
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +16,9 @@
 
 'use strict';
 
-import {window, workspace, OutputChannel} from 'vscode';
-import {IBMCloudTerminal} from './IBMCloudTerminal';
-import {CommandDetection} from './CommandDetection';
+import { window, workspace, OutputChannel } from 'vscode';
+import { IBMCloudTerminal } from './IBMCloudTerminal';
+import { CommandDetection } from './CommandDetection';
 import { installPlugin } from '../ibmcloud/plugin';
 import { CONFIRM_NO, CONFIRM_YES } from '../consts';
 
@@ -103,7 +103,7 @@ export class SystemCommand {
     /*
      * Execution implementation with VS Code's embedded terminal
      */
-    executeWithTerminal(preserveFocus?:boolean): Promise<any> {
+    executeWithTerminal(preserveFocus?: boolean): Promise<any> {
         return new Promise<any>((resolve, reject) => {
             const terminal = IBMCloudTerminal.instance;
             terminal.sendText(`${this.command} ${this.args.join(' ')}\n`);
@@ -133,7 +133,7 @@ export class SystemCommand {
             this.stdout = '';
             this.stderr = '';
 
-            const opt:any = {
+            const opt: any = {
                 cwd: workspace.rootPath,
                 env: {
                     ...process.env, IBMCLOUD_COLOR: false
@@ -156,7 +156,7 @@ export class SystemCommand {
                     }
                     else {
                         const oldBuffer = buffer;
-                        buffer = new (buffer.constructor)( oldBuffer.length + data.length);
+                        buffer = new (buffer.constructor)(oldBuffer.length + data.length);
                         buffer;
                         for (let x = 0; x < oldBuffer.length; x++) {
                             buffer[x] = oldBuffer[x];
@@ -206,10 +206,10 @@ export class SystemCommand {
                             errorDetail = `Unable to locate '${this.command}' '${this.args[0]}' plugin. Would you like to install '${this.args[0]}' and rerun the previous command?`;
                             // ask user if we should install the missing plugin and rerun the previous command
                             window.showQuickPick([CONFIRM_YES, CONFIRM_NO], { title: errorDetail })
-                                .then((res:string) => {
+                                .then((res: string) => {
                                     if (res === CONFIRM_YES) {
                                         installPlugin(pluginCmd, output)
-                                            .then((status:number) => {
+                                            .then((status: number) => {
                                                 if (status === 0) {
                                                     resolve(rerunCmd());
                                                 }
@@ -267,7 +267,7 @@ export class SystemCommand {
         for (let x = 0; x < buffer.length; x++) {
             const char = buffer[x];
             if (char === 8 || char === 127) {
-                newLen --;
+                newLen--;
                 newLen = Math.max(newLen, 0);
             }
             else {
@@ -276,7 +276,7 @@ export class SystemCommand {
                     newLen -= 1;
                 }
                 else
-                    newLen ++;
+                    newLen++;
             }
         }
 
@@ -286,14 +286,14 @@ export class SystemCommand {
         for (let x = 0; x < buffer.length; x++) {
             const char = buffer[x];
             if (char === 8 || char === 127) { // backspace and delete
-                i --;
+                i--;
             } else {
                 // workaround described above
                 if (x > 0 && char === 160 && buffer[x - 1] === 226) {
                     i -= 2;
                 }
                 outBuffer[i] = char;
-                i ++;
+                i++;
             }
             i = Math.max(i, 0);
         }
@@ -316,13 +316,13 @@ export class SystemCommand {
     kill() {
         if (this.invocation) {
             const self = this;
-            const  signal = 'SIGKILL';
-            psTree(self.invocation.pid, function (err, children) {
+            const signal = 'SIGKILL';
+            psTree(self.invocation.pid, function(err, children) {
                 [self.invocation.pid].concat(
-                    children.map(function (p) {
+                    children.map(function(p) {
                         return p.PID;
                     }),
-                ).forEach(function (tpid) {
+                ).forEach(function(tpid) {
                     try {
                         self.output(`killing ${tpid}\n`);
                         process.kill(tpid, signal);

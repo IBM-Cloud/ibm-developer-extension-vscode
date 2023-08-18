@@ -1,5 +1,5 @@
 /**
- * Copyright IBM Corporation 2016, 2022
+ * Copyright IBM Corporation 2016, 2023
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,8 @@
 
 'use strict';
 
-import {window, OutputChannel, QuickPickOptions} from 'vscode';
-import {SystemCommand} from './SystemCommand';
+import { window, OutputChannel, QuickPickOptions } from 'vscode';
+import { SystemCommand } from './SystemCommand';
 
 /*
  * Class for specifying a command with prompt for input as parameters for PromptingCommand class
@@ -28,7 +28,7 @@ export class PromptInput {
     prefixArgument = undefined;
     pickerOptions: string[] = undefined;
 
-    constructor( public _prompt: string, public _prefixArgument: string = undefined, pickerOptions: string[] = undefined) {
+    constructor(public _prompt: string, public _prefixArgument: string = undefined, pickerOptions: string[] = undefined) {
         this.prompt = _prompt;
         this.prefixArgument = _prefixArgument;
         this.pickerOptions = pickerOptions;
@@ -84,7 +84,7 @@ export class PromptingCommand extends SystemCommand {
             const handler = (val) => {
                 if (val !== undefined && val.length > 0) {
                     if (input.prefixArgument !== undefined) {
-                        self.args.push( input.prefixArgument );
+                        self.args.push(input.prefixArgument);
                     }
                     self.args.push(val);
                     self.index++;
@@ -95,11 +95,11 @@ export class PromptingCommand extends SystemCommand {
                         // put any additional arguments on the end, like a -f
                         self.args = self.args.concat(self.additionalArgs);
                         super.execute()
-                        .then((value: any) => {
-                            resolve(value);
-                        }, (reason: any) => {
-                            reject(reason);
-                        });
+                            .then((value: any) => {
+                                resolve(value);
+                            }, (reason: any) => {
+                                reject(reason);
+                            });
                     }
                 }
                 else {
@@ -111,7 +111,7 @@ export class PromptingCommand extends SystemCommand {
             if (input.pickerOptions !== undefined && input.pickerOptions.length > 0) {
                 invocation = window.showQuickPick(input.pickerOptions, { placeHolder: input.prompt });
             } else {
-                invocation = window.showInputBox({prompt: input.prompt});
+                invocation = window.showInputBox({ prompt: input.prompt });
             }
             invocation.then(handler);
         });

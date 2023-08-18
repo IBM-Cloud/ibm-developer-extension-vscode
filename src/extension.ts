@@ -1,5 +1,5 @@
 /**
- * Copyright IBM Corporation 2016, 2022
+ * Copyright IBM Corporation 2016, 2023
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,6 @@ import { ServiceAliasCommand } from './commands/resource';
 
 const outputChannel = window.createOutputChannel('IBMCloud');
 let checkedVersions = false;
-let unsupportedDevVersion = false;
 
 /*
  * activate method is called when your extension is activated
@@ -48,7 +47,6 @@ export function activate(context: ExtensionContext) {
     registerCommand(context, 'extension.ibmcloud.api', { cmd: 'ibmcloud', args: ['api'] }, outputChannel);
     registerCommand(context, 'extension.ibmcloud.regions', { cmd: 'ibmcloud', args: ['regions'] }, outputChannel);
     registerCommand(context, 'extension.ibmcloud.target', { cmd: 'ibmcloud', args: ['target'] }, outputChannel);
-
 
     // IBM Cloud DEV commands *************************************
     registerCommand(context, 'extension.ibmcloud.dev.list', { cmd: 'ibmcloud', args: ['dev', 'list', '--caller-vscode'] }, outputChannel, true);
@@ -135,13 +133,6 @@ function registerPromptingCommand(context: ExtensionContext, key: string, opt, o
 
 
 function executeCommand(command: SystemCommand): Promise<any> {
-
-    const targetPlugin = command.args[0];
-    if (targetPlugin === 'dev' && unsupportedDevVersion === true) {
-        const message = `\n\nExecution blocked. You must update you 'dev' extension to the minimum supported version.`;
-        outputChannel.append(message);
-        return;
-    }
     return command.execute();
 }
 
@@ -199,13 +190,8 @@ function checkVersions(): Promise<any> {
                                                     // loop over plugins and find match based on name
                                                     if (displayName.search(plugin.displayName) >= 0) {
                                                         if (semver.gt(plugin.version, cleanVersion)) {
-                                                            const devPlugin = plugin.command === 'dev';
-                                                            const message = `\n\nThe recommended minimum version for the IBM Cloud '${plugin.displayName}' CLI plugin is ${plugin.version}.\nYour system is currently running ${cleanVersion}.\nYou ${devPlugin ? 'must' : 'can'} update using the 'ibmcloud plugin update' command or visit ${plugin.url}`;
+                                                            const message = `\n\nThe recommended minimum version for the IBM Cloud '${plugin.displayName}' CLI plugin is ${plugin.version}.\nYour system is currently running ${cleanVersion}.\nYou can update using the 'ibmcloud plugin update' command or visit ${plugin.url}`;
                                                             outputChannel.append(message);
-
-                                                            if (devPlugin) {
-                                                                unsupportedDevVersion = true;
-                                                            }
                                                             break;
                                                         }
                                                     }
