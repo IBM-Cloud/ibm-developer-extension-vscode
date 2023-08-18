@@ -6,11 +6,13 @@
 
 # IBM Cloud CLI Extension for VS Code
 
-This extension provides capabilities for the [IBM Cloud CLI](https://cloud.ibm.com/docs/cli/index.html) from directly within the VS Code editor. Use the VS Code command palette to quickly access all `ibmcloud dev` commands, without the need to leave the editor's context.
+This extension provides capabilities for the [IBM Cloud CLI](https://cloud.ibm.com/docs/cli/index.html) from directly within the VS Code editor. Use the VS Code command palette to quickly access `ibmcloud` commands, without the need to leave the editor's context.
 
 ## Changelog
-- v1.2.0
+- v1.0.0
   - BREAKING CHANGE: Removed dev commands (list, build, deploy, debug, diag, shell, status, run, stop, console, view, test)
+- v0.3.0
+  - Removed deprecated cf commands
 - v0.2.0
   - Added plugin commands (install, uninstall, update)
   - Added iam commands (oauth-tokens, service-id, service-ids)
@@ -77,7 +79,6 @@ Steps to get started:
 ### Supported CLI/plugins:
 
 - `ibmcloud login/logout` - IBM Cloud User Authentication
-- `ibmcloud cf` - IBM Cloud CloudFoundry CLI
 - `ibmcloud ks` - IBM Cloud Kubernetes Service CLI
 - `ibmcloud api` - View IBM Cloud API endpoint
 - `ibmcloud regions` - View IBM Cloud regions

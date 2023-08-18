@@ -17,7 +17,6 @@
 'use strict';
 
 import { commands, window, ExtensionContext } from 'vscode';
-import { LogsCommandManager } from './cloudfoundry/LogsCommandManager';
 import { LoginManager } from './util/LoginManager';
 import { PromptingCommand, PromptInput } from './util/PromptingCommand';
 import { SystemCommand } from './util/SystemCommand';
@@ -49,23 +48,23 @@ export function activate(context: ExtensionContext) {
     registerCommand(context, 'extension.ibmcloud.regions', { cmd: 'ibmcloud', args: ['regions'] }, outputChannel);
     registerCommand(context, 'extension.ibmcloud.target', { cmd: 'ibmcloud', args: ['target'] }, outputChannel);
 
-
-    // IBM Cloud CF commands *************************************
-    registerCommand(context, 'extension.ibmcloud.cf.apps', { cmd: 'ibmcloud', args: ['cf', 'apps'] }, outputChannel);
-    registerPromptingCommand(context, 'extension.ibmcloud.cf.app', { cmd: 'ibmcloud', args: ['cf', 'app'] }, outputChannel, [new PromptInput('Specify an app name')]);
-    registerPromptingCommand(context, 'extension.ibmcloud.cf.create-app-manifest', { cmd: 'ibmcloud', args: ['cf', 'create-app-manifest'] }, outputChannel, [new PromptInput('Specify an app name')]);
-    registerCommand(context, 'extension.ibmcloud.cf.push', { cmd: 'ibmcloud', args: ['cf', 'push'] }, outputChannel);
-    registerPromptingCommand(context, 'extension.ibmcloud.cf.push-appname', { cmd: 'ibmcloud', args: ['cf', 'push'] }, outputChannel, [new PromptInput('Specify an app name')]);
-    registerPromptingCommand(context, 'extension.ibmcloud.cf.start', { cmd: 'ibmcloud', args: ['cf', 'start'] }, outputChannel, [new PromptInput('Specify an app name')]);
-    registerPromptingCommand(context, 'extension.ibmcloud.cf.stop', { cmd: 'ibmcloud', args: ['cf', 'stop'] }, outputChannel, [new PromptInput('Specify an app name')]);
-    registerPromptingCommand(context, 'extension.ibmcloud.cf.restart', { cmd: 'ibmcloud', args: ['cf', 'restart'] }, outputChannel, [new PromptInput('Specify an app name')]);
-    registerPromptingCommand(context, 'extension.ibmcloud.cf.restage', { cmd: 'ibmcloud', args: ['cf', 'restage'] }, outputChannel, [new PromptInput('Specify an app name')]);
-    registerPromptingCommand(context, 'extension.ibmcloud.cf.events', { cmd: 'ibmcloud', args: ['cf', 'events'] }, outputChannel, [new PromptInput('Specify an app name')]);
-    registerPromptingCommand(context, 'extension.ibmcloud.cf.env', { cmd: 'ibmcloud', args: ['cf', 'env'] }, outputChannel, [new PromptInput('Specify an app name')]);
-    LogsCommandManager.registerCommand(context, 'extension.ibmcloud.cf.logs');
-    LogsCommandManager.registerCommand(context, 'extension.ibmcloud.cf.logs-stop');
-
-
+    // IBM Cloud DEV commands *************************************
+    registerCommand(context, 'extension.ibmcloud.dev.list', { cmd: 'ibmcloud', args: ['dev', 'list', '--caller-vscode'] }, outputChannel, true);
+    registerCommand(context, 'extension.ibmcloud.dev.build', { cmd: 'ibmcloud', args: ['dev', 'build', '--caller-vscode', '--debug'] }, outputChannel, false);
+    registerCommand(context, 'extension.ibmcloud.dev.build.release', { cmd: 'ibmcloud', args: ['dev', 'build', '--caller-vscode'] }, outputChannel, false);
+    registerCommand(context, 'extension.ibmcloud.dev.debug', { cmd: 'ibmcloud', args: ['dev', 'debug', '--caller-vscode'] }, outputChannel);
+    registerCommand(context, 'extension.ibmcloud.dev.deploy', { cmd: 'ibmcloud', args: ['dev', 'deploy', '--target', 'container', '--caller-vscode'] }, outputChannel, false, SystemCommand, true);
+    registerCommand(context, 'extension.ibmcloud.dev.diag', { cmd: 'ibmcloud', args: ['dev', 'diag', '--caller-vscode'] }, outputChannel, true);
+    registerCommand(context, 'extension.ibmcloud.dev.run', { cmd: 'ibmcloud', args: ['dev', 'run', '--caller-vscode'] }, outputChannel);
+    registerCommand(context, 'extension.ibmcloud.dev.status', { cmd: 'ibmcloud', args: ['dev', 'status', '--caller-vscode'] }, outputChannel);
+    registerCommand(context, 'extension.ibmcloud.dev.stop', { cmd: 'ibmcloud', args: ['dev', 'stop', '--caller-vscode'] }, outputChannel);
+    registerCommand(context, 'extension.ibmcloud.dev.test', { cmd: 'ibmcloud', args: ['dev', 'test', '--caller-vscode'] }, outputChannel);
+    registerCommand(context, 'extension.ibmcloud.dev.console', { cmd: 'ibmcloud', args: ['dev', 'console', '--caller-vscode'] }, outputChannel);
+    registerCommand(context, 'extension.ibmcloud.dev.view', { cmd: 'ibmcloud', args: ['dev', 'view', '--caller-vscode'] }, outputChannel, true, SystemCommand, true);
+    registerPromptingCommand(context, 'extension.ibmcloud.dev.console.app', { cmd: 'ibmcloud', args: ['dev', 'console', '--caller-vscode'] }, outputChannel, [new PromptInput('Specify a project name')]);
+    registerCommand(context, 'extension.ibmcloud.dev.shell', { cmd: 'ibmcloud', args: ['dev', 'shell', '--caller-vscode'] }, outputChannel, false, SystemCommand, true);
+    registerCommand(context, 'extension.ibmcloud.dev.shell.run', { cmd: 'ibmcloud', args: ['dev', 'shell', 'run', '--caller-vscode'] }, outputChannel, false, SystemCommand, true);
+    registerCommand(context, 'extension.ibmcloud.dev.shell.tools', { cmd: 'ibmcloud', args: ['dev', 'shell', 'tools', '--caller-vscode'] }, outputChannel, false, SystemCommand, true);
 
     // IBM Cloud CS commands *************************************
     registerPromptingCommand(context, 'extension.ibmcloud.ks.cluster.get', { cmd: 'ibmcloud', args: ['ks', 'cluster', 'get'] }, outputChannel, [new PromptInput('Specify a cluster name or id', '--cluster')]);
