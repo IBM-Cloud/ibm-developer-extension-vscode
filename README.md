@@ -9,6 +9,8 @@
 This extension provides capabilities for the [IBM Cloud CLI](https://cloud.ibm.com/docs/cli/index.html) from directly within the VS Code editor. Use the VS Code command palette to quickly access `ibmcloud` commands, without the need to leave the editor's context.
 
 ## Changelog
+- v1.0.1
+  - Remove references to dev commands in README
 - v1.0.0
   - BREAKING CHANGE: Removed dev commands (list, build, deploy, debug, diag, shell, status, run, stop, console, view, test)
 - v0.3.0
@@ -63,9 +65,8 @@ Easily invoke commands from the IBM Cloud CLI from directly inside of the VS Cod
 - Open the VS Code command palette (`F1` or `CMD-Shift-P`)
 - Use the `ibmcloud login` command to log in to IBM Cloud (using your IBM Cloud credentials)
 
-### Using `ibmcloud dev` workflow:
+### Steps to get started:
 
-Steps to get started:
 - Create a project or open an existing project. Examples on how to create a project are listed below:
     - [Create and deploy a Node.js Express app by using IBM Cloud Schematics](https://cloud.ibm.com/docs/apps?topic=apps-tutorial-node-webapp)
     - [Create and deploy a Java Spring app by using IBM Cloud Schematics](https://cloud.ibm.com/docs/apps?topic=apps-tutorial-spring-webapp)
@@ -92,24 +93,6 @@ Steps to get started:
 
 * [IBM Cloud CLI](https://cloud.ibm.com/docs/cli/index.html)
 * [Docker](https://www.docker.com/) - required by `ibmcloud dev` containers
-
-## Debugging Node.js apps within the local Docker container
-
-First, make sure your app is running inside of a local container using `ibmcloud dev debug`. _Note: `debug` action requires prior `ibmcloud dev build --debug` action)_
-
-Next, You have to create a launch configuration inside of `.vscode/launch.json`.   If you don't already have a `launch.json` file, go to the `Debug` -> `Add Configuration` menu and paste the following into the `configurations` array.  The default debug port is `9229` and the default remoteRoot is `/app/`:
-
-```
-{
-    "type": "node",
-    "request": "attach",
-    "name": "Attach to Local Container",
-    "address": "localhost",
-    "port": 9229,
-    "localRoot": "${workspaceRoot}/",
-    "remoteRoot": "/app/"
-}
-```
 
 ## Contributing
 
