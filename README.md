@@ -9,6 +9,8 @@
 This extension provides capabilities for the [IBM Cloud CLI](https://cloud.ibm.com/docs/cli/index.html) from directly within the VS Code editor. Use the VS Code command palette to quickly access `ibmcloud` commands, without the need to leave the editor's context.
 
 ## Changelog
+- v1.0.2
+  - Updated dependencies
 - v1.0.1
   - Remove references to dev commands in README
 - v1.0.0
