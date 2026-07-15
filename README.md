@@ -1,4 +1,3 @@
-[![Build Status](https://travis-ci.org/IBM-Cloud/ibm-developer-extension-vscode.svg?branch=master)](https://travis-ci.org/IBM-Cloud/ibm-developer-extension-vscode)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg?style=flat)](https://raw.githubusercontent.com/IBM-Cloud/ibm-developer-extension-vscode/master/LICENSE.txt)
 [![Version](https://img.shields.io/visual-studio-marketplace/v/IBM.ibm-developer)](https://marketplace.visualstudio.com/items?itemName=IBM.ibm-developer)
 [![Installs](https://img.shields.io/visual-studio-marketplace/i/IBM.ibm-developer)](https://marketplace.visualstudio.com/items?itemName=IBM.ibm-developer)
