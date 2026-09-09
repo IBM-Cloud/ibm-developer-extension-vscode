@@ -1,4 +1,3 @@
-[![Build Status](https://travis-ci.org/IBM-Cloud/ibm-developer-extension-vscode.svg?branch=master)](https://travis-ci.org/IBM-Cloud/ibm-developer-extension-vscode)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg?style=flat)](https://raw.githubusercontent.com/IBM-Cloud/ibm-developer-extension-vscode/master/LICENSE.txt)
 [![Version](https://img.shields.io/visual-studio-marketplace/v/IBM.ibm-developer)](https://marketplace.visualstudio.com/items?itemName=IBM.ibm-developer)
 [![Installs](https://img.shields.io/visual-studio-marketplace/i/IBM.ibm-developer)](https://marketplace.visualstudio.com/items?itemName=IBM.ibm-developer)
@@ -9,6 +8,8 @@
 This extension provides capabilities for the [IBM Cloud CLI](https://cloud.ibm.com/docs/cli/index.html) from directly within the VS Code editor. Use the VS Code command palette to quickly access `ibmcloud` commands, without the need to leave the editor's context.
 
 ## Changelog
+- v1.0.2
+  - Updated dependencies
 - v1.0.1
   - Remove references to dev commands in README
 - v1.0.0
