@@ -157,7 +157,6 @@ export class SystemCommand {
                     else {
                         const oldBuffer = buffer;
                         buffer = new (buffer.constructor)(oldBuffer.length + data.length);
-                        buffer;
                         for (let x = 0; x < oldBuffer.length; x++) {
                             buffer[x] = oldBuffer[x];
                         }
